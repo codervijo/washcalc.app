@@ -1,13 +1,14 @@
 /**
  * Custom test runner for crawl tests.
  *
- * Starts a static file server that correctly handles clean URLs
- * (e.g. /calculator → dist/calculator/index.html), verifies it's
- * accepting connections, runs vitest, then shuts down.
+ * Starts a static file server that mirrors Vercel's routing behaviour:
+ *   - 301 redirects for short-form surface routes
+ *   - 301 redirects for trailing-slash variants
+ *   - clean URL serving (dist/calculator/index.html for /calculator)
+ *   - real 404 with dist/404.html for unknown routes
  *
- * Does NOT use `vite preview` because vite's SPA fallback mode
- * serves dist/index.html for every route, defeating per-route
- * prerendered files.
+ * Does NOT use `vite preview` (SPA mode serves index.html for every route,
+ * defeating per-route prerendered files and proper 404 responses).
  *
  * No extra npm dependencies — uses Node built-ins only.
  */
@@ -33,36 +34,65 @@ const MIME = {
   ".json": "application/json",
 };
 
-function resolveFile(urlPath) {
-  const pathname = urlPath.split("?")[0].split("#")[0] || "/";
-  const candidate = join(DIST, pathname);
+// 301 redirects — mirrors vercel.json
+const REDIRECTS_301 = {
+  "/driveway":      "/calculators/driveway",
+  "/roof":          "/calculators/roof",
+  "/house-washing": "/calculators/house-washing",
+  "/deck":          "/calculators/deck",
+};
 
-  // exact file
-  if (existsSync(candidate) && statSync(candidate).isFile()) {
-    return candidate;
+function serve404(res) {
+  const notFoundPath = join(DIST, "404.html");
+  res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+  if (existsSync(notFoundPath)) {
+    createReadStream(notFoundPath).pipe(res);
+  } else {
+    res.end("<h1>404 Not Found</h1>");
   }
-  // clean URL: /calculator → dist/calculator/index.html
-  const dirIndex = join(candidate, "index.html");
-  if (existsSync(dirIndex)) return dirIndex;
-
-  // SPA fallback
-  return join(DIST, "index.html");
 }
 
 const server = createServer((req, res) => {
-  const filePath = resolveFile(req.url || "/");
-  const ext = extname(filePath);
-  res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
-  const stream = createReadStream(filePath);
-  stream.on("error", (err) => {
-    console.error("stream error:", err.message, filePath);
-    if (!res.headersSent) res.writeHead(500);
+  const raw = (req.url || "/").split("?")[0].split("#")[0];
+  const pathname = raw || "/";
+
+  // trailing slash redirect (except root)
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    res.writeHead(301, { "Location": pathname.slice(0, -1) });
     res.end();
-  });
-  stream.pipe(res);
+    return;
+  }
+
+  // short-form 301 redirects
+  if (REDIRECTS_301[pathname]) {
+    res.writeHead(301, { "Location": REDIRECTS_301[pathname] });
+    res.end();
+    return;
+  }
+
+  // exact file
+  const candidate = join(DIST, pathname);
+  if (existsSync(candidate) && statSync(candidate).isFile()) {
+    const ext = extname(candidate);
+    res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
+    createReadStream(candidate).pipe(res);
+    return;
+  }
+
+  // clean URL: /calculator → dist/calculator/index.html
+  const dirIndex = join(candidate, "index.html");
+  if (existsSync(dirIndex)) {
+    res.writeHead(200, { "Content-Type": MIME[".html"] });
+    const stream = createReadStream(dirIndex);
+    stream.on("error", () => serve404(res));
+    stream.pipe(res);
+    return;
+  }
+
+  // unknown route — real 404
+  serve404(res);
 });
 
-// wait until the server actually accepts a TCP connection
 function waitForPort(port, timeout = 15_000) {
   return new Promise((resolve, reject) => {
     const deadline = Date.now() + timeout;
@@ -71,11 +101,8 @@ function waitForPort(port, timeout = 15_000) {
       sock.once("connect", () => { sock.destroy(); resolve(); });
       sock.once("error", () => {
         sock.destroy();
-        if (Date.now() >= deadline) {
-          reject(new Error(`Port ${port} not ready after ${timeout}ms`));
-        } else {
-          setTimeout(attempt, 100);
-        }
+        if (Date.now() >= deadline) reject(new Error(`Port ${port} not ready after ${timeout}ms`));
+        else setTimeout(attempt, 100);
       });
     }
     attempt();
@@ -84,12 +111,9 @@ function waitForPort(port, timeout = 15_000) {
 
 async function main() {
   await new Promise((resolve, reject) => {
-    // bind on all interfaces so both 127.0.0.1 and ::1 work
     server.listen(PORT, "0.0.0.0", resolve);
     server.once("error", reject);
   });
-
-  // confirm it's really accepting connections before spawning vitest
   await waitForPort(PORT);
   console.log(`\n  static server ready on http://localhost:${PORT}\n`);
 

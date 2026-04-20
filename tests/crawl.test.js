@@ -33,6 +33,17 @@ async function get(path) {
   return { status: res.status, type: res.headers.get("content-type") || "", body };
 }
 
+// use redirect:"manual" to inspect 3xx without following
+async function getNoFollow(path) {
+  const res = await fetch(`${BASE}${path}`, { redirect: "manual" });
+  const body = res.status < 300 || res.status >= 400 ? await res.text() : "";
+  return {
+    status: res.status,
+    location: res.headers.get("location") || "",
+    body,
+  };
+}
+
 // ─── Surface routes ───────────────────────────────────────────────────────────
 
 const SURFACE_ROUTES = [
@@ -289,29 +300,120 @@ describe("sitemap.xml", () => {
   }
 });
 
-// ─── Unknown routes ───────────────────────────────────────────────────────────
+// ─── 404 handling ─────────────────────────────────────────────────────────────
+//
+// WHY: every URL previously returned 200 (soft-404). Google interprets a 200
+// response as a valid page and may index junk URLs, creating duplicate-content
+// issues and wasting crawl budget. Real 404s tell Google to stop crawling those
+// paths immediately.
 
-describe("Unknown routes", () => {
-  it("unknown route does not serve a falsely-rich prerendered page", async () => {
-    // With Vercel SPA rewrites, unknown routes return 200 with the index.html
-    // fallback — that is expected and acceptable. What we verify here is that
-    // no ghost prerendered page was accidentally created for this path, which
-    // would cause Google to index a duplicate at a junk URL.
-    //
-    // A prerendered page for a real route is >10 KB.
-    // The SPA fallback shell (dist/index.html — our prerendered homepage) is
-    // also large, so we can't distinguish by size alone.
-    // Instead we verify that the response contains "WashCalc" (consistent shell)
-    // but does NOT have a canonical pointing to this junk path.
-    const page = await get("/this-route-does-not-exist-xyz");
-    if (page.status === 404) {
-      // Ideal — proper 404 means no soft-404 ghost indexing risk.
-      return;
-    }
-    expect(page.status, "Unexpected status for unknown route").toBe(200);
+describe("404 — unknown routes return real 404, not soft-404", () => {
+  it("GET /this-route-does-not-exist returns 404", async () => {
+    const page = await getNoFollow("/this-route-does-not-exist");
+    expect(
+      page.status,
+      "Soft-404 detected: /this-route-does-not-exist returned 200 instead of 404. " +
+        "Google will attempt to index this URL and every other junk URL it discovers."
+    ).toBe(404);
+  });
+
+  it("GET /another-fake-route-xyz returns 404", async () => {
+    const page = await getNoFollow("/another-fake-route-xyz");
+    expect(
+      page.status,
+      "Soft-404 detected: /another-fake-route-xyz returned 200. " +
+        "The catch-all route is not returning real 404 status codes."
+    ).toBe(404);
+  });
+
+  it("404 page HTML contains <meta name=\"robots\" content=\"noindex\">", async () => {
+    const page = await get("/this-route-does-not-exist");
     expect(
       page.body,
-      "Unknown route canonical should not point to the junk path"
-    ).not.toContain("/this-route-does-not-exist-xyz");
+      'The 404 page is missing <meta name="robots" content="noindex">. ' +
+        "Without noindex, any URL Google already crawled with a 200 (before this fix) " +
+        "will remain in the index even after it starts returning 404."
+    ).toMatch(/name="robots"[^>]*noindex|noindex[^>]*name="robots"/i);
+  });
+
+  it("404 page has its own <title> — not the homepage title", async () => {
+    const home = await get("/");
+    const notFound = await get("/this-route-does-not-exist");
+    const homeTitle = home.body.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    const nfTitle = notFound.body.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    expect(nfTitle, "404 page is missing a <title> tag").toBeTruthy();
+    expect(
+      nfTitle,
+      `404 page has the same <title> as the homepage ("${homeTitle}") — ` +
+        "crawlers and users cannot distinguish it from a real page."
+    ).not.toBe(homeTitle);
+  });
+
+  it("404 page body contains 'not found' or '404'", async () => {
+    const page = await get("/this-route-does-not-exist");
+    expect(
+      page.body.toLowerCase(),
+      "404 page body should contain 'not found' or '404' to clearly signal to users and crawlers"
+    ).toMatch(/not found|404/);
+  });
+
+  it("404 page contains a link back to the homepage", async () => {
+    const page = await get("/this-route-does-not-exist");
+    expect(
+      page.body,
+      "404 page has no link back to the homepage — users who land on a dead URL have no recovery path"
+    ).toMatch(/href="\//);
+  });
+});
+
+// ─── Short-form 301 redirects ─────────────────────────────────────────────────
+//
+// WHY: /driveway is a natural short URL users and other sites might link to.
+// We 301 it to the canonical long-form so link equity flows to one URL and
+// Google doesn't index both as separate pages.
+
+describe("Short-form surface route redirects (301)", () => {
+  const REDIRECTS = [
+    { from: "/driveway",      to: "/calculators/driveway" },
+    { from: "/roof",          to: "/calculators/roof" },
+    { from: "/house-washing", to: "/calculators/house-washing" },
+    { from: "/deck",          to: "/calculators/deck" },
+  ];
+
+  for (const { from, to } of REDIRECTS) {
+    it(`GET ${from} → 301 to ${to}`, async () => {
+      const res = await getNoFollow(from);
+      expect(
+        res.status,
+        `${from} returned ${res.status} instead of 301. ` +
+          "If this route returns 200, Google may index both the short and long form as duplicates. " +
+          "If it returns 404, inbound links to the short URL are wasted."
+      ).toBe(301);
+      expect(
+        res.location,
+        `${from} redirects to "${res.location}" instead of "${to}". ` +
+          "Link equity will flow to the wrong canonical URL."
+      ).toContain(to);
+    });
+  }
+});
+
+// ─── Trailing-slash redirect ──────────────────────────────────────────────────
+//
+// WHY: /calculator and /calculator/ would be indexed as two separate pages with
+// duplicate content if both return 200. One canonical form must redirect the other.
+
+describe("Trailing-slash redirect (no trailing slash is canonical)", () => {
+  it("GET /calculator/ → 301 to /calculator", async () => {
+    const res = await getNoFollow("/calculator/");
+    expect(
+      res.status,
+      "/calculator/ returned " + res.status + " instead of 301. " +
+        "Both /calculator and /calculator/ returning 200 creates duplicate-content risk."
+    ).toBe(301);
+    expect(
+      res.location,
+      "/calculator/ should redirect to /calculator (no trailing slash)"
+    ).toMatch(/\/calculator$/);
   });
 });

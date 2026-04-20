@@ -1,5 +1,12 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/driveway",       "status": 301, "headers": { "Location": "/calculators/driveway" } },
+    { "src": "/roof",           "status": 301, "headers": { "Location": "/calculators/roof" } },
+    { "src": "/house-washing",  "status": 301, "headers": { "Location": "/calculators/house-washing" } },
+    { "src": "/deck",           "status": 301, "headers": { "Location": "/calculators/deck" } },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/404.html", "status": 404 }
   ]
 }

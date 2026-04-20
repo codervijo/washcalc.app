@@ -41,17 +41,31 @@ const ROUTES = [
     description: "Wood and composite deck cleaning calculator. Estimate price, labor time and profit per square foot.",
     canonical: "https://www.washcalc.app/calculators/deck",
   },
+  // 404 page — output to dist/404.html, noindex
+  {
+    path: "/404-page",
+    outFile: "dist/404.html",
+    title: "Page not found — WashCalc",
+    description: "The page you're looking for doesn't exist on WashCalc.",
+    canonical: null,
+    noindex: true,
+  },
 ];
 
 function perPageHead(route) {
-  return [
-    `<link rel="canonical" href="${route.canonical}" />`,
-    `<meta property="og:title" content="${route.title}" />`,
-    `<meta property="og:description" content="${route.description}" />`,
-    `<meta property="og:url" content="${route.canonical}" />`,
-    `<meta name="twitter:title" content="${route.title}" />`,
-    `<meta name="twitter:description" content="${route.description}" />`,
-  ].join("\n    ");
+  const tags = [];
+  if (route.noindex) {
+    tags.push(`<meta name="robots" content="noindex" />`);
+  }
+  if (route.canonical) {
+    tags.push(`<link rel="canonical" href="${route.canonical}" />`);
+    tags.push(`<meta property="og:title" content="${route.title}" />`);
+    tags.push(`<meta property="og:description" content="${route.description}" />`);
+    tags.push(`<meta property="og:url" content="${route.canonical}" />`);
+    tags.push(`<meta name="twitter:title" content="${route.title}" />`);
+    tags.push(`<meta name="twitter:description" content="${route.description}" />`);
+  }
+  return tags.join("\n    ");
 }
 
 async function prerender() {
@@ -59,7 +73,9 @@ async function prerender() {
   const template = fs.readFileSync(path.resolve(__dirname, "dist/index.html"), "utf-8");
 
   for (const route of ROUTES) {
-    const appHtml = render(route.path);
+    // render path: use /not-found for the 404 page so React Router hits the * route
+    const renderPath = route.path === "/404-page" ? "/404-page" : route.path;
+    const appHtml = render(renderPath);
 
     const html = template
       .replace(/<title>.*?<\/title>/, `<title>${route.title}</title>`)
@@ -70,14 +86,18 @@ async function prerender() {
       .replace("</head>", `    ${perPageHead(route)}\n  </head>`)
       .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
 
-    const outPath =
-      route.path === "/"
-        ? path.resolve(__dirname, "dist/index.html")
-        : path.resolve(__dirname, `dist${route.path}/index.html`);
+    let outPath;
+    if (route.outFile) {
+      outPath = path.resolve(__dirname, route.outFile);
+    } else if (route.path === "/") {
+      outPath = path.resolve(__dirname, "dist/index.html");
+    } else {
+      outPath = path.resolve(__dirname, `dist${route.path}/index.html`);
+    }
 
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     fs.writeFileSync(outPath, html);
-    console.log(`  prerendered ${route.path}`);
+    console.log(`  prerendered ${route.path} → ${path.relative(__dirname, outPath)}`);
   }
 
   // clean up server bundle

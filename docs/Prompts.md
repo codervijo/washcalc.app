@@ -296,3 +296,32 @@
 >    - Show byte count before and after with curl | wc -c.
 >
 > 7. DO NOT deploy. Manual deploy after review.
+
+## 2026-04-20 (soft-404 fix)
+> Fix the soft-404 problem on washcalc.app. Every URL currently returns
+> 200, including nonsense routes. This must be fixed before Google
+> indexes junk.
+>
+> 1. DIAGNOSE — identify how the SPA/SSR setup handles unmatched routes.
+>    Confirm soft-404 by hitting a fake route locally.
+>
+> 2. FIX 404 HANDLING — catch-all route returns HTTP 404 with a real
+>    "page not found" page including <meta name="robots" content="noindex">,
+>    its own <title>, and links back to real routes. Never serve homepage
+>    content on unknown routes.
+>
+> 3. SHORT-FORM REDIRECTS — 301 from /driveway, /roof, /house-washing,
+>    /deck to their canonical /calculators/* forms. No catch-all redirect
+>    to homepage.
+>
+> 4. TRAILING SLASH — 301 /path/ → /path consistently. No trailing slash
+>    is canonical.
+>
+> 5. EXTEND CRAWL TESTS — add to test:crawl:
+>    * fake routes return 404 (not 200)
+>    * 404 page has noindex meta tag
+>    * 404 page has unique title
+>    * /driveway, /roof, /house-washing, /deck → 301 to canonical
+>    * /calculator/ → 301 to /calculator
+>
+> 6. VERIFY — run extended test:crawl, show curl output. Do not deploy.
