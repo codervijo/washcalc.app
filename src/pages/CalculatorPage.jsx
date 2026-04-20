@@ -45,7 +45,7 @@ export default function CalculatorPage({ preset }) {
   const title = preset?.title || "Pressure Washing Cost Calculator — WashCalc";
   const desc = preset?.description ||
     "Free pressure washing cost calculator. Estimate job price, labor time, cost and profit for driveways, roofs, house washing, decks and more.";
-  const canonical = preset?.canonical || "https://washcalc.app/calculator";
+  const canonical = preset?.canonical || "https://www.washcalc.app/calculator";
   const h1 = preset?.h1 || "Pressure Washing Cost Calculator";
   const intro = preset?.intro ||
     "Estimate price, labor time and gross profit for any pressure washing job. Adjust your costs and target margin — WashCalc keeps every quote profitable.";
@@ -53,7 +53,7 @@ export default function CalculatorPage({ preset }) {
   useSEO({
     title, description: desc, canonical,
     breadcrumbs: preset?.breadcrumb || [
-      { name: "Home", url: "https://washcalc.app/" },
+      { name: "Home", url: "https://www.washcalc.app/" },
       { name: "Calculator", url: canonical },
     ],
   });

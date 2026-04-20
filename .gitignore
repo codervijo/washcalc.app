@@ -8,6 +8,7 @@ dist/
 # Build output
 build/
 out/
+dist-server/
 
 # Logs
 *.log

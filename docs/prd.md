@@ -10,14 +10,14 @@
 - [x] Sitemap + robots.txt
 - [x] SVG favicon
 
-### SEO / crawlability (next up)
-- [ ] Add `vercel.json` SPA rewrites — fix 404 on all sub-routes
-- [ ] Build-time static prerendering — get real content into initial HTML for Googlebot
-- [ ] Fix canonical host mismatch — update sitemap + robots.txt to use `www.washcalc.app`
-- [ ] Add `<link rel="canonical">` to HTML shell (not JS-injected)
-- [ ] Add Open Graph + Twitter Card tags to HTML shell
-- [ ] Add JSON-LD `WebApplication` schema to HTML shell
-- [ ] Force 301 redirect apex → www (Vercel dashboard)
+### SEO / crawlability
+- [x] Add `vercel.json` SPA rewrites — fix 404 on all sub-routes
+- [x] Build-time static prerendering — get real content into initial HTML for Googlebot
+- [x] Fix canonical host mismatch — update sitemap + robots.txt to use `www.washcalc.app`
+- [x] Add `<link rel="canonical">` to HTML shell (not JS-injected)
+- [x] Add Open Graph + Twitter Card tags to HTML shell
+- [x] Add JSON-LD `WebApplication` schema to HTML shell
+- [ ] Force 301 redirect apex → www (Vercel dashboard — manual)
 - [ ] Submit sitemap in Google Search Console + request indexing
 
 ## Phase 2 — Growth
