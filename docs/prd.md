@@ -10,13 +10,15 @@
 - [x] Sitemap + robots.txt
 - [x] SVG favicon
 
-### SEO / crawlability
+### SEO / crawlability + tests
 - [x] Add `vercel.json` SPA rewrites — fix 404 on all sub-routes
 - [x] Build-time static prerendering — get real content into initial HTML for Googlebot
 - [x] Fix canonical host mismatch — update sitemap + robots.txt to use `www.washcalc.app`
 - [x] Add `<link rel="canonical">` to HTML shell (not JS-injected)
 - [x] Add Open Graph + Twitter Card tags to HTML shell
 - [x] Add JSON-LD `WebApplication` schema to HTML shell
+- [x] Automated crawl test suite (`pnpm test:crawl`) — 49 tests, no JS execution
+- [x] GitHub Actions CI (`crawl-test.yml`) — runs on PR and push to main
 - [ ] Force 301 redirect apex → www (Vercel dashboard — manual)
 - [ ] Submit sitemap in Google Search Console + request indexing
 

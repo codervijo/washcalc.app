@@ -243,3 +243,56 @@
 >   * PDF quotes
 >   * lead capture
 >   * city SEO pages
+
+## 2026-04-20
+> Goal: fix the server-rendered HTML so crawlers see real content on first
+> request, and add automated tests that verify this — run against a local
+> production build, not the dev server, because dev-server HTML lies.
+>
+> Context: washcalc.app currently returns an almost-empty HTML shell on
+> the root URL. Only <title> is in the initial response; the body is
+> client-rendered. This must be fixed so Googlebot sees actual content
+> without executing JavaScript.
+>
+> Work in this order. Pause after sections 1 and 2 for my confirmation.
+>
+> 1. DIAGNOSE.
+>    - Identify the framework and current rendering mode.
+>    - Run a local production build and serve it, then curl the root
+>      with `curl -A "Googlebot" http://localhost:PORT/` and show me
+>      exactly what comes back.
+>    - Report: framework, current rendering strategy, what's missing
+>      from the HTML, and the minimum-viable fix.
+>
+> 2. PROPOSE the fix.
+>    - Prefer the smallest change that gets real content into the
+>      initial HTML for the homepage and every surface route.
+>    - Acceptable approaches: (a) true SSR/SSG, (b) framework static
+>      export, (c) prerender plugin.
+>    - The interactive calculator can still hydrate client-side.
+>      Hydration must not wipe server-rendered content.
+>
+> 3. IMPLEMENT.
+>    - Apply the chosen fix.
+>    - Ensure <title>, meta description, canonical, OG, and JSON-LD
+>      are rendered server-side per route.
+>    - robots.txt and sitemap.xml must return 200 and list every route.
+>
+> 4. ADD AUTOMATED TESTS (Vitest, runs against local production build).
+>    - npm script `test:crawl`: build → serve on known port → run tests → teardown.
+>    - Fetch with plain HTTP, no JS execution (no Playwright).
+>    - Test cases: 200 + Content-Type, H1 + "calculator" in body,
+>      title/description/canonical/JSON-LD in <head>, unique title per
+>      surface route, robots.txt Sitemap directive, sitemap.xml valid XML,
+>      homepage body >= 2000 bytes, 404 for unknown route.
+>    - Failure messages must explain the "empty shell" regression clearly.
+>
+> 5. WIRE INTO CI.
+>    - Add `test:crawl` to GitHub Actions on PR and push to main.
+>    - Add to pre-deploy step if one exists.
+>
+> 6. VERIFY LOCALLY AND REPORT.
+>    - Run `test:crawl` and show output.
+>    - Show byte count before and after with curl | wc -c.
+>
+> 7. DO NOT deploy. Manual deploy after review.
