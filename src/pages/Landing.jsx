@@ -30,7 +30,7 @@ const FAQS = [
 export default function Landing() {
   useSEO({
     title: "WashCalc — Pressure Washing Cost Calculator & Quoting Tool",
-    description: "Free pressure washing pricing calculator. Estimate job price, labor time, cost and profit for driveways, roofs, house washing and decks.",
+    description: "Pressure washing pricing calculator for faster, more profitable quotes.",
     canonical: "https://washcalc.app/",
   });
 

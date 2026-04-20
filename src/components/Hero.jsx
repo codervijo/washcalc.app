@@ -9,8 +9,7 @@ export default function Hero() {
           <span className="wc-pill">For pressure washing pros</span>
           <h1>Quote pressure washing jobs in seconds — and protect your profit.</h1>
           <p className="lead">
-            WashCalc estimates price, labor time, job cost and gross profit for driveways,
-            roofs, house washes, decks and more. Stop underpricing. Send confident quotes.
+            Pressure washing pricing calculator for faster, more profitable quotes.
           </p>
           <div className="wc-hero-cta">
             <Link to="/calculator" className="wc-btn wc-btn-primary">Use Calculator</Link>
