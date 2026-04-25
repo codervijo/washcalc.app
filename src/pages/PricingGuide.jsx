@@ -62,6 +62,9 @@ export default function PricingGuide() {
           <p>
             One more useful anchor: in most markets, a typical 800–1,000 sq ft residential driveway prices between $160 and $250. A typical 1,800–2,200 sq ft single-story house wash lands at $250–$450. A typical 1,500 sq ft soft-wash roof clean lands at $600–$900. If your number lands far outside those bands, double-check before you send the quote.
           </p>
+          <p>
+            A note on commercial and HOA work: per-square-foot rates drop sharply at scale because production rates climb, but minimum charges become irrelevant. A 12,000 sq ft commercial parking lot might price at $0.10–$0.14 per sq ft — half the residential rate — yet still produce far better hourly economics because setup, drive, and admin overhead are amortized across one big number. If you start moving into commercial work, build a separate rate card with its own production rates, chemical mix, and travel assumptions; do not just discount your residential pricing across the board.
+          </p>
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Pricing by surface (deck, roof, driveway)</h2>
 
