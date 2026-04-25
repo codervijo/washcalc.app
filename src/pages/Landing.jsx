@@ -38,6 +38,34 @@ export default function Landing() {
     <Layout>
       <Hero />
 
+      {/* Popular calculators — plain anchor links for crawlability */}
+      <section className="wc-section-tight" style={{ background: "#fff", borderBottom: "1px solid var(--wc-border)" }}>
+        <div className="wc-container">
+          <h2 className="wc-section-title">Popular Calculators</h2>
+          <p className="wc-section-sub">Jump straight to the tool you need.</p>
+          <div className="wc-grid-3">
+            <a href="/calculator" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>All-Surface Calculator</div>
+              <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
+                Price any pressure washing job — driveway, roof, deck, siding and more.
+              </div>
+            </a>
+            <a href="/calculators/deck" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Deck Cleaning Calculator</div>
+              <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
+                Wood and composite deck pricing at $0.30–$0.45 per square foot.
+              </div>
+            </a>
+            <a href="/calculators/roof" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Roof Cleaning Calculator</div>
+              <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
+                Soft-wash roof pricing at $0.40–$0.60 per square foot.
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Benefits */}
       <section className="wc-section">
         <div className="wc-container">

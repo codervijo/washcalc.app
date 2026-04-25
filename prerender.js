@@ -41,6 +41,12 @@ const ROUTES = [
     description: "Wood and composite deck cleaning calculator. Estimate price, labor time and profit per square foot.",
     canonical: "https://www.washcalc.app/calculators/deck",
   },
+  {
+    path: "/pressure-washing-pricing-guide",
+    title: "Pressure Washing Pricing Guide (2026) — WashCalc",
+    description: "How to price pressure washing jobs in 2026. Average cost per square foot, pricing by surface (deck, roof, driveway), labor and chemical costs, plus common mistakes to avoid.",
+    canonical: "https://www.washcalc.app/pressure-washing-pricing-guide",
+  },
   // 404 page — output to dist/404.html, noindex
   {
     path: "/404-page",

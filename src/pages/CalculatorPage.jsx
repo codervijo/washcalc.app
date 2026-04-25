@@ -142,6 +142,15 @@ export default function CalculatorPage({ preset }) {
         </div>
       </section>
 
+      {/* Pricing guide back-link */}
+      <section className="wc-section-tight">
+        <div className="wc-container" style={{ textAlign: "center" }}>
+          <p style={{ fontSize: 16, color: "var(--wc-text-muted)", margin: 0 }}>
+            👉 <a href="/pressure-washing-pricing-guide">Learn how to price jobs</a> — full 2026 pressure washing pricing guide.
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="wc-section-tight">
         <div className="wc-container">
