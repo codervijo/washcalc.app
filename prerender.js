@@ -1,8 +1,34 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { DRIVEWAY, ROOF, HOUSE_WASHING, DECK } from "./src/pages/variants.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// FAQ blocks for the routes that don't come from variants.js.
+// Kept here (not in JSX page files) so prerender.js can inject FAQPage
+// JSON-LD into the served HTML without React/JSX imports.
+const LANDING_FAQS = [
+  { q: "How much should I charge for pressure washing?",
+    a: "Most operators land between $0.20 and $0.60 per square foot depending on surface and condition. Driveways are usually $0.20–$0.25/sq ft, roofs $0.40–$0.60/sq ft. WashCalc combines a per-surface base rate with your real labor, chemical and travel cost so you never quote below profitability." },
+  { q: "How does WashCalc estimate labor time?",
+    a: "Each surface has a typical productivity rate in square feet per hour. We multiply by a condition factor (light, moderate, heavy) so a heavily-soiled deck takes longer than a fresh one." },
+  { q: "What is a healthy gross margin for pressure washing?",
+    a: "40–60% gross margin is a common target for solo and small-crew operators. WashCalc lets you set a target margin and protects it automatically." },
+  { q: "Does this replace a CRM or invoicing tool?",
+    a: "No — WashCalc is a focused pricing tool. Saved quotes, PDF export and lead capture are on the roadmap." },
+  { q: "Can I use this on mobile?",
+    a: "Yes. The calculator is fully responsive — use it on the truck, on the lawn, or at the kitchen table." },
+];
+
+const ALLSURFACE_FAQS = [
+  { q: "What's a fair price per square foot for pressure washing?",
+    a: "Driveways usually run $0.20–$0.25/sq ft, house siding $0.25–$0.35, roofs $0.40–$0.60, decks $0.30–$0.45, patios $0.20–$0.30 and fences $0.25–$0.40." },
+  { q: "How is labor time estimated?",
+    a: "Each surface has a productivity rate in sq ft per hour. We multiply by a condition factor — heavy soil takes 60% longer than light." },
+  { q: "Why does the price sometimes jump?",
+    a: "WashCalc enforces your target margin. If your costs (labor, chemical, travel) exceed the rate-based price, we raise the price to protect profit." },
+];
 
 const ROUTES = [
   {
@@ -10,42 +36,102 @@ const ROUTES = [
     title: "WashCalc — Pressure Washing Cost Calculator & Quoting Tool",
     description: "Pressure washing pricing calculator for faster, more profitable quotes.",
     canonical: "https://www.washcalc.app/",
+    schema: {
+      "@type": "WebApplication",
+      name: "WashCalc",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    faqs: LANDING_FAQS,
   },
   {
     path: "/calculator",
     title: "Pressure Washing Cost Calculator — WashCalc",
     description: "Free pressure washing cost calculator. Estimate job price, labor time, cost and profit for driveways, roofs, house washing, decks and more.",
     canonical: "https://www.washcalc.app/calculator",
+    schema: {
+      "@type": "SoftwareApplication",
+      name: "Pressure Washing Cost Calculator",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: [
+      { name: "Home", url: "https://www.washcalc.app/" },
+      { name: "Calculator", url: "https://www.washcalc.app/calculator" },
+    ],
+    faqs: ALLSURFACE_FAQS,
   },
   {
     path: "/calculators/driveway",
-    title: "Driveway Cleaning Cost Calculator — WashCalc",
-    description: "Estimate driveway cleaning price per square foot. Get recommended price, labor time and gross profit instantly.",
-    canonical: "https://www.washcalc.app/calculators/driveway",
+    title: DRIVEWAY.title,
+    description: DRIVEWAY.description,
+    canonical: DRIVEWAY.canonical,
+    schema: {
+      "@type": "SoftwareApplication",
+      name: DRIVEWAY.h1,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: DRIVEWAY.breadcrumb,
+    faqs: DRIVEWAY.faqs,
   },
   {
     path: "/calculators/roof",
-    title: "Roof Cleaning Cost Calculator — WashCalc",
-    description: "Soft-wash roof cleaning calculator. Estimate price, labor time and profit per square foot.",
-    canonical: "https://www.washcalc.app/calculators/roof",
+    title: ROOF.title,
+    description: ROOF.description,
+    canonical: ROOF.canonical,
+    schema: {
+      "@type": "SoftwareApplication",
+      name: ROOF.h1,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: ROOF.breadcrumb,
+    faqs: ROOF.faqs,
   },
   {
     path: "/calculators/house-washing",
-    title: "House Washing Cost Calculator — WashCalc",
-    description: "Estimate house washing cost. Vinyl, brick or stucco — get recommended price, labor time and profit.",
-    canonical: "https://www.washcalc.app/calculators/house-washing",
+    title: HOUSE_WASHING.title,
+    description: HOUSE_WASHING.description,
+    canonical: HOUSE_WASHING.canonical,
+    schema: {
+      "@type": "SoftwareApplication",
+      name: HOUSE_WASHING.h1,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: HOUSE_WASHING.breadcrumb,
+    faqs: HOUSE_WASHING.faqs,
   },
   {
     path: "/calculators/deck",
-    title: "Deck Cleaning Cost Calculator — WashCalc",
-    description: "Wood and composite deck cleaning calculator. Estimate price, labor time and profit per square foot.",
-    canonical: "https://www.washcalc.app/calculators/deck",
+    title: DECK.title,
+    description: DECK.description,
+    canonical: DECK.canonical,
+    schema: {
+      "@type": "SoftwareApplication",
+      name: DECK.h1,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: DECK.breadcrumb,
+    faqs: DECK.faqs,
   },
   {
     path: "/pressure-washing-pricing-guide",
     title: "Pressure Washing Pricing Guide (2026) — WashCalc",
     description: "How to price pressure washing jobs in 2026. Average cost per square foot, pricing by surface (deck, roof, driveway), labor and chemical costs, plus common mistakes to avoid.",
     canonical: "https://www.washcalc.app/pressure-washing-pricing-guide",
+    breadcrumbs: [
+      { name: "Home", url: "https://www.washcalc.app/" },
+      { name: "Pressure Washing Pricing Guide", url: "https://www.washcalc.app/pressure-washing-pricing-guide" },
+    ],
   },
   // 404 page — output to dist/404.html, noindex
   {
@@ -57,6 +143,10 @@ const ROUTES = [
     noindex: true,
   },
 ];
+
+function jsonLdBlock(obj) {
+  return `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", ...obj })}</script>`;
+}
 
 function perPageHead(route) {
   const tags = [];
@@ -70,6 +160,34 @@ function perPageHead(route) {
     tags.push(`<meta property="og:url" content="${route.canonical}" />`);
     tags.push(`<meta name="twitter:title" content="${route.title}" />`);
     tags.push(`<meta name="twitter:description" content="${route.description}" />`);
+  }
+  if (route.schema) {
+    tags.push(jsonLdBlock({
+      ...route.schema,
+      url: route.canonical,
+      description: route.description,
+    }));
+  }
+  if (route.breadcrumbs && route.breadcrumbs.length) {
+    tags.push(jsonLdBlock({
+      "@type": "BreadcrumbList",
+      itemListElement: route.breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: b.url,
+      })),
+    }));
+  }
+  if (route.faqs && route.faqs.length) {
+    tags.push(jsonLdBlock({
+      "@type": "FAQPage",
+      mainEntity: route.faqs.map((it) => ({
+        "@type": "Question",
+        name: it.q,
+        acceptedAnswer: { "@type": "Answer", text: it.a },
+      })),
+    }));
   }
   return tags.join("\n    ");
 }

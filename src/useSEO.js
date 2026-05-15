@@ -22,9 +22,15 @@ function setCanonical(href) {
 }
 
 /**
- * useSEO({ title, description, canonical, breadcrumbs:[{name,url}] })
+ * useSEO({ title, description, canonical })
+ *
+ * BreadcrumbList / FAQPage / SoftwareApplication JSON-LD and the
+ * canonical/og/twitter tags are emitted at build time by prerender.js,
+ * so Googlebot sees them in the initial HTML. This hook only keeps
+ * the document head in sync during client-side route changes — the
+ * `breadcrumbs` arg is accepted (for backward compat) but unused.
  */
-export default function useSEO({ title, description, canonical, breadcrumbs }) {
+export default function useSEO({ title, description, canonical }) {
   useEffect(() => {
     if (title) document.title = title;
     setMeta("description", description);
@@ -32,24 +38,5 @@ export default function useSEO({ title, description, canonical, breadcrumbs }) {
     setMeta("og:description", description, "property");
     setMeta("og:type", "website", "property");
     if (canonical) setCanonical(canonical);
-
-    let bcScript;
-    if (breadcrumbs && breadcrumbs.length) {
-      bcScript = document.createElement("script");
-      bcScript.type = "application/ld+json";
-      bcScript.setAttribute("data-wc-bc", "1");
-      bcScript.text = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: breadcrumbs.map((b, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          name: b.name,
-          item: b.url,
-        })),
-      });
-      document.head.appendChild(bcScript);
-    }
-    return () => { if (bcScript) bcScript.remove(); };
-  }, [title, description, canonical, JSON.stringify(breadcrumbs || [])]);
+  }, [title, description, canonical]);
 }

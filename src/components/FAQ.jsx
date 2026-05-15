@@ -1,26 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function FAQ({ items, withSchema = true }) {
+// FAQPage JSON-LD is emitted at build time by prerender.js (so Googlebot
+// sees it in the initial HTML). This component now only renders the UI.
+export default function FAQ({ items }) {
   const [open, setOpen] = useState(0);
-
-  useEffect(() => {
-    if (!withSchema) return;
-    const data = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: items.map((it) => ({
-        "@type": "Question",
-        name: it.q,
-        acceptedAnswer: { "@type": "Answer", text: it.a },
-      })),
-    };
-    const s = document.createElement("script");
-    s.type = "application/ld+json";
-    s.text = JSON.stringify(data);
-    s.setAttribute("data-wc-faq", "1");
-    document.head.appendChild(s);
-    return () => { s.remove(); };
-  }, [items, withSchema]);
 
   return (
     <div>
