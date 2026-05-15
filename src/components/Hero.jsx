@@ -7,9 +7,10 @@ export default function Hero() {
       <div className="wc-container wc-hero-grid">
         <div>
           <span className="wc-pill">For pressure washing pros</span>
-          <h1>Quote pressure washing jobs in seconds — and protect your profit.</h1>
+          <h1>Free Pressure Washing Cost Calculator</h1>
           <p className="lead">
-            Pressure washing pricing calculator for faster, more profitable quotes.
+            Quote pressure washing jobs in seconds — and protect your profit.
+            A pricing calculator built for faster, more profitable quotes.
           </p>
           <div className="wc-hero-cta">
             <Link to="/calculator" className="wc-btn wc-btn-primary">Use Calculator</Link>
