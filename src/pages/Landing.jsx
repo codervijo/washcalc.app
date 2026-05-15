@@ -43,17 +43,17 @@ export default function Landing() {
         <div className="wc-container">
           <h2 className="wc-section-title">Popular Calculators</h2>
           <p className="wc-section-sub">Jump straight to the tool you need.</p>
-          <div className="wc-grid-3">
-            <a href="/calculator" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
-              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>All-Surface Calculator</div>
+          <div className="wc-grid-4">
+            <a href="/calculators/driveway" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Driveway Cleaning Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Price any pressure washing job — driveway, roof, deck, siding and more.
+                Concrete or asphalt driveway pricing at $0.20–$0.25 per square foot.
               </div>
             </a>
-            <a href="/calculators/deck" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
-              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Deck Cleaning Calculator</div>
+            <a href="/calculators/house-washing" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>House Washing Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Wood and composite deck pricing at $0.30–$0.45 per square foot.
+                Vinyl, brick or stucco siding pricing at $0.25–$0.35 per square foot.
               </div>
             </a>
             <a href="/calculators/roof" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
@@ -62,7 +62,16 @@ export default function Landing() {
                 Soft-wash roof pricing at $0.40–$0.60 per square foot.
               </div>
             </a>
+            <a href="/calculators/deck" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
+              <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Deck Cleaning Calculator</div>
+              <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
+                Wood and composite deck pricing at $0.30–$0.45 per square foot.
+              </div>
+            </a>
           </div>
+          <p style={{ textAlign: "center", marginTop: 18, fontSize: 14.5, color: "var(--wc-text-muted)" }}>
+            Pricing a mixed job? Use the <a href="/calculator">all-surface pressure washing calculator</a>.
+          </p>
         </div>
       </section>
 

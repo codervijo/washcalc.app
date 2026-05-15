@@ -138,7 +138,7 @@ export default function CalculatorPage({ preset }) {
       <section className="wc-section-tight">
         <div className="wc-container">
           <h2 className="wc-section-title">Related calculators</h2>
-          <RelatedTools exclude={canonical.replace("https://washcalc.app", "")} />
+          <RelatedTools exclude={canonical.replace(/^https?:\/\/[^/]+/, "")} />
         </div>
       </section>
 

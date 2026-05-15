@@ -66,11 +66,20 @@ export default function PricingGuide() {
             A note on commercial and HOA work: per-square-foot rates drop sharply at scale because production rates climb, but minimum charges become irrelevant. A 12,000 sq ft commercial parking lot might price at $0.10–$0.14 per sq ft — half the residential rate — yet still produce far better hourly economics because setup, drive, and admin overhead are amortized across one big number. If you start moving into commercial work, build a separate rate card with its own production rates, chemical mix, and travel assumptions; do not just discount your residential pricing across the board.
           </p>
 
-          <h2 style={{ fontSize: 26, marginTop: 32 }}>Pricing by surface (deck, roof, driveway)</h2>
+          <h2 style={{ fontSize: 26, marginTop: 32 }}>Pricing by surface (driveway, house, roof, deck)</h2>
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>Driveways</h3>
           <p>
-            Driveways are the volume product of residential pressure washing — high frequency, low complexity, modest margin. Production rates with a good 16–20 inch surface cleaner run around 450 sq ft per hour in moderate condition. Heavy oil staining, road grime from a long downhill driveway, or a pebbled aggregate finish can drop that rate by 30–60%. Chemical cost is usually low: a degreaser pretreatment and a post-rinse is enough for most jobs. Price between $0.20 and $0.25 per sq ft, with a hard minimum charge of $150 to cover travel and setup.
+            Driveways are the volume product of residential pressure washing — high frequency, low complexity, modest margin. Production rates with a good 16–20 inch surface cleaner run around 450 sq ft per hour in moderate condition. Heavy oil staining, road grime from a long downhill driveway, or a pebbled aggregate finish can drop that rate by 30–60%. Chemical cost is usually low: a degreaser pretreatment and a post-rinse is enough for most jobs. Price between $0.20 and $0.25 per sq ft, with a hard minimum charge of $150 to cover travel and setup. The{" "}
+            <a href="/calculators/driveway">driveway cleaning cost calculator</a>{" "}
+            ships with these defaults pre-set.
+          </p>
+
+          <h3 style={{ fontSize: 20, marginTop: 24 }}>House washing</h3>
+          <p>
+            House washing is the highest-frequency repeat service in residential pressure washing — most homeowners want it done annually, which makes it a strong base of recurring work. The technique depends entirely on the siding: vinyl, painted wood, stucco and painted brick all get a soft-wash with a sodium hypochlorite mix (never a high-pressure tip), while unpainted brick and stone can take more pressure. Production rates run around 300–400 sq ft of siding per hour. Price between $0.25 and $0.35 per sq ft of siding — a typical single-story home lands at $250–$450 and a two-story home at $400–$700. Use the{" "}
+            <a href="/calculators/house-washing">house washing cost calculator</a>{" "}
+            to dial in vinyl, brick or stucco quickly.
           </p>
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>Roofs</h3>
@@ -117,10 +126,16 @@ export default function PricingGuide() {
               <a href="/calculator">All-surface pressure washing calculator</a> — start here if you’re quoting a mixed job or a less common surface.
             </li>
             <li>
-              <a href="/calculators/deck">Deck cleaning cost calculator</a> — tuned for wood and composite deck pricing.
+              <a href="/calculators/driveway">Driveway cleaning cost calculator</a> — tuned for concrete and asphalt driveways.
+            </li>
+            <li>
+              <a href="/calculators/house-washing">House washing cost calculator</a> — tuned for vinyl, brick and stucco siding.
             </li>
             <li>
               <a href="/calculators/roof">Roof cleaning cost calculator</a> — tuned for soft-wash roof pricing with realistic chemical defaults.
+            </li>
+            <li>
+              <a href="/calculators/deck">Deck cleaning cost calculator</a> — tuned for wood and composite deck pricing.
             </li>
           </ul>
           <p style={{ marginTop: 24 }}>
