@@ -224,6 +224,28 @@ async function prerender() {
     console.log(`  prerendered ${route.path} → ${path.relative(__dirname, outPath)}`);
   }
 
+  // Generate sitemap.xml from the indexable routes (everything with a
+  // canonical and no noindex). lastmod = today (UTC, YYYY-MM-DD) so each
+  // build re-signals freshness to Google.
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemapUrls = ROUTES
+    .filter((r) => r.canonical && !r.noindex)
+    .map((r) => (
+      `  <url>\n` +
+      `    <loc>${r.canonical}</loc>\n` +
+      `    <lastmod>${today}</lastmod>\n` +
+      `    <changefreq>monthly</changefreq>\n` +
+      `  </url>`
+    ))
+    .join("\n");
+  const sitemapXml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    `${sitemapUrls}\n` +
+    `</urlset>\n`;
+  fs.writeFileSync(path.resolve(__dirname, "dist/sitemap.xml"), sitemapXml);
+  console.log(`  wrote sitemap.xml (${ROUTES.filter((r) => r.canonical && !r.noindex).length} urls, lastmod ${today})`);
+
   // clean up server bundle
   fs.rmSync(path.resolve(__dirname, "dist-server"), { recursive: true, force: true });
   console.log("done.");
