@@ -36,7 +36,7 @@ export default function FAQ({ items, withSchema = true }) {
               <span>{it.q}</span>
               <span aria-hidden="true">{isOpen ? "–" : "+"}</span>
             </button>
-            {isOpen && <div className="wc-faq-a">{it.a}</div>}
+            <div className="wc-faq-a" hidden={!isOpen}>{it.a}</div>
           </div>
         );
       })}
