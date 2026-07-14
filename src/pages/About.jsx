@@ -73,21 +73,16 @@ export default function About() {
           </p>
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Who’s behind it</h2>
-          {/*
-            TODO (operator): replace the bracketed placeholders below with a REAL author
-            name/credential and a monitored contact address before publishing. E-E-A-T rewards a
-            named, reachable author — a placeholder undercuts the whole point of this page.
-            Do not ship fabricated credentials.
-          */}
           <p>
-            WashCalc is built and maintained by <strong>[YOUR NAME]</strong>, [one line of relevant
-            experience — e.g. “a former pressure washing operator” or “a software developer who built
-            pricing tools for service businesses”]. The tool grew out of real quoting frustration and
-            is kept intentionally small: a fast, honest pricing calculator rather than another CRM.
+            WashCalc is built and maintained by{" "}
+            <a href="https://lamill.io" rel="publisher">Lamill</a> — a studio that builds
+            focused, honest tools for small service businesses. The tool grew out of real quoting
+            frustration and is kept intentionally small: a fast pricing calculator rather than
+            another CRM.
           </p>
           <p>
-            Questions, corrections, or a pricing edge case we’re missing? Email{" "}
-            <a href="mailto:hello@washcalc.app">hello@washcalc.app</a> — feedback from working
+            Questions, corrections, or a pricing edge case we’re missing? Reach us at{" "}
+            <a href="https://lamill.io" rel="publisher">lamill.io</a> — feedback from working
             contractors is what sharpens the defaults.
           </p>
 

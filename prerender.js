@@ -141,6 +141,8 @@ const ROUTES = [
     schema: {
       "@type": "AboutPage",
       name: "About WashCalc",
+      publisher: { "@type": "Organization", name: "Lamill", url: "https://lamill.io" },
+      author: { "@type": "Organization", name: "Lamill", url: "https://lamill.io" },
     },
     breadcrumbs: [
       { name: "Home", url: "https://washcalc.app/" },

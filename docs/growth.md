@@ -64,3 +64,24 @@ https://search.google.com/search-console directly.
   the sitemap.
 - **Result:** TBD — review 2026-06-06
 - **Learning:** TBD
+
+## 2026-07-13 — host consolidation to non-www apex + OG image + /about
+- **Status:** active
+- **KPI:** GSC indexed-page count and impressions; duplicate-host signals
+  (www vs apex) collapsing to a single canonical. Watch impressions/clicks
+  and the "Page indexing" report for consolidation.
+- **Baseline:** site was 100% www-canonical; live host default redirected
+  apex → www (307), splitting signals across www / non-www / http. `/about`
+  did not exist. No `og:image` anywhere; twitter:card was `summary`.
+- **Action:** reversed canonical host to non-www apex `https://washcalc.app`
+  everywhere (canonicals, breadcrumbs, sitemap, robots). Rewrote `vercel.json`
+  to modern schema with a `www → apex` 308 redirect (all paths preserved).
+  Added `og:image` + `twitter:image` (1200×630 `public/og-image.png`),
+  switched twitter:card to `summary_large_image`, rewrote homepage meta
+  description to 143 chars (contractor-focused). Added `/about` (E-E-A-T)
+  wired into routing/prerender/sitemap. Live-verified: www/http → apex 308,
+  apex 200, og-image 200, all 7 routes self-canonical + og:image, unknown
+  route real 404, sitemap 8 apex / 0 www URLs.
+- **Result:** TBD — review 2026-08-10
+- **Learning:** TBD (also pending: `/about` author name + contact are still
+  placeholders; GSC sitemap resubmit under `sc-domain:washcalc.app`)
