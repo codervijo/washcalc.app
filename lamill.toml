@@ -11,6 +11,10 @@ custom_domains = [
     "washcalc.app",
 ]
 
+[index]
+indexnow_key = "fd1c8a65c95041bd80415d020350188b"
+indexnow_enabled = true
+
 [stack]
 framework = "vite-react"
 
