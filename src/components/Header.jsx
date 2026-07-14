@@ -16,6 +16,7 @@ export default function Header() {
           <Link to="/calculators/roof">Roof</Link>
           <Link to="/calculators/house-washing">House</Link>
           <Link to="/calculators/deck">Deck</Link>
+          <Link to="/about" style={is("/about") ? { color: "var(--wc-text)" } : null}>About</Link>
           <Link to="/calculator" className="wc-btn wc-btn-primary" style={{ padding: "8px 14px" }}>
             Use Calculator
           </Link>
