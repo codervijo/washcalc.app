@@ -6,10 +6,10 @@ export default function PricingGuide() {
     title: "Pressure Washing Pricing Guide (2026) — WashCalc",
     description:
       "How to price pressure washing jobs in 2026. Average cost per square foot, pricing by surface (deck, roof, driveway), labor and chemical costs, plus common mistakes to avoid.",
-    canonical: "https://www.washcalc.app/pressure-washing-pricing-guide",
+    canonical: "https://washcalc.app/pressure-washing-pricing-guide",
     breadcrumbs: [
-      { name: "Home", url: "https://www.washcalc.app/" },
-      { name: "Pressure Washing Pricing Guide", url: "https://www.washcalc.app/pressure-washing-pricing-guide" },
+      { name: "Home", url: "https://washcalc.app/" },
+      { name: "Pressure Washing Pricing Guide", url: "https://washcalc.app/pressure-washing-pricing-guide" },
     ],
   });
 

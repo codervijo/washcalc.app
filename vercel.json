@@ -1,12 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/driveway",       "status": 301, "headers": { "Location": "/calculators/driveway" } },
-    { "src": "/roof",           "status": 301, "headers": { "Location": "/calculators/roof" } },
-    { "src": "/house-washing",  "status": 301, "headers": { "Location": "/calculators/house-washing" } },
-    { "src": "/deck",           "status": 301, "headers": { "Location": "/calculators/deck" } },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/404.html", "status": 404 }
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.washcalc.app" }],
+      "destination": "https://washcalc.app/:path*",
+      "permanent": true
+    },
+    { "source": "/driveway",      "destination": "/calculators/driveway",      "permanent": true },
+    { "source": "/roof",          "destination": "/calculators/roof",          "permanent": true },
+    { "source": "/house-washing", "destination": "/calculators/house-washing", "permanent": true },
+    { "source": "/deck",          "destination": "/calculators/deck",          "permanent": true }
   ]
 }

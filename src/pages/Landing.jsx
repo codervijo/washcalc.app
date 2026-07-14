@@ -30,8 +30,8 @@ const FAQS = [
 export default function Landing() {
   useSEO({
     title: "Free Pressure Washing Cost Calculator — WashCalc",
-    description: "Pressure washing pricing calculator for faster, more profitable quotes.",
-    canonical: "https://www.washcalc.app/",
+    description: "Free pressure washing cost calculator for contractors. Estimate job price, labor and chemical cost, and send a quote that protects your profit.",
+    canonical: "https://washcalc.app/",
   });
 
   return (
