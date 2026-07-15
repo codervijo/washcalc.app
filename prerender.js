@@ -21,6 +21,23 @@ const LANDING_FAQS = [
     a: "Yes. The calculator is fully responsive — use it on the truck, on the lawn, or at the kitchen table." },
 ];
 
+// /quote-tool FAQ — text MUST match the visible <details> answers in
+// src/pages/QuoteTool.jsx verbatim (Google flags schema/visible mismatch).
+const QUOTE_TOOL_FAQS = [
+  { q: "Is WashCalc's quote tool free?",
+    a: "Yes. The calculator is free to use on any device. Saved quotes, branded PDF export, and lead capture are on the roadmap for WashCalc Pro." },
+  { q: "How much should I charge for power washing in 2026?",
+    a: "Most contractors charge $0.15–$0.75 per square foot or $60–$160 per hour, depending on surface, region, and condition. Driveways run about $0.20–$0.35, roofs $0.40–$0.60. Use the formula above to find your own profitable floor, then benchmark against local rates." },
+  { q: "What's the difference between a pressure wash and a soft wash quote?",
+    a: "Soft washing uses low pressure and cleaning solution and is required for siding, roofs, and most painted or delicate surfaces. It usually costs 10–20% more than concrete pressure washing because of chemical cost. Always note the method per line so the customer knows what they're getting." },
+  { q: "Should I quote per square foot, flat rate, or hourly?",
+    a: "Use all three. Per-square-foot for commercial and large flat surfaces, flat-rate for standard residential jobs customers want simple pricing on, and hourly for unusual one-offs. Matching the model to the job is how top operators price higher and still win." },
+  { q: "What should a power washing estimate include?",
+    a: "Your business and contact info, the client's name and service address, a unique estimate number and valid-until date, an itemized line per surface with square footage and method, optional add-ons, and clear terms — payment, deposit, weather reschedule, and exclusions." },
+  { q: "How fast should I send a quote?",
+    a: "Same day, or within 24 hours. Fresh impressions approve faster, and for commercial work the first complete, professional estimate usually wins the contract." },
+];
+
 const ALLSURFACE_FAQS = [
   { q: "What's a fair price per square foot for pressure washing?",
     a: "Driveways usually run $0.20–$0.25/sq ft, house siding $0.25–$0.35, roofs $0.40–$0.60, decks $0.30–$0.45, patios $0.20–$0.30 and fences $0.25–$0.40." },
@@ -134,6 +151,25 @@ const ROUTES = [
     ],
   },
   {
+    path: "/quote-tool",
+    title: "Power Washing Quote Tool — Build Profitable Estimates Fast | WashCalc",
+    description: "A free power washing quote tool built for contractors. Price any job with the per-square-foot formula, itemize a professional estimate, and protect your margin on every quote.",
+    canonical: "https://washcalc.app/quote-tool",
+    ogImage: "https://washcalc.app/og/quote-tool.png",
+    schema: {
+      "@type": "SoftwareApplication",
+      name: "Power Washing Quote Tool",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "All",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    breadcrumbs: [
+      { name: "Home", url: "https://washcalc.app/" },
+      { name: "Power Washing Quote Tool", url: "https://washcalc.app/quote-tool" },
+    ],
+    faqs: QUOTE_TOOL_FAQS,
+  },
+  {
     path: "/about",
     title: "About WashCalc — Who Built It & How Pricing Works",
     description: "Who built WashCalc and why: the pricing pain pressure washing contractors face, the two-signal methodology behind every quote, and how to reach us.",
@@ -217,7 +253,7 @@ async function prerender() {
     const renderPath = route.path === "/404-page" ? "/404-page" : route.path;
     const appHtml = render(renderPath);
 
-    const html = template
+    let html = template
       .replace(/<title>.*?<\/title>/, `<title>${route.title}</title>`)
       .replace(
         /<meta name="description" content=".*?"\s*\/>/,
@@ -225,6 +261,20 @@ async function prerender() {
       )
       .replace("</head>", `    ${perPageHead(route)}\n  </head>`)
       .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+
+    // Per-route social image: override the template's global og:image /
+    // twitter:image so this route shares its own 1200×630 card.
+    if (route.ogImage) {
+      html = html
+        .replace(
+          /(<meta property="og:image" content=").*?(")/,
+          `$1${route.ogImage}$2`
+        )
+        .replace(
+          /(<meta name="twitter:image" content=").*?(")/,
+          `$1${route.ogImage}$2`
+        );
+    }
 
     let outPath;
     if (route.outFile) {

@@ -13,6 +13,7 @@ export default function Footer() {
           <Link to="/calculators/roof">Roof</Link>
           <Link to="/calculators/house-washing">House washing</Link>
           <Link to="/calculators/deck">Deck</Link>
+          <Link to="/quote-tool">Quote tool</Link>
           <Link to="/pressure-washing-pricing-guide">Pricing guide</Link>
           <Link to="/about">About</Link>
         </div>

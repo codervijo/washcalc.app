@@ -447,6 +447,100 @@
 .wc-breadcrumbs a { color: var(--wc-text-soft); }
 .wc-breadcrumbs span { margin: 0 6px; }
 
+/* ==========================================================================
+   Quote Tool page (/quote-tool) — long-form content classes.
+   Reuses existing --wc-* tokens (primary = brand teal, text = ink).
+   ========================================================================== */
+
+/* Narrow reading column — sibling of .wc-container for long-form pages */
+.wc-container-narrow {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Table of contents */
+.wc-qt-toc {
+  background: var(--wc-surface-alt);
+  border: 1px solid var(--wc-border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin: 36px 0;
+}
+.wc-qt-toc strong {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--wc-text-soft);
+  margin-bottom: 12px;
+}
+.wc-qt-toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+.wc-qt-toc li { margin-bottom: 7px; font-size: 15px; }
+.wc-qt-toc a { color: var(--wc-primary-dark); }
+
+/* Content sections */
+.wc-qt-section { padding: 44px 0; border-bottom: 1px solid var(--wc-border); }
+.wc-qt-section h2 { font-size: clamp(24px, 3.4vw, 30px); margin: 0 0 6px; letter-spacing: -.01em; color: var(--wc-text); }
+.wc-qt-section .wc-qt-sub { color: var(--wc-text-muted); font-size: 17px; margin: 0 0 26px; }
+.wc-qt-section h3 { font-size: 19px; margin: 28px 0 8px; color: var(--wc-text); }
+.wc-qt-section p { margin: 0 0 15px; }
+
+/* Rates table */
+.wc-qt-table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8px 0 6px; }
+.wc-qt-table th, .wc-qt-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--wc-border); }
+.wc-qt-table thead th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--wc-text-soft); border-bottom: 2px solid var(--wc-border); }
+.wc-qt-table tbody tr:hover { background: var(--wc-surface-alt); }
+.wc-qt-table td:first-child { font-weight: 600; color: var(--wc-text); }
+.wc-qt-rate { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wc-qt-note { font-size: 13.5px; color: var(--wc-text-soft); margin-top: 6px; }
+
+/* Formula callout */
+.wc-qt-formula { background: var(--wc-text); color: #eafaf7; border-radius: 16px; padding: 30px 26px; margin: 20px 0; text-align: center; }
+.wc-qt-formula .eq { font-size: clamp(16px, 2.6vw, 22px); font-weight: 600; letter-spacing: -.01em; line-height: 1.7; }
+.wc-qt-formula .eq b { color: #5fe3c9; }
+.wc-qt-formula small { display: block; margin-top: 14px; color: #9fc9c1; font-size: 14px; }
+/* Light variant (worked-example floor calc) */
+.wc-qt-formula-light { background: var(--wc-surface-alt); color: var(--wc-text); }
+.wc-qt-formula-light .eq { color: var(--wc-text); }
+.wc-qt-formula-light .eq b { color: var(--wc-primary-dark); }
+.wc-qt-formula-light small { color: var(--wc-text-muted); }
+
+/* Left-border callout */
+.wc-qt-callout { border-left: 4px solid var(--wc-primary); background: var(--wc-surface-alt); padding: 16px 20px; border-radius: 0 10px 10px 0; margin: 20px 0; font-size: 15.5px; }
+.wc-qt-callout strong { color: var(--wc-text); }
+
+/* Worked-example estimate card */
+.wc-qt-example { border: 1px solid var(--wc-border); border-radius: 16px; overflow: hidden; margin: 22px 0; }
+.wc-qt-example .head { background: var(--wc-surface-alt); padding: 14px 20px; font-weight: 700; color: var(--wc-text); border-bottom: 1px solid var(--wc-border); }
+.wc-qt-example .body { padding: 6px 20px 16px; }
+.wc-qt-line { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--wc-border); font-size: 15px; }
+.wc-qt-line:last-child { border-bottom: none; }
+.wc-qt-line .lbl small { display: block; color: var(--wc-text-soft); font-size: 13px; font-weight: 400; margin-top: 2px; }
+.wc-qt-line .amt { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.wc-qt-line.total { border-top: 2px solid var(--wc-text); border-bottom: none; font-size: 17px; font-weight: 700; color: var(--wc-text); margin-top: 4px; }
+.wc-qt-line.discount .amt { color: var(--wc-success); }
+.wc-qt-line.total .amt { color: var(--wc-primary-dark); }
+.wc-qt-incl { display: inline; color: var(--wc-text-soft); font-weight: 400; }
+
+/* Anatomy / mistakes grid */
+.wc-qt-anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 22px 0; }
+.wc-qt-anatomy .item { border: 1px solid var(--wc-border); border-radius: 12px; padding: 16px 18px; }
+.wc-qt-anatomy .item .n { font-size: 12px; font-weight: 700; color: var(--wc-primary); letter-spacing: .04em; }
+.wc-qt-anatomy .item h4 { margin: 6px 0 4px; font-size: 15.5px; color: var(--wc-text); }
+.wc-qt-anatomy .item p { margin: 0; font-size: 14px; color: var(--wc-text-muted); }
+
+/* FAQ — native <details>/<summary> so answers stay in the DOM (crawlable) */
+.wc-qt-faq details { border-bottom: 1px solid var(--wc-border); padding: 14px 0; }
+.wc-qt-faq summary { font-weight: 600; color: var(--wc-text); cursor: pointer; font-size: 16px; list-style: none; display: flex; justify-content: space-between; }
+.wc-qt-faq summary::-webkit-details-marker { display: none; }
+.wc-qt-faq summary::after { content: "+"; color: var(--wc-primary); font-weight: 700; }
+.wc-qt-faq details[open] summary::after { content: "\2013"; }
+.wc-qt-faq .a { margin-top: 10px; color: var(--wc-text-muted); font-size: 15.5px; }
+
+@media (max-width: 640px) { .wc-qt-toc ol { columns: 1; } }
+
 /* Toast (very simple) */
 .wc-toast {
   position: fixed;

@@ -71,6 +71,7 @@ export default function Landing() {
           </div>
           <p style={{ textAlign: "center", marginTop: 18, fontSize: 14.5, color: "var(--wc-text-muted)" }}>
             Pricing a mixed job? Use the <a href="/calculator">all-surface pressure washing calculator</a>.
+            {" "}Building a full estimate? See the <a href="/quote-tool">power washing quote tool</a>.
           </p>
         </div>
       </section>
