@@ -85,3 +85,39 @@ https://search.google.com/search-console directly.
 - **Result:** TBD — review 2026-08-10
 - **Learning:** TBD (also pending: `/about` author name + contact are still
   placeholders; GSC sitemap resubmit under `sc-domain:washcalc.app`)
+
+## 2026-07-17 — deepen house-washing & deck into tool-rich pages + pillar guide
+- **Status:** active — ⚠️ BUILT, NOT YET DEPLOYED (committed `bcff287`, not pushed).
+  Observation window starts at **deploy**, not today. Do not review before then.
+- **KPI:** ‹FILL: confirm/adjust› — impressions + avg position in GSC for
+  `/calculators/house-washing`, `/calculators/deck`, and
+  `/pressure-washing-pricing-guide`; new long-tail query capture
+  (e.g. "sh dilution calculator", "deck cleaning psi by material",
+  "house washing profit calculator", "deck stain coverage calculator",
+  "house washing cost by city"); and rich-result eligibility for the new
+  HowTo (deck) + FAQPage (all three) in the GSC Enhancements report.
+- **Baseline (capture at deploy):**
+  - house-washing: ‹FILL: clicks / impressions / avg pos / indexed?›
+  - deck: ‹FILL: clicks / impressions / avg pos / indexed?›
+  - pricing-guide: ‹FILL: clicks / impressions / avg pos / indexed?›
+  - Rich results: ‹FILL: HowTo/FAQ valid items count in GSC Enhancements at deploy›
+  - (Pull via `cd ~/work/projects/sites/portfolio && make run ARGS="gsc sync"`)
+- **Action:** kept the primary calculator as the above-fold hero on each calc
+  page and added secondary contractor tools below. House-washing: SH dilution
+  (batch + downstream), job-profitability (auto-pulls chem cost), regional
+  pricing table. Deck: material selector (PSI/nozzle/multiplier + safe-PSI
+  warning), stain/seal coverage, clean-and-seal timeline. Pricing guide
+  restructured as a pillar hub linking every calculator + `/quote-tool`.
+  Added HowTo (deck), FAQPage (pillar + both calc pages), retained
+  SoftwareApplication + BreadcrumbList — all in prerendered static HTML,
+  Googlebot-curl verified; 92/92 crawl tests. Contractor-only framing.
+- **BLOCKERS before deploy (must clear first):** ‹FILL / DO›
+  - Regional pricing table data is stubbed (`null`) with a visible
+    "do-not-deploy" banner — supply verified $/sq ft + 1-story/2-story +
+    per-row source, set `LAST_UPDATED`.
+  - Deep body copy is `[COPY PLACEHOLDER]` blocks — supply ~1,200 words
+    contractor prose per page.
+  - Tool math defaults marked `TODO(operator)` (SH ratios, deck PSI ranges &
+    multipliers, stain coverage rates) — confirm against your SOPs.
+- **Result:** TBD — review ‹FILL: deploy date + 28 days›
+- **Learning:** TBD
