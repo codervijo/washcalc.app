@@ -75,6 +75,14 @@ grep -oE 'wc-faq-a' dist/index.html | wc -l       # counts matches
 grep -c 'wc-faq-a' dist/index.html                # counts lines (misleading: ~1)
 ```
 
+## Canonical host
+
+**Non-www apex `https://washcalc.app` is canonical** — all canonicals,
+breadcrumbs, sitemap URLs, and OG tags use the bare apex, never `www.`.
+A live `www → apex` 308 redirect enforces it. This was a deliberate
+reversal away from www on 2026-07-13 (see `docs/growth.md`). Do not
+re-introduce www canonicals.
+
 ## Deployment info
 
 Cloudflare Pages. Push to `main` triggers an auto-build via the

@@ -33,6 +33,11 @@ git push            # Cloudflare Pages auto-builds on push to main
   - Stack: pnpm-only. No `package-lock.json` / `bun.lockb` / `yarn.lock`.
   - Deploy: Cloudflare Pages via `wrangler.jsonc`. No `_redirects`
     SPA fallback (uses CF's `not_found_handling` instead).
+  - **Canonical host: non-www apex `https://washcalc.app`.** Every
+    canonical, breadcrumb, sitemap URL, and OG tag uses the bare apex —
+    never `www.`. A live `www → apex` 308 redirect enforces it. This was
+    a deliberate reversal *away* from www on 2026-07-13 (see
+    `docs/growth.md`); do not re-introduce www canonicals.
 
 ## Heading hygiene
 

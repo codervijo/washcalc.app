@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import useSEO from "../useSEO.js";
+import { PRICING_GUIDE_FAQS } from "./variants.js";
 
 export default function PricingGuide() {
   useSEO({
@@ -28,6 +30,22 @@ export default function PricingGuide() {
           <p style={{ color: "var(--wc-text-muted)", fontSize: 17, margin: "0 0 32px" }}>
             A complete walkthrough of how professional pressure washing contractors price jobs in 2026 — what to charge per square foot, how to estimate labor, what surfaces command a premium, and the costly mistakes that quietly destroy margin.
           </p>
+
+          {/* Pillar hub — contextual links out to every tool */}
+          <nav className="wc-pillar-hub" aria-label="Pricing tools">
+            <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>Jump to a pricing tool</h2>
+            <p style={{ color: "var(--wc-text-muted)", fontSize: 14.5, margin: "0 0 14px" }}>
+              This guide is the hub. Each surface below has a dedicated calculator with tuned defaults.
+            </p>
+            <ul className="wc-pillar-links">
+              <li><Link to="/calculator">All-surface calculator</Link> — mixed jobs and less common surfaces.</li>
+              <li><Link to="/calculators/driveway">Driveway calculator</Link> — concrete and asphalt.</li>
+              <li><Link to="/calculators/house-washing">House washing calculator</Link> — plus SH dilution &amp; job-profit tools.</li>
+              <li><Link to="/calculators/roof">Roof calculator</Link> — soft-wash pricing with chemical defaults.</li>
+              <li><Link to="/calculators/deck">Deck calculator</Link> — material selector, stain/seal &amp; clean-and-seal timeline.</li>
+              <li><Link to="/quote-tool">Power washing quote tool</Link> — itemize a professional estimate to send.</li>
+            </ul>
+          </nav>
 
           <h2 style={{ fontSize: 26, marginTop: 8 }}>How to price pressure washing jobs</h2>
           <p>
@@ -135,12 +153,25 @@ export default function PricingGuide() {
               <a href="/calculators/roof">Roof cleaning cost calculator</a> — tuned for soft-wash roof pricing with realistic chemical defaults.
             </li>
             <li>
-              <a href="/calculators/deck">Deck cleaning cost calculator</a> — tuned for wood and composite deck pricing.
+              <a href="/calculators/deck">Deck cleaning cost calculator</a> — tuned for wood and composite, with a material selector, stain/seal coverage tool, and clean-and-seal timeline.
+            </li>
+            <li>
+              <a href="/quote-tool">Power washing quote tool</a> — turn the number into an itemized, professional estimate you can send the same day.
             </li>
           </ul>
           <p style={{ marginTop: 24 }}>
             Quote faster, protect margin, and stop leaving money on the table. The calculators do the math — your job is to send the number.
           </p>
+
+          <h2 style={{ fontSize: 26, marginTop: 32 }}>Frequently asked questions</h2>
+          <div className="wc-qt-faq" style={{ marginTop: 12 }}>
+            {PRICING_GUIDE_FAQS.map((f, i) => (
+              <details key={f.q} open={i === 0 || undefined}>
+                <summary>{f.q}</summary>
+                <div className="a">{f.a}</div>
+              </details>
+            ))}
+          </div>
 
           <div className="wc-cta-banner" style={{ marginTop: 40 }}>
             <h3>Ready to price your next job?</h3>

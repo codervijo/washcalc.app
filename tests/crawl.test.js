@@ -417,3 +417,121 @@ describe("Trailing-slash redirect (no trailing slash is canonical)", () => {
     ).toMatch(/\/calculator$/);
   });
 });
+
+// ─── Expanded contractor pages: secondary tools + schema in static HTML ───────
+//
+// WHY: the deep house-washing/deck tools and the pillar FAQ are rendered by
+// React. These tests prove their labels, headings, FAQ answers, and JSON-LD
+// land in the prerendered HTML — i.e. a non-JS crawler sees them.
+
+describe("House-washing page — secondary tools in static HTML", () => {
+  let body;
+  beforeAll(async () => { body = (await get("/calculators/house-washing")).body; });
+
+  const MUST_CONTAIN = [
+    "SH dilution calculator",              // tool 1 heading
+    "Downstream injector ratio",           // tool 1 mode
+    "Starting SH %",                       // tool 1 input label
+    "House washing job profitability calculator", // tool 2 heading
+    "Effective $/hr on site",              // tool 2 output label
+    "Break-even price",                    // tool 2 output label
+    "House washing prices by US metro",    // tool 3 heading
+    "Median $/sq ft",                      // tool 3 column
+    "Source",                              // tool 3 source column
+    "effective dollars per on-site hour",  // new FAQ answer (in static HTML)
+  ];
+  for (const frag of MUST_CONTAIN) {
+    it(`contains "${frag}"`, () => {
+      expect(body, `"${frag}" missing from prerendered /calculators/house-washing`).toContain(frag);
+    });
+  }
+
+  it("ships SoftwareApplication JSON-LD", () => {
+    expect(body).toContain('"@type":"SoftwareApplication"');
+  });
+  it("ships FAQPage JSON-LD", () => {
+    expect(body).toContain('"@type":"FAQPage"');
+  });
+  it("ships BreadcrumbList JSON-LD", () => {
+    expect(body).toContain('"@type":"BreadcrumbList"');
+  });
+  it("cross-links to /calculators/deck, pricing guide, and /quote-tool", () => {
+    expect(body).toMatch(/href="\/calculators\/deck"/);
+    expect(body).toMatch(/href="\/pressure-washing-pricing-guide"/);
+    expect(body).toMatch(/href="\/quote-tool"/);
+  });
+});
+
+describe("Deck page — secondary tools + HowTo in static HTML", () => {
+  let body;
+  beforeAll(async () => { body = (await get("/calculators/deck")).body; });
+
+  const MUST_CONTAIN = [
+    "Decking material",                    // material selector heading
+    "Recommended PSI",                     // material selector spec
+    "Safe PSI ceiling",                    // material selector spec
+    "Hardwood / IPE",                      // a material option
+    "seal coverage calculator",            // stain/seal heading (ampersand-free fragment)
+    "Gallons needed",                      // stain/seal output
+    "How to clean and seal a wood deck",   // timeline / HowTo name
+    "Apply stain or sealer",               // HowTo step 3 name (visible + schema)
+  ];
+  for (const frag of MUST_CONTAIN) {
+    it(`contains "${frag}"`, () => {
+      expect(body, `"${frag}" missing from prerendered /calculators/deck`).toContain(frag);
+    });
+  }
+
+  it("ships HowTo JSON-LD for the clean-and-seal sequence", () => {
+    expect(body, "HowTo JSON-LD missing from /calculators/deck").toContain('"@type":"HowTo"');
+    expect(body).toContain('"@type":"HowToStep"');
+  });
+  it("ships SoftwareApplication JSON-LD", () => {
+    expect(body).toContain('"@type":"SoftwareApplication"');
+  });
+  it("cross-links to /calculators/house-washing, pricing guide, and /quote-tool", () => {
+    expect(body).toMatch(/href="\/calculators\/house-washing"/);
+    expect(body).toMatch(/href="\/pressure-washing-pricing-guide"/);
+    expect(body).toMatch(/href="\/quote-tool"/);
+  });
+});
+
+describe("Pricing guide — pillar page with FAQ + tool links in static HTML", () => {
+  let body;
+  beforeAll(async () => { body = (await get("/pressure-washing-pricing-guide")).body; });
+
+  it("has no calculator form (pillar page, not a tool)", () => {
+    expect(body, "Pricing guide should not embed a calculator form").not.toMatch(/wc-calc-grid/);
+  });
+  it("contains the pillar hub heading", () => {
+    expect(body).toContain("Jump to a pricing tool");
+  });
+  it("contains a visible FAQ answer that matches the FAQPage schema", () => {
+    expect(body).toContain("Reconcile two numbers and take the higher one");
+  });
+  it("ships FAQPage + BreadcrumbList JSON-LD", () => {
+    expect(body).toContain('"@type":"FAQPage"');
+    expect(body).toContain('"@type":"BreadcrumbList"');
+  });
+  it("links out to every calculator and the quote tool", () => {
+    for (const href of [
+      "/calculator", "/calculators/driveway", "/calculators/house-washing",
+      "/calculators/roof", "/calculators/deck", "/quote-tool",
+    ]) {
+      expect(body, `pillar page missing link to ${href}`).toContain(`href="${href}"`);
+    }
+  });
+});
+
+// ─── Apex-canonical guard — no www canonicals may reappear ────────────────────
+describe("Canonical host is non-www apex (regression guard)", () => {
+  for (const path of ["/calculators/house-washing", "/calculators/deck", "/pressure-washing-pricing-guide"]) {
+    it(`${path} canonical is https://washcalc.app (no www)`, async () => {
+      const { body } = await get(path);
+      const canon = body.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+      expect(canon, `${path} missing canonical`).toBeTruthy();
+      expect(canon, `${path} canonical must be apex, got ${canon}`).not.toContain("www.");
+      expect(canon).toContain("https://washcalc.app");
+    });
+  }
+});

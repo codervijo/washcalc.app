@@ -5,6 +5,14 @@
 **Verified URLs (live, served as Googlebot):**
 `/`, `/calculator`, `/calculators/{driveway,roof,house-washing,deck}`, `/pressure-washing-pricing-guide`.
 
+> ⚠️ **SUPERSEDED — canonical host is now non-www apex `https://washcalc.app`.**
+> This audit predates the 2026-07-13 host consolidation. At audit time the site
+> was www-canonical, which this document flags as a *problem*. That was fixed by
+> **reversing to non-www apex** (canonicals, sitemap, robots, OG, breadcrumbs) with
+> a live **www → apex 308** redirect — see `docs/growth.md` (2026-07-13) and
+> `docs/prd.md`. Every `www.washcalc.app` reference below describes the old broken
+> state, not current canonical policy. **Do not treat any www URL here as canonical.**
+
 ---
 
 ## Summary (ranked by impact)
@@ -31,7 +39,7 @@ The single highest-leverage move: differentiate the calculator pages with surfac
 - **Stack:** Vite + React (`react@18`, `react-router-dom@6`), built with `vite build` (client) + `vite build --ssr` (server entry), then a custom Node script (`prerender.js`) walks a hard-coded route list, runs `renderToString(<StaticRouter location={url}>)`, and writes per-route `dist/<path>/index.html`. Vercel serves `dist/` as static.
 - **Effective rendering mode: SSG (build-time prerender) with client hydration.** Googlebot sees full HTML for every route in the route table. Confirmed by fetching `/` and `/calculators/house-washing` with `User-Agent: Googlebot/2.1` — both returned 200 with full DOM, H1, body content, breadcrumbs.
 - **No CSR fallback risk for the published routes.** Any path not in `prerender.js`'s route list falls through to `dist/404.html` (Vercel `vercel.json` line 10) with HTTP 404 — confirmed live.
-- **Non-www → www:** apex `https://washcalc.app/` returns HTTP 307 → `https://www.washcalc.app/` (Vercel default). Not 301, but search engines treat 307 similarly enough that this isn't urgent.
+- **Non-www → www:** apex `https://washcalc.app/` returns HTTP 307 → `https://www.washcalc.app/` (Vercel default). Not 301, but search engines treat 307 similarly enough that this isn't urgent. **[RESOLVED 2026-07-13 — direction reversed: `www → apex` 308 is now the live redirect and apex is canonical.]**
 - **Trailing slash:** `/calculators/house-washing/` returns HTTP 308 → `/calculators/house-washing`. Consistent and crawlable.
 - **Short-form alias redirects:** `/house-washing`, `/driveway`, `/roof`, `/deck` all 301 to their `/calculators/*` canonical (per `vercel.json`).
 

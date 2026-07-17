@@ -33,14 +33,20 @@ const FAQS = [
  *  preset = {
  *    surfaceId, title, h1, description, intro, faqs, breadcrumb, lockSurface, surfaceOnly
  *  }
+ *
+ * Optional render slots (node, or a fn receiving { values, setValues, result }):
+ *  heroExtra  — rendered inside the hero, directly under the calculator.
+ *  belowHero  — rendered as its own section under the hero (secondary tools + copy).
  */
-export default function CalculatorPage({ preset }) {
+export default function CalculatorPage({ preset, heroExtra, belowHero }) {
   const initial = preset?.surfaceId
     ? { ...DEFAULT_VALUES, surfaceId: preset.surfaceId, ...(preset.defaults || {}) }
     : DEFAULT_VALUES;
 
   const [values, setValues] = useState(initial);
   const result = useMemo(() => calculateQuote(values), [values]);
+  const slotCtx = { values, setValues, result };
+  const renderSlot = (slot) => (typeof slot === "function" ? slot(slotCtx) : slot);
 
   const title = preset?.title || "Pressure Washing Cost Calculator — WashCalc";
   const desc = preset?.description ||
@@ -89,8 +95,13 @@ export default function CalculatorPage({ preset }) {
               onReset={() => setValues(initial)}
             />
           </div>
+
+          {heroExtra && <div className="wc-hero-extra">{renderSlot(heroExtra)}</div>}
         </div>
       </section>
+
+      {/* Page-specific secondary tools + contractor copy */}
+      {belowHero && renderSlot(belowHero)}
 
       {/* How calculated */}
       <section className="wc-section">

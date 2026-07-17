@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { DRIVEWAY, ROOF, HOUSE_WASHING, DECK } from "./src/pages/variants.js";
+import { DRIVEWAY, ROOF, HOUSE_WASHING, DECK, PRICING_GUIDE_FAQS } from "./src/pages/variants.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -139,6 +139,7 @@ const ROUTES = [
     },
     breadcrumbs: DECK.breadcrumb,
     faqs: DECK.faqs,
+    howTo: DECK.howTo,
   },
   {
     path: "/pressure-washing-pricing-guide",
@@ -149,6 +150,7 @@ const ROUTES = [
       { name: "Home", url: "https://washcalc.app/" },
       { name: "Pressure Washing Pricing Guide", url: "https://washcalc.app/pressure-washing-pricing-guide" },
     ],
+    faqs: PRICING_GUIDE_FAQS,
   },
   {
     path: "/quote-tool",
@@ -238,6 +240,19 @@ function perPageHead(route) {
         "@type": "Question",
         name: it.q,
         acceptedAnswer: { "@type": "Answer", text: it.a },
+      })),
+    }));
+  }
+  if (route.howTo && route.howTo.steps && route.howTo.steps.length) {
+    tags.push(jsonLdBlock({
+      "@type": "HowTo",
+      name: route.howTo.name,
+      description: route.howTo.description,
+      step: route.howTo.steps.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: s.name,
+        text: s.text,
       })),
     }));
   }

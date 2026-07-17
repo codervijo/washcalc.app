@@ -31,8 +31,11 @@ function num(v, fallback = 0) {
  * Calculate a quote.
  * inputs: {
  *   surfaceId, conditionId, area, laborRate, chemicalCost, travelCost,
- *   marginPct, minimumCharge
+ *   marginPct, minimumCharge, materialMultiplier
  * }
+ * materialMultiplier (optional, default 1) scales the rate-based price —
+ * used by the deck material selector (e.g. hardwood/IPE costs more to clean
+ * carefully than composite). Never zeroes the price.
  */
 export function calculateQuote(inputs) {
   const surface = getSurface(inputs.surfaceId);
@@ -44,6 +47,7 @@ export function calculateQuote(inputs) {
   const travelCost   = num(inputs.travelCost, 0);
   const marginPct    = Math.min(95, Math.max(0, num(inputs.marginPct, 40)));
   const minCharge    = num(inputs.minimumCharge, 0);
+  const materialMult = num(inputs.materialMultiplier, 1) || 1;
 
   // Estimated hours: area / sqftPerHour, scaled by condition difficulty
   const baseHours = area > 0 ? area / surface.sqftPerHour : 0;
@@ -55,7 +59,7 @@ export function calculateQuote(inputs) {
   // Two pricing signals:
   // 1) base by surface rate × area × condition multiplier
   // 2) cost-plus margin: cost / (1 - margin)
-  const ratePrice   = area * surface.baseRate * condition.multiplier;
+  const ratePrice   = area * surface.baseRate * condition.multiplier * materialMult;
   const marginDenom = Math.max(0.05, 1 - marginPct / 100);
   const costPlusPrice = totalCost / marginDenom;
 
