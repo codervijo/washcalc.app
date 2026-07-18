@@ -22,7 +22,7 @@ const STOCKS = [
 
 export default function SHDilutionCalculator({ onChemCost }) {
   const [mode, setMode] = useState("batch");
-  const [targetPct, setTargetPct] = useState(2);
+  const [targetPct, setTargetPct] = useState(1.5);
   const [stockPct, setStockPct] = useState(12.5);
   const [tankGal, setTankGal] = useState(50);
   const [surfOzPerGal, setSurfOzPerGal] = useState(2);
@@ -93,7 +93,7 @@ export default function SHDilutionCalculator({ onChemCost }) {
             <label className="wc-label" htmlFor="sh-target">Target SH % at surface</label>
             <input id="sh-target" className="wc-input" type="number" min="0" step="0.5"
               value={targetPct} onChange={(e) => setTargetPct(e.target.value)} />
-            <span className="wc-help">1–2% vinyl, 3–4% heavy mildew.</span>
+            <span className="wc-help">~1–1.5% at the wall for vinyl; up to 3–4% for heavy algae.</span>
           </div>
         ) : (
           <div className="wc-field">

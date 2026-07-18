@@ -10,12 +10,15 @@ function n(v, d = 0) {
   return Number.isFinite(x) && x >= 0 ? x : d;
 }
 
-// Coverage (sq ft per gallon) by product type. TODO(operator): tune to the
-// specific product lines you carry.
+// Coverage (sq ft per gallon) by product type — conservative first-coat values
+// from published semi-transparent/solid ranges (deckstainhelp.com): oil-based
+// 150–250, water-based 150–200, solid 200–250. A second coat covers ~50% more
+// because the wood is already partly saturated. Tune to the product lines you
+// carry (spec sheets vary by brand).
 const PRODUCTS = [
-  { id: "oil", label: "Oil-based", coverage: 250 },
-  { id: "water", label: "Water-based", coverage: 300 },
-  { id: "solid", label: "Solid color", coverage: 200 },
+  { id: "oil", label: "Oil-based", coverage: 200 },
+  { id: "water", label: "Water-based", coverage: 200 },
+  { id: "solid", label: "Solid color", coverage: 225 },
 ];
 
 const RAILING_SQFT_PER_LF = 3.5; // both faces + cap of a standard rail

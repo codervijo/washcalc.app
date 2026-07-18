@@ -67,7 +67,7 @@ export const HOUSE_WASHING = {
     { q: "Soft wash or pressure wash for siding?",
       a: "Soft-wash with a sodium hypochlorite mix is the industry standard for vinyl, stucco and painted surfaces." },
     { q: "What SH mix ratio should I use for house washing?",
-      a: "Most operators apply a 1–2% sodium hypochlorite solution at the surface for vinyl and painted siding, stepping up toward 3–4% for heavy mildew. Because 12.5% SH is the common stock, that means diluting roughly 4:1 to 10:1 with water plus a surfactant at about 1–2 oz per gallon. Use the SH dilution calculator on this page to hit an exact target percentage for your tank or downstream injector." },
+      a: "Aim for about 1–1.5% sodium hypochlorite at the wall for vinyl and painted siding, stepping up toward 3–4% for heavy algae on shaded north walls. Because 12.5% is the common professional stock, a typical downstream injector at roughly 10:1 lands just under 1% at the surface — plenty for most annual maintenance washes — while a measured batch mix lets you dial an exact percentage. Add a surfactant at about 1–2 oz per gallon so the solution clings and dwells. Use the SH dilution calculator on this page to hit an exact target for your tank or injector." },
     { q: "How do I know if a house wash job is actually profitable?",
       a: "Take the quote price and subtract fully-loaded labor (on-site hours plus drive time, times crew size, times your hourly cost), chemical cost, and fuel. The house washing job profitability calculator on this page does this for you and reports gross margin, margin percentage, effective dollars per on-site hour, and your break-even price." },
   ],
@@ -93,9 +93,9 @@ export const DECK = {
     { q: "Can I pressure wash a wood deck?",
       a: "Yes — but use lower pressure (~500–1200 PSI) and a fan tip to avoid splintering. Soft-wash with a brightener is often safer." },
     { q: "What PSI is safe for each decking material?",
-      a: "Pressure-treated pine tolerates roughly 500–1,200 PSI with a 25° tip; cedar and redwood are softer and want 500–1,000 PSI with a 40° tip; dense hardwoods like IPE take 1,000–1,500 PSI; composite is the most forgiving at 1,500–2,500 PSI. The deck material selector on this page sets the safe range and warns you when your chosen PSI exceeds it." },
+      a: "Pressure-treated pine handles roughly 800–1,200 PSI with a 25° tip; cedar and redwood are soft and want only 500–600 PSI with a 40° tip; dense hardwoods like IPE should stay at or under 1,500 PSI; composite is the most forgiving — Trex allows up to 3,100 PSI with a 40° fan tip held at least eight inches off the boards. The deck material selector on this page sets the safe range and warns you when your chosen PSI exceeds it." },
     { q: "How much stain do I need for a deck?",
-      a: "Coverage depends on the product: oil-based stains cover about 200–300 sq ft per gallon, water-based 250–350, and solid-color stains around 200. Add railing linear footage (roughly 3–4 sq ft of surface per linear foot for a standard rail) and multiply by the number of coats. The stain and seal coverage calculator on this page does the math and suggests a marked-up price." },
+      a: "Coverage depends on the product: semi-transparent oil-based stains cover about 150–250 sq ft per gallon, water-based 150–200, and solid-color stains roughly 200–250. Add railing linear footage (about 3–4 sq ft of surface per linear foot for a standard rail) and multiply by the number of coats — though a second coat covers up to 50% more because the wood is already partly saturated. The stain and seal coverage calculator on this page does the math and suggests a marked-up price." },
     { q: "How long should a deck dry before sealing?",
       a: "Plan on 24–48 hours of dry time in warm, low-humidity conditions and up to 72 hours in humid or cool weather before applying stain or sealer. The clean-and-seal timeline on this page adjusts the dry window for your climate so you can schedule the return visit accurately." },
   ],
@@ -119,13 +119,20 @@ export const DECK = {
 // Deck decking materials — recommended PSI range, nozzle, and a rate
 // multiplier applied to the calculator's rate-based price. safePsiMax is the
 // threshold above which the material selector shows a damage warning.
-// TODO(operator): verify PSI ranges and multipliers against your own SOPs.
+//
+// PSI ranges & nozzles are sourced (see below); priceMult values are a pricing
+// MODELING ASSUMPTION, not external data — tune them to your own rate card.
+//   • Softwoods (cedar/redwood) 500–600 PSI; PT pine 800–1,200 PSI; hardwoods
+//     not to exceed ~1,200–1,500 PSI — Decks.com / Pristine Clean / RMFP.
+//   • Composite: max 3,100 PSI with a 40° fan tip held ≥8" — Trex care guide.
+//   • Use a 25° (green) tip on PT pine; a 40° (white) tip on soft/premium wood
+//     and composite; never 0°/15°.
 export const DECK_MATERIALS = [
-  { id: "pt-pine",   label: "Pressure-treated pine", psiMin: 500,  psiMax: 1200, safePsiMax: 1500, nozzle: "25° green tip", priceMult: 1.0,  note: "The default. Durable but can furr/splinter if you sit too close." },
-  { id: "cedar",     label: "Cedar",                 psiMin: 500,  psiMax: 1000, safePsiMax: 1200, nozzle: "40° white tip", priceMult: 1.05, note: "Soft wood — keep pressure low and the tip moving to avoid gouging." },
-  { id: "redwood",   label: "Redwood",               psiMin: 500,  psiMax: 1000, safePsiMax: 1200, nozzle: "40° white tip", priceMult: 1.1,  note: "Soft and premium — brighten rather than blast; damage is costly to fix." },
-  { id: "composite", label: "Composite",             psiMin: 1500, psiMax: 2500, safePsiMax: 3100, nozzle: "40° white tip", priceMult: 0.9,  note: "Most forgiving and fastest to clean; follow the board maker's PSI cap." },
-  { id: "ipe",       label: "Hardwood / IPE",        psiMin: 1000, psiMax: 1500, safePsiMax: 2000, nozzle: "40° white tip", priceMult: 1.2,  note: "Dense tropical hardwood — slow, careful work and oil finishes." },
+  { id: "pt-pine",   label: "Pressure-treated pine", psiMin: 800,  psiMax: 1200, safePsiMax: 1500, nozzle: "25° green tip", priceMult: 1.0,  note: "The default. Handles 800–1,200 PSI but can furr/splinter if you sit too close." },
+  { id: "cedar",     label: "Cedar",                 psiMin: 500,  psiMax: 600,  safePsiMax: 800,  nozzle: "40° white tip", priceMult: 1.05, note: "Soft wood — 500–600 PSI, keep the tip moving to avoid gouging." },
+  { id: "redwood",   label: "Redwood",               psiMin: 500,  psiMax: 600,  safePsiMax: 800,  nozzle: "40° white tip", priceMult: 1.1,  note: "Soft and premium — brighten rather than blast; damage is costly to fix." },
+  { id: "composite", label: "Composite",             psiMin: 1500, psiMax: 2500, safePsiMax: 3100, nozzle: "40° white tip", priceMult: 0.9,  note: "Most forgiving; Trex caps at 3,100 PSI with a 40° tip held ≥8 inches." },
+  { id: "ipe",       label: "Hardwood / IPE",        psiMin: 1000, psiMax: 1500, safePsiMax: 1500, nozzle: "40° white tip", priceMult: 1.2,  note: "Dense tropical hardwood — stay at/under 1,500 PSI; slow, careful work and oil finishes." },
 ];
 
 // FAQPage for the /pressure-washing-pricing-guide pillar page. Rendered
