@@ -1,76 +1,80 @@
-// Regional house-washing pricing table.
+// Regional house-washing pricing benchmarks.
 //
-// TODO(operator): replace the stubbed rows below with VERIFIED figures and
-// per-row sources, then update LAST_UPDATED. Values are intentionally null so
-// the page never ships unverified numbers — nulls render as "—".
+// NOTE ON DATA: verified per-metro median $/sq ft figures for individual cities
+// are NOT published anywhere as comparable data (aggregators report $/linear ft,
+// $/sq ft, and flat ranges via different methods). So this is a CITED national
+// baseline plus documented regional ADJUSTMENT tiers — not invented per-city
+// medians. The $/sq ft tier column is derived (national range × the cited
+// adjustment) and marked with * as illustrative, not a survey figure.
 //
-// Row shape: { metro, medianPerSqFt, oneStory, twoStory, source }
-//   medianPerSqFt — median $/sq ft of siding
-//   oneStory / twoStory — typical whole-job price
-//   source — attribution string for the figure (required for E-E-A-T)
+// Sources (2026):
+//   • National ranges + avg job — HomeGuide, Angi
+//   • Regional +20–50% urban / −10–20% Southeast-rural — Angi, Cajun Soft Wash
+//   • Pacific NW ~+40% (labor + heavy algae) — NJM Roof Cleaners
 
-const LAST_UPDATED = "TODO — pending verified data";
+const LAST_UPDATED = "2026-07-17";
 
-const REGIONAL_PRICING = [
-  { metro: "New York, NY",       medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Los Angeles, CA",    medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Chicago, IL",        medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Houston, TX",        medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Phoenix, AZ",        medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Philadelphia, PA",   medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "San Antonio, TX",    medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "San Diego, CA",      medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Dallas, TX",         medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Austin, TX",         medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Jacksonville, FL",   medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Charlotte, NC",      medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Columbus, OH",       medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Atlanta, GA",        medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Denver, CO",         medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Nashville, TN",      medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Tampa, FL",          medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
-  { metro: "Seattle, WA",        medianPerSqFt: null, oneStory: null, twoStory: null, source: "TODO" },
+const NATIONAL = [
+  { metric: "Soft wash (siding)", range: "$0.25–$0.75 / sq ft", source: "HomeGuide / Angi" },
+  { metric: "Pressure wash", range: "$0.15–$0.50 / sq ft", source: "HomeGuide / Angi" },
+  { metric: "Typical whole-house job", range: "$100–$711 (avg ≈ $311)", source: "Angi" },
 ];
 
-const cell = (v, prefix = "") => (v == null ? "—" : `${prefix}${v}`);
+const TIERS = [
+  { tier: "High-cost urban", metros: "New York, San Francisco, Boston", adj: "+20% to +50%", perSqFt: "≈ $0.30–$1.10", source: "Angi" },
+  { tier: "Pacific NW", metros: "Portland, Seattle (labor + heavy algae)", adj: "≈ +40%", perSqFt: "≈ $0.35–$1.05", source: "NJM Roof Cleaners" },
+  { tier: "Mid-market metros", metros: "Most US metros", adj: "≈ national", perSqFt: "$0.25–$0.75", source: "HomeGuide" },
+  { tier: "Southeast & rural", metros: "Southeast US, rural areas", adj: "−10% to −20%", perSqFt: "≈ $0.20–$0.70", source: "Cajun Soft Wash" },
+];
 
 export default function RegionalPricingTable() {
-  const stubbed = REGIONAL_PRICING.every((r) => r.medianPerSqFt == null);
-
   return (
     <div className="wc-tool" id="regional-pricing">
       <div className="wc-tool-head">
-        <h3 className="wc-tool-title">House washing prices by US metro</h3>
+        <h3 className="wc-tool-title">Regional house washing price benchmarks</h3>
         <p className="wc-tool-sub">
-          Median $/sq ft of siding and typical whole-job prices for one- and two-story homes.
+          Published per-city medians don't exist as comparable data. This is a national baseline
+          plus documented regional adjustments — a sanity check, never your quote.
         </p>
       </div>
 
-      {stubbed && (
-        <p className="wc-copy-todo">
-          [PLACEHOLDER DATA] These rows are stubbed — figures are withheld until verified
-          numbers and sources are supplied. Do not deploy with placeholder values.
-        </p>
-      )}
-
       <div className="wc-table-scroll">
         <table className="wc-qt-table wc-regional-table">
+          <caption className="wc-regional-cap">National baseline (2026)</caption>
+          <thead>
+            <tr><th>Service</th><th>Typical rate</th><th>Source</th></tr>
+          </thead>
+          <tbody>
+            {NATIONAL.map((r) => (
+              <tr key={r.metric}>
+                <td>{r.metric}</td>
+                <td className="wc-qt-rate">{r.range}</td>
+                <td className="wc-regional-src">{r.source}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="wc-table-scroll" style={{ marginTop: 16 }}>
+        <table className="wc-qt-table wc-regional-table">
+          <caption className="wc-regional-cap">Regional adjustment vs national</caption>
           <thead>
             <tr>
-              <th>Metro area</th>
-              <th>Median $/sq ft</th>
-              <th>Typical 1-story</th>
-              <th>Typical 2-story</th>
+              <th>Market tier</th>
+              <th>Example markets</th>
+              <th>Adjustment</th>
+              <th>Soft-wash $/sq ft*</th>
               <th>Source</th>
             </tr>
           </thead>
           <tbody>
-            {REGIONAL_PRICING.map((r) => (
-              <tr key={r.metro}>
-                <td>{r.metro}</td>
-                <td className="wc-qt-rate">{cell(r.medianPerSqFt, "$")}</td>
-                <td className="wc-qt-rate">{cell(r.oneStory, "$")}</td>
-                <td className="wc-qt-rate">{cell(r.twoStory, "$")}</td>
+            {TIERS.map((r) => (
+              <tr key={r.tier}>
+                <td>{r.tier}</td>
+                <td>{r.metros}</td>
+                <td className="wc-qt-rate">{r.adj}</td>
+                <td className="wc-qt-rate">{r.perSqFt}</td>
                 <td className="wc-regional-src">{r.source}</td>
               </tr>
             ))}
@@ -79,8 +83,9 @@ export default function RegionalPricingTable() {
       </div>
 
       <p className="wc-tool-note">
-        Last updated: <strong>{LAST_UPDATED}</strong>. Regional figures are benchmarks, not
-        quotes — always price from your own cost and the specific job's condition and access.
+        *Derived from the national range × the cited regional adjustment — illustrative, not a
+        per-city survey. Last updated: <strong>{LAST_UPDATED}</strong>. Regional figures are
+        benchmarks; always price from your own cost and the specific job's condition and access.
       </p>
     </div>
   );

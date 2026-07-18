@@ -435,8 +435,10 @@ describe("House-washing page — secondary tools in static HTML", () => {
     "House washing job profitability calculator", // tool 2 heading
     "Effective $/hr on site",              // tool 2 output label
     "Break-even price",                    // tool 2 output label
-    "House washing prices by US metro",    // tool 3 heading
-    "Median $/sq ft",                      // tool 3 column
+    "Regional house washing price benchmarks", // tool 3 heading
+    "Soft-wash $/sq ft",                   // tool 3 derived column
+    "High-cost urban",                     // tool 3 regional tier row (ampersand-free)
+    "National baseline",                   // tool 3 baseline table caption
     "Source",                              // tool 3 source column
     "effective dollars per on-site hour",  // new FAQ answer (in static HTML)
   ];

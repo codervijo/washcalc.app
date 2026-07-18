@@ -608,6 +608,7 @@
 .wc-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .wc-regional-table { width: 100%; min-width: 560px; }
 .wc-regional-src { color: var(--wc-text-soft); font-size: 12.5px; }
+.wc-regional-cap { text-align: left; font-weight: 700; font-size: 13px; color: var(--wc-text-soft); padding-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
 
 /* Placeholder marker — deliberately loud so it can't ship by accident */
 .wc-copy-todo {
