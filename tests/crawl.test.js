@@ -537,3 +537,252 @@ describe("Canonical host is non-www apex (regression guard)", () => {
     });
   }
 });
+
+// ─── Phase 1.B — search-demand pages ──────────────────────────────────────────
+//
+// WHY: six new URLs were added to capture validated search demand. These tests
+// prove each one is a real prerendered page — reachable, uniquely titled,
+// self-canonical on the apex, carrying its schema and its cross-links — rather
+// than an SPA shell that only fills in once JavaScript runs.
+
+const PHASE_1B = [
+  {
+    path: "/pressure-washing-estimate-calculator",
+    h1: "Pressure Washing Estimate Calculator",
+    mustContain: [
+      "Build a multi-surface estimate",   // the tool heading
+      "Add another surface",              // the add-line control
+      "Bundle discount",                  // job-level input
+      "Recommended estimate",             // summary row
+      "Set by:",                          // which-signal-won label
+      "Three worked estimates",           // worked examples section
+    ],
+    schema: ['"@type":"SoftwareApplication"', '"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculator", "/pressure-washing-estimate-template", "/pressure-washing-quote-template", "/pressure-washing-pricing-guide"],
+    hasForm: true,
+  },
+  {
+    path: "/roof-cleaning-cost",
+    h1: "Roof Cleaning Cost",
+    mustContain: [
+      "What roof cleaning costs in 2026",
+      "What moves the price",
+      "How contractors price roofs",
+      "DIY versus professional",
+      "Worked examples",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculators/roof", "/house-washing-cost", "/pressure-washing-estimate-calculator"],
+    hasForm: false,
+  },
+  {
+    path: "/driveway-pressure-washing-cost",
+    h1: "Driveway Pressure Washing Cost",
+    mustContain: [
+      "What driveway pressure washing costs in 2026",
+      "Pricing models and why the minimum exists",
+      "A long driveway with oil staining",
+      "DIY versus professional",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculator", "/house-washing-cost", "/roof-cleaning-cost"],
+    hasForm: false,
+  },
+  {
+    path: "/house-washing-cost",
+    h1: "House Washing Cost",
+    mustContain: [
+      "What house washing costs in 2026",
+      "Measuring siding area properly",
+      "Siding material and storey count",
+      "A two-storey home, two-person crew",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculators/house-washing", "/roof-cleaning-cost", "/driveway-pressure-washing-cost"],
+    hasForm: false,
+  },
+  {
+    path: "/pressure-washing-quote-template",
+    h1: "Pressure Washing Quote Template",
+    mustContain: [
+      "SCOPE OF WORK — FIXED PRICE",   // the template body itself, in static HTML
+      "NOT INCLUDED — EXCLUSIONS",
+      "ACCEPTANCE",
+      "Every field explained",
+      "How to write a pressure washing quote",
+      "A filled-in example",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"', '"@type":"HowTo"', '"@type":"HowToStep"'],
+    links: ["/pressure-washing-estimate-template", "/pressure-washing-estimate-calculator", "/quote-tool"],
+    hasForm: true, // <textarea>
+  },
+  {
+    path: "/pressure-washing-estimate-template",
+    h1: "Pressure Washing Estimate Template",
+    mustContain: [
+      "PRELIMINARY ESTIMATE",
+      "ASSUMPTIONS THIS ESTIMATE DEPENDS ON",
+      "WHAT WOULD MOVE THE PRICE",
+      "Setting the range honestly",
+      "Converting it into a quote",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/pressure-washing-quote-template", "/pressure-washing-estimate-calculator", "/house-washing-cost"],
+    hasForm: true, // <textarea>
+  },
+];
+
+describe("Phase 1.B pages — initial HTML (no JS)", () => {
+  let homePage;
+  beforeAll(async () => { homePage = await get("/"); });
+
+  for (const route of PHASE_1B) {
+    describe(route.path, () => {
+      let page;
+      beforeAll(async () => { page = await get(route.path); });
+
+      it("returns HTTP 200", () => {
+        expect(page.status, `${route.path} returned ${page.status} — route missing or not prerendered`).toBe(200);
+      });
+
+      it("body is at least 8 KB — these are thick pages, not stubs", () => {
+        expect(
+          page.body.length,
+          `${route.path} is only ${page.body.length} bytes. Either prerendering regressed or the ` +
+            "page shipped thin. Both are SEO failures."
+        ).toBeGreaterThan(8000);
+      });
+
+      it(`renders its own <h1>: "${route.h1}"`, () => {
+        const h1 = page.body.match(/<h1[^>]*>(.*?)<\/h1>/s)?.[1]?.replace(/<[^>]+>/g, "") ?? "";
+        expect(h1, `${route.path} h1 is "${h1}", expected "${route.h1}"`).toContain(route.h1);
+      });
+
+      it("has a <title> unique from the homepage", () => {
+        const t = extractTitle(page.body);
+        expect(t, `${route.path} is missing a <title>`).toBeTruthy();
+        expect(t, `${route.path} reuses the homepage title`).not.toBe(extractTitle(homePage.body));
+      });
+
+      it("has a meta description unique from the homepage", () => {
+        const d = extractDescription(page.body);
+        expect(d, `${route.path} is missing a meta description`).toBeTruthy();
+        expect(d, `${route.path} reuses the homepage description`).not.toBe(extractDescription(homePage.body));
+      });
+
+      it("is self-canonical on the non-www apex", () => {
+        const canon = page.body.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+        expect(canon, `${route.path} missing canonical`).toBe(`https://washcalc.app${route.path}`);
+      });
+
+      for (const frag of route.mustContain) {
+        it(`contains "${frag}" in prerendered HTML`, () => {
+          expect(page.body, `"${frag}" missing from ${route.path} — content not in static HTML`).toContain(frag);
+        });
+      }
+
+      for (const s of route.schema) {
+        it(`ships ${s} JSON-LD`, () => {
+          expect(page.body, `${route.path} missing ${s}`).toContain(s);
+        });
+      }
+
+      it("does NOT ship schema it cannot support", () => {
+        // Cost guides and the estimate template are not applications and have no
+        // visible step-by-step procedure — declaring either would be false markup.
+        if (!route.schema.includes('"@type":"SoftwareApplication"')) {
+          expect(page.body, `${route.path} declares SoftwareApplication but is not an app`).not.toContain('"@type":"SoftwareApplication"');
+        }
+        if (!route.schema.includes('"@type":"HowTo"')) {
+          expect(page.body, `${route.path} declares HowTo without a visible step sequence`).not.toContain('"@type":"HowTo"');
+        }
+      });
+
+      it("renders a visible FAQ answer that matches its FAQPage schema", () => {
+        const first = page.body.match(/"@type":"FAQPage","mainEntity":\[\{"@type":"Question","name":"([^"]+)"/)?.[1];
+        expect(first, `${route.path} FAQPage schema has no questions`).toBeTruthy();
+        const decoded = first.replace(/&quot;/g, '"').replace(/\\"/g, '"');
+        expect(
+          page.body.replace(/&#x27;|&#39;/g, "'"),
+          `${route.path} first FAQ question is in schema but not visible on the page — Google flags this mismatch`
+        ).toContain(decoded.slice(0, 40));
+      });
+
+      for (const href of route.links) {
+        it(`links to ${href}`, () => {
+          expect(page.body, `${route.path} is missing a crawlable link to ${href}`).toContain(`href="${href}"`);
+        });
+      }
+
+      it(route.hasForm ? "contains interactive tool markup" : "contains no calculator form (it is a guide)", () => {
+        if (route.hasForm) {
+          expect(page.body, `${route.path} should carry an interactive tool`).toMatch(/<input|<select|<textarea/i);
+        } else {
+          expect(page.body, `${route.path} is a cost guide and must not embed a calculator form`).not.toMatch(/wc-calc-grid|wc-eb-lines/);
+        }
+      });
+
+      it("has breadcrumbs in the visible HTML", () => {
+        expect(page.body, `${route.path} missing visible breadcrumb nav`).toContain("wc-breadcrumbs");
+      });
+    });
+  }
+
+  it("every Phase 1.B URL is listed in sitemap.xml", async () => {
+    const sm = await get("/sitemap.xml");
+    for (const route of PHASE_1B) {
+      expect(
+        sm.body,
+        `sitemap.xml is missing ${route.path} — the page will not be submitted to Google`
+      ).toContain(`https://washcalc.app${route.path}</loc>`);
+    }
+  });
+
+  it("all page titles across the site are unique — no cannibalization by title", async () => {
+    const paths = [
+      "/", "/calculator", "/calculators/driveway", "/calculators/roof",
+      "/calculators/house-washing", "/calculators/deck",
+      "/pressure-washing-pricing-guide", "/quote-tool", "/about",
+      ...PHASE_1B.map((r) => r.path),
+    ];
+    const titles = await Promise.all(paths.map(async (p) => [p, extractTitle((await get(p)).body)]));
+    const seen = new Map();
+    for (const [p, t] of titles) {
+      expect(seen.has(t), `Duplicate <title> "${t}" on ${p} and ${seen.get(t)} — two pages targeting one query`).toBe(false);
+      seen.set(t, p);
+    }
+  });
+});
+
+// ─── Indexed-page protection ──────────────────────────────────────────────────
+//
+// WHY: /, /calculators/driveway and /about are `submitted_indexed` in Google
+// Search Console. Phase 1.B was explicitly scoped to add new URLs without
+// touching them. These guards fail if a later change alters their title, H1 or
+// canonical — the three signals that would cost existing rankings.
+
+describe("Indexed pages — protected signals unchanged", () => {
+  const PROTECTED = [
+    { path: "/", title: "Free Pressure Washing Cost Calculator — WashCalc", canonical: "https://washcalc.app/" },
+    { path: "/calculators/driveway", title: "Driveway Cleaning Cost Calculator — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
+    { path: "/about", title: "About WashCalc — Who Built It & How Pricing Works", canonical: "https://washcalc.app/about" },
+  ];
+
+  for (const p of PROTECTED) {
+    it(`${p.path} keeps its indexed <title>`, async () => {
+      const { body } = await get(p.path);
+      const t = extractTitle(body).replace(/&amp;/g, "&");
+      expect(
+        t,
+        `${p.path} is indexed in GSC and its title changed to "${t}". Changing the title of an ` +
+          "indexed page risks its existing rankings and was out of scope for this phase."
+      ).toBe(p.title);
+    });
+
+    it(`${p.path} keeps its canonical`, async () => {
+      const { body } = await get(p.path);
+      const canon = body.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+      expect(canon, `${p.path} canonical changed — indexed URL must stay stable`).toBe(p.canonical);
+    });
+  }
+});

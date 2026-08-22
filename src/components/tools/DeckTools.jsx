@@ -103,6 +103,15 @@ export default function DeckTools() {
               then itemize everything into one estimate with the{" "}
               <Link to="/quote-tool">power washing quote tool</Link>.
             </p>
+            <p>
+              For a multi-surface visit, the{" "}
+              <Link to="/pressure-washing-estimate-calculator">pressure washing estimate
+              calculator</Link> totals every line at once and holds your margin across the whole
+              job. Pricing from photos before you have measured the deck? Send a ranged figure
+              with the{" "}
+              <Link to="/pressure-washing-estimate-template">estimate template</Link> instead of
+              a firm quote.
+            </p>
           </div>
         </article>
       </section>

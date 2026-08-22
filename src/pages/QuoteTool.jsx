@@ -73,6 +73,7 @@ export default function QuoteTool() {
             <li><a href="#bundle">Bundling &amp; upsells that close</a></li>
             <li><a href="#commercial">Commercial vs residential</a></li>
             <li><a href="#mistakes">5 quoting mistakes that kill margin</a></li>
+            <li><a href="#templates">Copy-and-send templates</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ol>
         </nav>
@@ -326,6 +327,34 @@ export default function QuoteTool() {
               <div className="a">{f.a}</div>
             </details>
           ))}
+        </section>
+
+        {/* ============ TEMPLATES ============ */}
+        <section className="wc-qt-section" id="templates">
+          <h2>Copy-and-send templates</h2>
+          <p className="wc-qt-sub">The pricing is half the job. These are the documents it goes into.</p>
+          <p>
+            Once the number is right, it has to reach the customer as something that reads
+            professional. Which document you reach for depends on one thing — whether you have
+            measured the property yourself.
+          </p>
+          <ul className="wc-pillar-links">
+            <li>
+              <Link to="/pressure-washing-quote-template">Pressure washing quote template</Link> —
+              a firm fixed-price document with scope, method per surface, exclusions, terms and an
+              acceptance block. Use it once you have measured.
+            </li>
+            <li>
+              <Link to="/pressure-washing-estimate-template">Pressure washing estimate template</Link> —
+              a ranged, preliminary figure with the assumptions stated. Use it when you are pricing
+              from photos or a phone description.
+            </li>
+            <li>
+              <Link to="/pressure-washing-estimate-calculator">Pressure washing estimate calculator</Link> —
+              builds the multi-surface line prices that go into either document, with the bundle
+              discount and your margin floor applied across the whole visit.
+            </li>
+          </ul>
         </section>
 
         {/* ============ FINAL CTA ============ */}

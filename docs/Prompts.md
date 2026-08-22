@@ -325,3 +325,152 @@
 >    * /calculator/ → 301 to /calculator
 >
 > 6. VERIFY — run extended test:crawl, show curl output. Do not deploy.
+
+## 2026-08-21 (Phase 1.B — SEO page expansion)
+
+Reusable prompt for a WashCalc search-demand expansion phase. The version
+below is the **final** form — it folds in the corrections made during the
+2026-08-21 run, which are listed after it. Supply a fresh target list and
+re-run.
+
+> Expand **washcalc.app** with SEO pages based on validated Ahrefs demand.
+>
+> Build or upgrade these targets:
+> 1. pressure washing estimate calculator
+> 2. pressure washing cost calculator
+> 3. pressure washing calculator
+> 4. roof cleaning cost
+> 5. driveway pressure washing cost
+> 6. house washing cost
+> 7. pressure washing quote template
+> 8. pressure washing estimate template
+>
+> ## Indexed-page protection — read this first
+>
+> Before changing anything, establish which URLs are actually indexed. The
+> authoritative source is the portfolio GSC cache, NOT assumption:
+> `~/work/projects/sites/portfolio/data/gsc/washcalc.app/<latest>.json` —
+> read the `coverage[]` array and treat only `submitted_indexed` as indexed.
+> Report the list before you edit.
+>
+> Do not modify any indexed page's URL, title, H1, canonical, primary
+> content, structured data, or internal-link structure. Prefer new URLs only.
+> You may link freely FROM non-indexed and new pages TO anything. If a link
+> from an indexed page seems necessary, stop and report the proposed change
+> instead of making it.
+>
+> Note the trap: shared components (`Header`, `Footer`, `Layout`,
+> `RelatedTools`, and the default body of `CalculatorPage`) render on indexed
+> pages. Editing any of them silently edits every indexed page. Route-scoped
+> render slots (`belowHero`, `heroExtra`) are the mechanism for adding content
+> to one route without touching its siblings.
+>
+> ## Before coding
+>
+> Audit routes, `prerender.js`, sitemap generation, components and existing
+> pages. If an existing page already targets one of the queries, improve that
+> page rather than creating a competing URL — and say which queries you
+> deliberately folded in rather than building.
+>
+> Update `docs/prd.md` BEFORE implementation with: phase goals, the target
+> query → page map, SEO rationale (including why each near-duplicate target
+> does or does not get its own URL), routing decisions, content strategy,
+> internal-linking strategy, and indexed-page protection. Follow the heading
+> hygiene ritual in `docs/CLAUDE.md` — print the existing heading outline and
+> confirm depth and label before writing.
+>
+> ## Content quality
+>
+> Thick, genuinely useful pages: roughly 800–1,500 words where appropriate,
+> no filler, intent fully satisfied. Every calculator must actually work.
+> Realistic inputs, stated formulas, labelled assumptions, worked examples,
+> and guidance on interpreting the result. Tables and ranges where they earn
+> their place. FAQs covering adjacent intent. Title, H1, intro, examples,
+> FAQs and body copy meaningfully unique per page — no paragraph reused
+> across pages. Do not invent statistics: every number is either cited to a
+> source inline, computed by the pricing engine from stated inputs, or a
+> clearly labelled modelling assumption.
+>
+> Calculator pages: useful defaults, editable inputs, methodology, output
+> breakdown, profit implications, multiple worked examples, real quoting
+> guidance, links to related calculators, quote tool and pricing guide.
+> Cost guides: price factors, pricing methods, example calculations,
+> defensible ranges only, contractor perspective, DIY-vs-professional, and a
+> prominent CTA into the matching calculator. Template pages: an immediately
+> usable copyable/editable template, a filled-out example, every field
+> explained, and the contractor workflow around it.
+>
+> ## Technical SEO
+>
+> Reuse existing WashCalc components and CSS. Breadcrumbs on every page.
+> Crawlable `<a href>` internal links present in the PRERENDERED HTML — every
+> new page reachable from existing relevant pages. Unique title, meta
+> description, canonical (non-www apex) and H1 per page. Register each route
+> in `App.jsx` AND `prerender.js` (the sitemap is generated from the
+> prerender route table). No city/location pSEO pages.
+>
+> Schema only where accurate: FAQPage and BreadcrumbList everywhere;
+> SoftwareApplication only on pages that ARE applications; HowTo only where
+> the page visibly renders that step sequence. FAQ answers must be sourced
+> from the same module the JSON-LD is built from so schema and visible text
+> cannot drift.
+>
+> ## Validation
+>
+> Build inside the `sites1` container — host `make build` short-circuits and
+> `pnpm build` on the host bypasses the workspace contract:
+> `docker exec $(docker ps --filter ancestor=sites1 --format '{{.Names}}' | head -1) sh -c 'cd /usr/src/app/washcalc.app && pnpm test:crawl'`
+>
+> Extend `tests/crawl.test.js` to cover every new route: 200, minimum body
+> size, own H1, unique title and description, self-canonical on apex,
+> required content fragments in static HTML, required schema present, schema
+> it must NOT declare absent, visible-FAQ-matches-schema, required outbound
+> links, and sitemap membership. Add a site-wide unique-title assertion as a
+> cannibalization guard, and title/canonical regression guards for the
+> indexed pages.
+>
+> Prove the indexed pages are untouched rather than asserting it: build the
+> pre-change tree in a git worktree at HEAD and diff the prerendered HTML,
+> normalising the hashed asset filenames. Then remove the worktree — its
+> `dist/` is root-owned by the container, so delete it from inside the
+> container.
+>
+> ## Documentation, only after the build and tests pass
+>
+> Update `docs/Prompts.md` with the final prompt including any corrections
+> made during the work, so the next phase can reuse it. Tick the PRD
+> deliverables.
+>
+> Report: new URLs, upgraded URLs, pages deliberately not created because of
+> cannibalization, build/test results, docs updated, and a diff summary
+> showing indexed pages untouched.
+
+### Corrections folded in during this run
+
+These were discovered while executing an earlier version of the prompt and
+are now baked into the text above:
+
+1. **GSC coverage is the source of truth for "indexed", not the sitemap.**
+   The initial assumption that all live routes were indexed was wrong — only
+   3 of 9 were `submitted_indexed` (`/`, `/calculators/driveway`, `/about`).
+   Two were `url_is_unknown_to_google` and two `discovered_not_indexed`,
+   which made `/calculator` freely upgradeable and made link-equity routing
+   into the un-crawled pages a phase goal rather than a nice-to-have.
+2. **Shared components are the indexed-page trap.** Adding the new pages to
+   `Footer` or `RelatedTools` would have modified all three indexed pages.
+   The fix — route-scoped `belowHero` slots — is now stated explicitly.
+3. **Ahrefs may be out of API units.** The run hit
+   `API units limit reached … units left: 0`, so no volume or KD figure could
+   be verified. Record targets without metrics rather than inventing them,
+   and say so in the PRD.
+4. **`laborRate` in the pricing engine is a COST, not a billing rate.** The
+   shipped default of $75/hr is a billing rate, which makes the cost-plus
+   floor dominate and pushes recommended prices well above the cited market
+   ranges on the same page. New tooling should default to a fully-loaded cost
+   (~$35/crew-hour) and say so in the field label. **Still open:** the
+   `DEFAULT_VALUES.laborRate = 75` in `CalculatorPage.jsx` is shared with the
+   indexed `/calculators/driveway` route, so it was left untouched and needs
+   an operator decision.
+5. **Worked-example numbers must come from the engine, not from prose.**
+   Every figure quoted on a page was computed by running `calculateQuote`
+   first, so a reader entering the stated inputs reproduces them exactly.

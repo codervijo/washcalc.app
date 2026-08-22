@@ -115,6 +115,15 @@ export default function HouseWashingTools() {
               Ready to send it? Build the itemized estimate with the{" "}
               <Link to="/quote-tool">power washing quote tool</Link>.
             </p>
+            <p>
+              Researching what the job should cost rather than pricing one? The{" "}
+              <Link to="/house-washing-cost">house washing cost guide</Link> covers measuring
+              siding area properly, what a second storey adds, and how material changes the
+              method. For a visit covering siding plus flatwork, total it in one pass with the{" "}
+              <Link to="/pressure-washing-estimate-calculator">pressure washing estimate
+              calculator</Link>, then send it on the{" "}
+              <Link to="/pressure-washing-quote-template">quote template</Link>.
+            </p>
           </div>
         </article>
       </section>

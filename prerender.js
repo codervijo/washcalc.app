@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { DRIVEWAY, ROOF, HOUSE_WASHING, DECK, PRICING_GUIDE_FAQS } from "./src/pages/variants.js";
+import { SEO_PAGES, ESTIMATE_CALCULATOR } from "./src/pages/seoPages.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -187,6 +188,34 @@ const ROUTES = [
       { name: "About", url: "https://washcalc.app/about" },
     ],
   },
+  // ── Phase 1.B — search-demand pages ────────────────────────────────
+  // Built from src/pages/seoPages.js so the visible FAQ text on each page
+  // and the FAQPage JSON-LD emitted here come from one source and cannot
+  // drift apart. Only the estimate calculator declares SoftwareApplication
+  // (it is the only one of the six that IS an application); the cost guides
+  // and template pages carry FAQPage + BreadcrumbList only, and the quote
+  // template adds HowTo because it renders those steps visibly.
+  ...SEO_PAGES.map((pg) => ({
+    path: pg.path,
+    title: pg.title,
+    description: pg.description,
+    canonical: pg.canonical,
+    breadcrumbs: pg.breadcrumbs,
+    faqs: pg.faqs,
+    ...(pg === ESTIMATE_CALCULATOR
+      ? {
+          schema: {
+            "@type": "SoftwareApplication",
+            name: pg.h1,
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "All",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          },
+        }
+      : {}),
+    ...(pg.howTo ? { howTo: pg.howTo } : {}),
+  })),
+
   // 404 page — output to dist/404.html, noindex
   {
     path: "/404-page",

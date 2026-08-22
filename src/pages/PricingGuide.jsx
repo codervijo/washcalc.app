@@ -44,6 +44,18 @@ export default function PricingGuide() {
               <li><Link to="/calculators/roof">Roof calculator</Link> — soft-wash pricing with chemical defaults.</li>
               <li><Link to="/calculators/deck">Deck calculator</Link> — material selector, stain/seal &amp; clean-and-seal timeline.</li>
               <li><Link to="/quote-tool">Power washing quote tool</Link> — itemize a professional estimate to send.</li>
+              <li><Link to="/pressure-washing-estimate-calculator">Estimate calculator</Link> — multi-surface jobs totalled as one visit.</li>
+            </ul>
+            <h2 style={{ fontSize: 18, margin: "18px 0 4px" }}>Cost guides &amp; documents</h2>
+            <p style={{ color: "var(--wc-text-muted)", fontSize: 14.5, margin: "0 0 14px" }}>
+              Researching a price, or writing the document that carries it.
+            </p>
+            <ul className="wc-pillar-links">
+              <li><Link to="/driveway-pressure-washing-cost">Driveway pressure washing cost</Link> — rates, oil staining, minimum charges.</li>
+              <li><Link to="/house-washing-cost">House washing cost</Link> — measuring siding, storey count, material.</li>
+              <li><Link to="/roof-cleaning-cost">Roof cleaning cost</Link> — pitch, access, and the DIY line.</li>
+              <li><Link to="/pressure-washing-quote-template">Quote template</Link> — firm fixed-price document, ready to copy.</li>
+              <li><Link to="/pressure-washing-estimate-template">Estimate template</Link> — ranged version for pricing from photos.</li>
             </ul>
           </nav>
 
@@ -158,7 +170,21 @@ export default function PricingGuide() {
             <li>
               <a href="/quote-tool">Power washing quote tool</a> — turn the number into an itemized, professional estimate you can send the same day.
             </li>
+            <li>
+              <a href="/pressure-washing-estimate-calculator">Pressure washing estimate calculator</a> — for a visit covering several surfaces, priced and totalled as one job.
+            </li>
           </ul>
+          <p>
+            If you are researching what a job should cost rather than pricing one you have already
+            walked, the cost guides go deeper on a single surface than this page can:{" "}
+            <a href="/driveway-pressure-washing-cost">driveway pressure washing cost</a>,{" "}
+            <a href="/house-washing-cost">house washing cost</a> and{" "}
+            <a href="/roof-cleaning-cost">roof cleaning cost</a> each cover the factors, the
+            pricing models and the DIY comparison in full. When it is time to put the number in
+            front of a customer, the{" "}
+            <a href="/pressure-washing-quote-template">quote template</a> and the{" "}
+            <a href="/pressure-washing-estimate-template">estimate template</a> are ready to copy.
+          </p>
           <p style={{ marginTop: 24 }}>
             Quote faster, protect margin, and stop leaving money on the table. The calculators do the math — your job is to send the number.
           </p>
