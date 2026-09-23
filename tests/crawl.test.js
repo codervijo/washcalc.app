@@ -50,8 +50,8 @@ const SURFACE_ROUTES = [
   {
     path: "/calculator",
     label: "All-surface calculator",
-    titleFragment: "Pressure Washing Cost Calculator",
-    bodyFragment: "Pressure Washing Cost Calculator",
+    titleFragment: "All-Surface Pressure Washing Calculator",
+    bodyFragment: "All-Surface Pressure Washing Calculator",
   },
   {
     path: "/calculators/driveway",
@@ -296,6 +296,86 @@ describe("sitemap.xml", () => {
         page.body,
         `sitemap.xml is missing a <loc> entry for ${r} — this route will not be submitted to Google`
       ).toContain(`washcalc.app${r === "/" ? "/" : r}`);
+    });
+  }
+});
+
+// ─── Phase 1.C — sitemap lastmod + non-indexed page upgrades ─────────────────
+//
+// WHY: stamping every URL with the build date teaches Google to ignore
+// lastmod. Each route now carries its last content-change date instead.
+// /calculators/roof and /calculator were "Discovered – not indexed" in GSC
+// (2026-09-21); these guards keep the Phase 1.C content in the static HTML.
+
+describe("Phase 1.C — sitemap lastmod is per-route, not build date", () => {
+  let body;
+  beforeAll(async () => {
+    body = (await get("/sitemap.xml")).body;
+  });
+
+  it("every <url> has a YYYY-MM-DD lastmod", () => {
+    const urls = body.match(/<url>[\s\S]*?<\/url>/g) || [];
+    expect(urls.length).toBeGreaterThan(0);
+    for (const u of urls) {
+      expect(u, `sitemap entry missing a valid lastmod:\n${u}`).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+    }
+  });
+
+  it("lastmod dates are not all identical (not a build-date stamp)", () => {
+    const dates = new Set([...body.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]));
+    expect(dates.size, "every URL shares one lastmod — looks like a build-date stamp again").toBeGreaterThan(1);
+  });
+});
+
+describe("Phase 1.C — /calculators/roof tool page", () => {
+  let body;
+  beforeAll(async () => {
+    body = (await get("/calculators/roof")).body;
+  });
+
+  const FRAGMENTS = [
+    'id="roof-pitch"',
+    "Roof area from pitch",
+    "Pricing a roof from the ground",
+    "Same footprint, three pitches",
+    "1926.500(b)",
+    "https://www.asphaltroofing.org/algae-discoloration-of-roofs/",
+    "What roof pitch counts as a steep roof?",
+  ];
+  for (const f of FRAGMENTS) {
+    it(`static HTML contains "${f}"`, () => {
+      expect(body, `/calculators/roof lost "${f}" from its prerendered HTML`).toContain(f);
+    });
+  }
+
+  it("links to the roof cleaning cost guide", () => {
+    expect(body).toContain('href="/roof-cleaning-cost"');
+  });
+
+  it("FAQPage schema carries the new roof questions", () => {
+    const ld = [...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+      .map((m) => JSON.parse(m[1]))
+      .find((o) => o["@type"] === "FAQPage");
+    const names = (ld?.mainEntity || []).map((q) => q.name);
+    expect(names).toContain("How do I measure a roof for cleaning without getting on it?");
+    expect(names).toContain("Can you pressure wash an asphalt shingle roof?");
+  });
+});
+
+describe("Phase 1.C — /calculator is the all-surface hub", () => {
+  let body;
+  beforeAll(async () => {
+    body = (await get("/calculator")).body;
+  });
+
+  it("H1 is the all-surface calculator, distinct from the homepage", () => {
+    expect(body).toMatch(/<h1[^>]*>All-Surface Pressure Washing Calculator<\/h1>/);
+  });
+
+  for (const href of ["/calculators/driveway", "/calculators/house-washing", "/calculators/roof", "/calculators/deck"]) {
+    it(`surface hub links ${href}`, () => {
+      expect(body).toContain(`href="${href}"`);
+      expect(body).toContain('id="by-surface"');
     });
   }
 });
@@ -766,6 +846,10 @@ describe("Indexed pages — protected signals unchanged", () => {
     { path: "/", title: "Free Pressure Washing Cost Calculator — WashCalc", canonical: "https://washcalc.app/" },
     { path: "/calculators/driveway", title: "Driveway Cleaning Cost Calculator — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
     { path: "/about", title: "About WashCalc — Who Built It & How Pricing Works", canonical: "https://washcalc.app/about" },
+    // Indexed per GSC URL inspection 2026-09-21 (Phase 1.C).
+    { path: "/pressure-washing-pricing-guide", title: "Pressure Washing Pricing Guide (2026) — WashCalc", canonical: "https://washcalc.app/pressure-washing-pricing-guide" },
+    { path: "/pressure-washing-estimate-calculator", title: "Pressure Washing Estimate Calculator — Multi-Surface Job Totals | WashCalc", canonical: "https://washcalc.app/pressure-washing-estimate-calculator" },
+    { path: "/driveway-pressure-washing-cost", title: "Driveway Pressure Washing Cost (2026) — Rates, Factors & Examples | WashCalc", canonical: "https://washcalc.app/driveway-pressure-washing-cost" },
   ];
 
   for (const p of PROTECTED) {

@@ -54,6 +54,7 @@ const ROUTES = [
     title: "Free Pressure Washing Cost Calculator — WashCalc",
     description: "Free pressure washing cost calculator for contractors. Estimate job price, labor and chemical cost, and send a quote that protects your profit.",
     canonical: "https://washcalc.app/",
+    lastmod: "2026-07-15",
     schema: {
       "@type": "WebApplication",
       name: "WashCalc",
@@ -65,12 +66,13 @@ const ROUTES = [
   },
   {
     path: "/calculator",
-    title: "Pressure Washing Cost Calculator — WashCalc",
-    description: "Free pressure washing cost calculator. Estimate job price, labor time, cost and profit for driveways, roofs, house washing, decks and more.",
+    title: "All-Surface Pressure Washing Calculator — WashCalc",
+    description: "One pressure washing calculator for every surface — driveways, siding, roofs, decks, patios and fences. See the full rate card, labor hours and margin math.",
     canonical: "https://washcalc.app/calculator",
+    lastmod: "2026-09-22",
     schema: {
       "@type": "SoftwareApplication",
-      name: "Pressure Washing Cost Calculator",
+      name: "All-Surface Pressure Washing Calculator",
       applicationCategory: "BusinessApplication",
       operatingSystem: "All",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -86,6 +88,7 @@ const ROUTES = [
     title: DRIVEWAY.title,
     description: DRIVEWAY.description,
     canonical: DRIVEWAY.canonical,
+    lastmod: "2026-07-17",
     schema: {
       "@type": "SoftwareApplication",
       name: DRIVEWAY.h1,
@@ -101,6 +104,7 @@ const ROUTES = [
     title: ROOF.title,
     description: ROOF.description,
     canonical: ROOF.canonical,
+    lastmod: "2026-09-22",
     schema: {
       "@type": "SoftwareApplication",
       name: ROOF.h1,
@@ -116,6 +120,7 @@ const ROUTES = [
     title: HOUSE_WASHING.title,
     description: HOUSE_WASHING.description,
     canonical: HOUSE_WASHING.canonical,
+    lastmod: "2026-08-21",
     schema: {
       "@type": "SoftwareApplication",
       name: HOUSE_WASHING.h1,
@@ -131,6 +136,7 @@ const ROUTES = [
     title: DECK.title,
     description: DECK.description,
     canonical: DECK.canonical,
+    lastmod: "2026-08-21",
     schema: {
       "@type": "SoftwareApplication",
       name: DECK.h1,
@@ -147,6 +153,7 @@ const ROUTES = [
     title: "Pressure Washing Pricing Guide (2026) — WashCalc",
     description: "How to price pressure washing jobs in 2026. Average cost per square foot, pricing by surface (deck, roof, driveway), labor and chemical costs, plus common mistakes to avoid.",
     canonical: "https://washcalc.app/pressure-washing-pricing-guide",
+    lastmod: "2026-08-21",
     breadcrumbs: [
       { name: "Home", url: "https://washcalc.app/" },
       { name: "Pressure Washing Pricing Guide", url: "https://washcalc.app/pressure-washing-pricing-guide" },
@@ -158,6 +165,7 @@ const ROUTES = [
     title: "Power Washing Quote Tool — Build Profitable Estimates Fast | WashCalc",
     description: "A free power washing quote tool built for contractors. Price any job with the per-square-foot formula, itemize a professional estimate, and protect your margin on every quote.",
     canonical: "https://washcalc.app/quote-tool",
+    lastmod: "2026-08-21",
     ogImage: "https://washcalc.app/og/quote-tool.png",
     schema: {
       "@type": "SoftwareApplication",
@@ -177,6 +185,7 @@ const ROUTES = [
     title: "About WashCalc — Who Built It & How Pricing Works",
     description: "Who built WashCalc and why: the pricing pain pressure washing contractors face, the two-signal methodology behind every quote, and how to reach us.",
     canonical: "https://washcalc.app/about",
+    lastmod: "2026-07-13",
     schema: {
       "@type": "AboutPage",
       name: "About WashCalc",
@@ -200,6 +209,7 @@ const ROUTES = [
     title: pg.title,
     description: pg.description,
     canonical: pg.canonical,
+    lastmod: pg.lastmod || "2026-08-21",
     breadcrumbs: pg.breadcrumbs,
     faqs: pg.faqs,
     ...(pg === ESTIMATE_CALCULATOR
@@ -335,15 +345,17 @@ async function prerender() {
   }
 
   // Generate sitemap.xml from the indexable routes (everything with a
-  // canonical and no noindex). lastmod = today (UTC, YYYY-MM-DD) so each
-  // build re-signals freshness to Google.
-  const today = new Date().toISOString().slice(0, 10);
+  // canonical and no noindex). lastmod is each route's last CONTENT change,
+  // set by hand in ROUTES above — not the build date. Google only trusts
+  // lastmod when it is consistently accurate; stamping every URL with
+  // today's date on every build teaches it to ignore the field. Bump a
+  // route's lastmod in the same change that alters what it renders.
   const sitemapUrls = ROUTES
     .filter((r) => r.canonical && !r.noindex)
     .map((r) => (
       `  <url>\n` +
       `    <loc>${r.canonical}</loc>\n` +
-      `    <lastmod>${today}</lastmod>\n` +
+      (r.lastmod ? `    <lastmod>${r.lastmod}</lastmod>\n` : "") +
       `    <changefreq>monthly</changefreq>\n` +
       `  </url>`
     ))
@@ -354,7 +366,7 @@ async function prerender() {
     `${sitemapUrls}\n` +
     `</urlset>\n`;
   fs.writeFileSync(path.resolve(__dirname, "dist/sitemap.xml"), sitemapXml);
-  console.log(`  wrote sitemap.xml (${ROUTES.filter((r) => r.canonical && !r.noindex).length} urls, lastmod ${today})`);
+  console.log(`  wrote sitemap.xml (${ROUTES.filter((r) => r.canonical && !r.noindex).length} urls)`);
 
   // clean up server bundle
   fs.rmSync(path.resolve(__dirname, "dist-server"), { recursive: true, force: true });

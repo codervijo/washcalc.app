@@ -13,6 +13,39 @@ import { SURFACES, CONDITIONS } from "../PricingEngine.js";
 export default function CalculatorDepth() {
   return (
     <>
+      {/* ── Surface hub ─────────────────────────────────────────────── */}
+      <section className="wc-section-tight" id="by-surface">
+        <div className="wc-container-narrow">
+          <h2 className="wc-section-title">When to use a surface calculator instead</h2>
+          <p className="wc-section-sub">
+            This page prices any of the six surfaces on one form. Four of them also have a
+            dedicated calculator with tools built for that surface.
+          </p>
+          <ul className="wc-pillar-links">
+            <li>
+              <Link to="/calculators/driveway">Driveway cleaning cost calculator</Link> — concrete
+              and asphalt flatwork, locked to the driveway rate.
+            </li>
+            <li>
+              <Link to="/calculators/house-washing">House washing cost calculator</Link> — adds an
+              SH dilution mixer and a job profitability check for soft-washing siding.
+            </li>
+            <li>
+              <Link to="/calculators/roof">Roof cleaning cost calculator</Link> — adds a pitch
+              tool that turns a footprint into true roof area before you price it.
+            </li>
+            <li>
+              <Link to="/calculators/deck">Deck cleaning cost calculator</Link> — adds safe PSI by
+              decking material, stain coverage and a clean-and-seal timeline.
+            </li>
+          </ul>
+          <p>
+            Patios and fences are priced here only. Choose the surface on the form above; the
+            rate card below shows the defaults each one uses.
+          </p>
+        </div>
+      </section>
+
       {/* ── Rate card ───────────────────────────────────────────────── */}
       <section className="wc-section" id="rate-card">
         <div className="wc-container-narrow">

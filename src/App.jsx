@@ -3,19 +3,19 @@ import Landing from "./pages/Landing.jsx";
 import CalculatorPage from "./pages/CalculatorPage.jsx";
 import HouseWashingPage from "./pages/HouseWashingPage.jsx";
 import DeckPage from "./pages/DeckPage.jsx";
+import RoofPage from "./pages/RoofPage.jsx";
 import PricingGuide from "./pages/PricingGuide.jsx";
 import QuoteTool from "./pages/QuoteTool.jsx";
 import About from "./pages/About.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import CalculatorDepth from "./components/CalculatorDepth.jsx";
-import RoofCostLinks from "./components/RoofCostLinks.jsx";
 import EstimateCalculator from "./pages/EstimateCalculator.jsx";
 import RoofCleaningCost from "./pages/RoofCleaningCost.jsx";
 import DrivewayPressureWashingCost from "./pages/DrivewayPressureWashingCost.jsx";
 import HouseWashingCost from "./pages/HouseWashingCost.jsx";
 import QuoteTemplate from "./pages/QuoteTemplate.jsx";
 import EstimateTemplate from "./pages/EstimateTemplate.jsx";
-import { DRIVEWAY, ROOF } from "./pages/variants.js";
+import { DRIVEWAY } from "./pages/variants.js";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
           of which (/calculators/driveway) is indexed — render unchanged. */}
       <Route path="/calculator" element={<CalculatorPage belowHero={<CalculatorDepth />} />} />
       <Route path="/calculators/driveway" element={<CalculatorPage preset={DRIVEWAY} />} />
-      <Route path="/calculators/roof" element={<CalculatorPage preset={ROOF} belowHero={<RoofCostLinks />} />} />
+      <Route path="/calculators/roof" element={<RoofPage />} />
       <Route path="/calculators/house-washing" element={<HouseWashingPage />} />
       <Route path="/calculators/deck" element={<DeckPage />} />
 

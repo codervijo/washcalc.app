@@ -217,6 +217,57 @@ default to ~$35 and accept a content change on an indexed page, or (c) rename
 the field to "labor cost / hour" everywhere, which is also an indexed-page
 content change.
 
+## Phase 1.C — Index the non-indexed pages
+
+Status: **built 2026-09-22, not committed/deployed** — GSC re-crawl requests are the operator step after deploy.
+
+### Diagnosis (GSC URL inspection, 2026-09-21)
+
+Every non-indexed URL is already linked from all three indexed pages
+(checked live 2026-09-22), so link starvation is **not** the cause.
+
+| URL | GSC state | Diagnosis |
+|---|---|---|
+| `/calculators/house-washing` | Page with redirect (last crawl 2026-04-30) | Stale: live URL returns 200. Pre-apex-switch crawl. Needs a re-crawl request, no code. |
+| `/calculators/deck` | Discovered – not indexed | ~1,800 words, never crawled. Crawl priority. |
+| `/calculators/roof` | Discovered – not indexed | Thin (~470 words, stock template) and overlapped by the 2,300-word `/roof-cleaning-cost`. |
+| `/calculator` | Discovered – not indexed | Same title phrase + same tool as the homepage ("Pressure Washing Cost Calculator"); likely treated as a duplicate of `/`. |
+
+### Decisions
+
+- `/calculator` is **differentiated, not canonicalized to `/`**: repositioned
+  as the *all-surface* calculator hub (matching the homepage's existing
+  "all-surface pressure washing calculator" anchor text and the variant
+  pages' "Calculators" breadcrumb). New title/H1; the homepage keeps
+  "cost calculator".
+- `/calculators/roof` gets the house-washing/deck treatment: roof-specific
+  tools + contractor copy via route-scoped slots (`heroExtra`/`belowHero`).
+- Sitemap `lastmod` stops being "build date for every URL" (which Google
+  learns to ignore) and becomes a per-route last-content-change date.
+
+### Deliverables
+
+- [x] Sitemap: per-route `lastmod` = last content change, not build date
+- [x] `/calculators/roof`: roof area-from-pitch tool (geometry; feeds the
+      calculator), OSHA low-slope/steep classification, ARMA-sourced soft-wash
+      guidance, roof contractor copy, expanded FAQ
+- [x] `/calculator`: retitle + new H1 as the all-surface calculator; surface
+      hub block linking every surface calculator
+- [x] Crawl tests updated; indexed pages (`/`, `/calculators/driveway`,
+      `/about`, and now `/pressure-washing-pricing-guide`,
+      `/pressure-washing-estimate-calculator`, `/driveway-pressure-washing-cost`)
+      verified byte-identical against a HEAD build — 248 tests passing (was 226)
+- [ ] Operator (manual, GSC): Request indexing for house-washing, deck, roof,
+      `/calculator` after deploy
+
+### Sources used
+
+- ARMA, *Algae Discoloration of Roofs* technical bulletin — 1:1 household
+  bleach : water, 15–20 min dwell, gentle rinse, no power washer / brush.
+  https://www.asphaltroofing.org/algae-discoloration-of-roofs/
+- OSHA 29 CFR 1926.500(b) — low-slope ≤ 4 in 12, steep > 4 in 12.
+  https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.500
+
 ## Phase 2 — Growth
 - [ ] Saved quotes (local storage or account)
 - [ ] PDF quote export

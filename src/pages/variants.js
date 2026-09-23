@@ -44,6 +44,12 @@ export const ROOF = {
       a: "Soft-wash roof cleaning usually runs $0.40–$0.60 per square foot, or roughly $400–$900 for an average residential roof." },
     { q: "Why is roof cleaning more expensive?",
       a: "Heights, safety equipment, sodium hypochlorite mix and slower production rates make roofs the highest $/sq ft surface." },
+    { q: "How do I measure a roof for cleaning without getting on it?",
+      a: "Measure the footprint from the ground — length times width of the roof outline, eaves included — then multiply by the pitch factor, the square root of rise squared plus 144, divided by 12. A 6/12 roof is about 12% larger than its footprint and a 10/12 about 30% larger. The roof area from pitch tool on this page does the math and puts the result into the calculator." },
+    { q: "What roof pitch counts as a steep roof?",
+      a: "OSHA 29 CFR 1926.500(b) defines a low-slope roof as 4 in 12 or less and a steep roof as anything steeper than 4 in 12. Steep work brings fall-protection requirements, which is time and equipment that should be priced into the job rather than absorbed." },
+    { q: "Can you pressure wash an asphalt shingle roof?",
+      a: "The Asphalt Roofing Manufacturers Association says not to use a power washer, brush or broom on asphalt shingles, because they can damage the roofing and loosen granules. Its algae bulletin gives a typical solution of one part household chlorine bleach to one part water, left on for 15 to 20 minutes and rinsed off gently — while noting that shingle makers' own directions vary." },
   ],
 };
 
