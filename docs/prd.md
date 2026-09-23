@@ -20,11 +20,11 @@
 - [x] Automated crawl test suite (`pnpm test:crawl`) — 49 tests, no JS execution
 - [x] GitHub Actions CI (`crawl-test.yml`) — runs on PR and push to main
 - [x] Force redirect **www → apex** (308 via `vercel.json`; live-verified 2026-07-13)
-- [ ] Submit sitemap in Google Search Console + request indexing
+- [x] Submit sitemap in Google Search Console (`https://washcalc.app/sitemap.xml` submitted 2026-07-14, 0 errors — per portfolio GSC snapshot). Per-URL "Request indexing" is tracked per phase (see Phase 1.C).
 
 ## Phase 1.B — SEO page expansion (search-demand targets)
 
-Status: **in progress** — planned 2026-08-21, before implementation.
+Status: **shipped** — deployed 2026-08-21 (`102fbda`). Early results in `docs/growth.md` (2026-08-21 entry); full review 2026-10-19.
 
 ### Goals
 
@@ -219,7 +219,7 @@ content change.
 
 ## Phase 1.C — Index the non-indexed pages
 
-Status: **built 2026-09-22, not committed/deployed** — GSC re-crawl requests are the operator step after deploy.
+Status: **shipped** — deployed 2026-09-22. Remaining step is the operator's manual GSC "Request indexing" (last deliverable below). Review 2026-10-20 in `docs/growth.md`.
 
 ### Diagnosis (GSC URL inspection, 2026-09-21)
 

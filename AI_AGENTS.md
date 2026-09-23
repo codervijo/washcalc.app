@@ -1,19 +1,48 @@
 # AI Agent Context — washcalc.app
 
 ## What this project is
-A web application for wash calculations. (Fill in a 1-2 sentence description of what this project does.)
+A free pressure-washing pricing site for contractors: surface calculators
+(price, labor hours, cost, profit via a rate-based + cost-plus-margin engine),
+a multi-surface estimate builder, cost guides, and quote/estimate templates.
+Growth is organic search; see `docs/prd.md` (phases) and `docs/growth.md`
+(experiments + GSC results).
 
 ## Stack
-<infer from files once added: language, frameworks, key dependencies>
+- React 18 + react-router-dom 6, built with Vite 5 (pnpm only).
+- Build-time prerender (`prerender.js`) renders every route to static HTML and
+  writes per-route meta, JSON-LD and `sitemap.xml`.
+- Tests: vitest crawl suite (`tests/crawl.test.js`) against a static server
+  (`scripts/crawl-runner.js`) — no JS execution, i.e. what Googlebot sees.
+- Hosting: Cloudflare Pages (auto-build on push to `main`).
 
 ## Project structure
-- `docs/` — project documentation and planning
+- `src/PricingEngine.js` — surface rates, condition multipliers, `calculateQuote`.
+- `src/pages/` — route pages; `variants.js` (surface calculator presets + FAQs)
+  and `seoPages.js` (Phase 1.B page meta + FAQs) are the single source for
+  visible FAQ text and FAQPage JSON-LD.
+- `src/components/` — shared UI; `src/components/tools/` — page-specific tools.
+- `prerender.js` — route list (title, description, canonical, lastmod, schema).
+- `tests/crawl.test.js` — crawl/SEO regression suite.
+- `docs/` — PRD, growth log, prompt log, per-project CLAUDE.md.
 
 ## How to run
-<fill in once build tooling is added>
+Inside the `sites1` container (see "Running builds" below):
+`pnpm dev` (local dev), `pnpm build` (production build → `dist/`),
+`pnpm test:crawl` (build + crawl tests).
 
 ## Key conventions
-- <any patterns you notice in the code>
+- **Indexed pages are protected.** Pages that GSC reports as indexed must not
+  change title, H1, canonical or rendered content without an explicit operator
+  decision; the crawl suite guards titles/canonicals. Verify with a HEAD
+  worktree build diff before shipping.
+- Page-specific content goes in `CalculatorPage`'s route-scoped
+  `heroExtra` / `belowHero` slots, never in shared components (`Header`,
+  `Footer`, `Layout`, `RelatedTools`) that render on indexed pages.
+- Every new route is registered in `App.jsx` **and** `prerender.js`.
+- Sitemap `lastmod` is a per-route last-content-change date in `prerender.js`
+  — bump it in the same change that alters what the route renders.
+- No invented numbers: every figure is cited inline or computed by
+  `calculateQuote` from stated inputs.
 
 ## Out of scope / don't touch
 - <leave blank for user to fill>

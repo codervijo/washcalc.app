@@ -222,7 +222,7 @@ not recorded) likely drove the first leg. Impressions growth after
 breakdown was pulled, so page-level attribution is unverified.
 
 ## 2026-09-22 — Phase 1.C: get the four non-indexed calculator URLs indexed
-- **Status:** active — ⚠️ BUILT, NOT YET DEPLOYED. Window starts at deploy.
+- **Status:** active — deployed 2026-09-22.
 - **KPI:** GSC index state of `/calculator`, `/calculators/roof`,
   `/calculators/deck`, `/calculators/house-washing` (target: Submitted and
   indexed); site-wide clicks / impressions / avg pos (28-day rolling).
@@ -239,5 +239,5 @@ breakdown was pulled, so page-level attribution is unverified.
   links) to stop duplicating the homepage. Indexed pages verified
   byte-identical vs HEAD. Operator: request indexing for the four URLs in
   GSC after deploy. Detail: `docs/prd.md § Phase 1.C`.
-- **Result:** TBD — not deployed yet; review date = deploy date + 28 days (set it at deploy)
+- **Result:** TBD — review 2026-10-20
 - **Learning:** TBD

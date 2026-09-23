@@ -6,10 +6,11 @@ non-features that aren't obvious from the code or git history.
 
 ## Project
 
-<1-2 sentence description — fill in: what does this site do, who is
-the user, what is the stack (washcalc.app runs on the sites/* workspace
-shared infra: Vite or Astro + pnpm + Cloudflare Pages, with Makefile
-forwarding to the central builder).>
+washcalc.app is a free pressure-washing pricing site for contractors —
+surface calculators, a multi-surface estimate builder, cost guides and
+quote/estimate templates. Stack: React + Vite + pnpm with build-time
+prerendering, on Cloudflare Pages; `Makefile` forwards to the sites/
+workspace and the central builder. Full orientation: `AI_AGENTS.md`.
 
 ## Commands
 
@@ -68,5 +69,18 @@ mistakes at the point of writing, not at quarterly cleanup time.
 
 ## Deferred decisions
 
-<Things deliberately *not* shipped. Append entries with rationale so
-future Claude sessions don't re-propose them.>
+Things deliberately *not* shipped. Append entries with rationale so
+future Claude sessions don't re-propose them.
+
+- **Footer / homepage links to the Phase 1.B pages** — deferred (2026-08-21).
+  `Header`/`Footer`/`Layout`/`RelatedTools` render on indexed pages; adding
+  links there changes indexed content. Needs an explicit operator OK.
+- **`DEFAULT_VALUES.laborRate = 75`** — left as is (2026-08-21). The engine
+  treats it as a *cost*, so $75 inflates prices, but the default is shared
+  with the indexed `/calculators/driveway`. Options in `docs/prd.md § Phase
+  1.B → Open item for operator decision`.
+- **City / location pSEO pages** — out of scope for Phase 1.B; listed under
+  Phase 2 in `docs/prd.md`, not scheduled.
+- **HowTo / FAQ rich-result tracking** — dropped (2026-09-22). Google no
+  longer shows these for this site type; schema stays, it just isn't a KPI.
+
