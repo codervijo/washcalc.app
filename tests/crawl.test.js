@@ -843,8 +843,8 @@ describe("Phase 1.B pages — initial HTML (no JS)", () => {
 
 describe("Indexed pages — protected signals unchanged", () => {
   const PROTECTED = [
-    { path: "/", title: "Free Pressure Washing Cost Calculator — WashCalc", canonical: "https://washcalc.app/" },
-    { path: "/calculators/driveway", title: "Driveway Cleaning Cost Calculator — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
+    { path: "/", title: "Pressure Washing Calculator App: Free Estimate & Quote Tool", canonical: "https://washcalc.app/" },
+    { path: "/calculators/driveway", title: "Driveway Pressure Washing Calculator App — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
     { path: "/about", title: "About WashCalc — Who Built It & How Pricing Works", canonical: "https://washcalc.app/about" },
     // Indexed per GSC URL inspection 2026-09-21 (Phase 1.C).
     { path: "/pressure-washing-pricing-guide", title: "Pressure Washing Pricing Guide (2026) — WashCalc", canonical: "https://washcalc.app/pressure-washing-pricing-guide" },

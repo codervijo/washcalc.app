@@ -51,10 +51,10 @@ const ALLSURFACE_FAQS = [
 const ROUTES = [
   {
     path: "/",
-    title: "Free Pressure Washing Cost Calculator — WashCalc",
+    title: "Pressure Washing Calculator App: Free Estimate & Quote Tool",
     description: "Free pressure washing cost calculator for contractors. Estimate job price, labor and chemical cost, and send a quote that protects your profit.",
     canonical: "https://washcalc.app/",
-    lastmod: "2026-07-15",
+    lastmod: "2026-09-25",
     schema: {
       "@type": "WebApplication",
       name: "WashCalc",
@@ -88,7 +88,7 @@ const ROUTES = [
     title: DRIVEWAY.title,
     description: DRIVEWAY.description,
     canonical: DRIVEWAY.canonical,
-    lastmod: "2026-07-17",
+    lastmod: "2026-09-25",
     schema: {
       "@type": "SoftwareApplication",
       name: DRIVEWAY.h1,
@@ -104,7 +104,7 @@ const ROUTES = [
     title: ROOF.title,
     description: ROOF.description,
     canonical: ROOF.canonical,
-    lastmod: "2026-09-22",
+    lastmod: "2026-09-25",
     schema: {
       "@type": "SoftwareApplication",
       name: ROOF.h1,
@@ -120,7 +120,7 @@ const ROUTES = [
     title: HOUSE_WASHING.title,
     description: HOUSE_WASHING.description,
     canonical: HOUSE_WASHING.canonical,
-    lastmod: "2026-08-21",
+    lastmod: "2026-09-25",
     schema: {
       "@type": "SoftwareApplication",
       name: HOUSE_WASHING.h1,
@@ -136,7 +136,7 @@ const ROUTES = [
     title: DECK.title,
     description: DECK.description,
     canonical: DECK.canonical,
-    lastmod: "2026-08-21",
+    lastmod: "2026-09-25",
     schema: {
       "@type": "SoftwareApplication",
       name: DECK.h1,

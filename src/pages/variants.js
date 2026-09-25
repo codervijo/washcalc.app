@@ -4,7 +4,7 @@
 export const DRIVEWAY = {
   surfaceId: "driveway",
   lockSurface: true,
-  title: "Driveway Cleaning Cost Calculator — WashCalc",
+  title: "Driveway Pressure Washing Calculator App — WashCalc",
   description: "Estimate driveway cleaning price per square foot. Get recommended price, labor time and gross profit instantly.",
   canonical: "https://washcalc.app/calculators/driveway",
   h1: "Driveway Cleaning Cost Calculator",
@@ -28,7 +28,7 @@ export const DRIVEWAY = {
 export const ROOF = {
   surfaceId: "roof",
   lockSurface: true,
-  title: "Roof Cleaning Cost Calculator — WashCalc",
+  title: "Roof Cleaning Calculator App — WashCalc",
   description: "Soft-wash roof cleaning calculator. Estimate price, labor time and profit per square foot.",
   canonical: "https://washcalc.app/calculators/roof",
   h1: "Roof Cleaning Cost Calculator",
@@ -56,7 +56,7 @@ export const ROOF = {
 export const HOUSE_WASHING = {
   surfaceId: "siding",
   lockSurface: true,
-  title: "House Washing Cost Calculator — WashCalc",
+  title: "House Washing Calculator App — WashCalc",
   description: "Estimate house washing cost. Vinyl, brick or stucco — get a recommended price, labor time and profit.",
   canonical: "https://washcalc.app/calculators/house-washing",
   h1: "House Washing Cost Calculator",
@@ -82,7 +82,7 @@ export const HOUSE_WASHING = {
 export const DECK = {
   surfaceId: "deck",
   lockSurface: true,
-  title: "Deck Cleaning Cost Calculator — WashCalc",
+  title: "Deck Pressure Washing Calculator App — WashCalc",
   description: "Wood and composite deck cleaning calculator. Estimate price, labor time and profit per square foot.",
   canonical: "https://washcalc.app/calculators/deck",
   h1: "Deck Cleaning Cost Calculator",
