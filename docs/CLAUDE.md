@@ -40,7 +40,7 @@ git push            # Vercel auto-builds on push to main (NOT Cloudflare)
     `AI_AGENTS.md § Deployment info`.
   - **Canonical host: non-www apex `https://washcalc.app`.** Every
     canonical, breadcrumb, sitemap URL, and OG tag uses the bare apex —
-    never `www.`. A live `www → apex` 308 redirect enforces it. This was
+    never `www.`. A live `www → apex` 301 redirect (Vercel domain setting) enforces it. This was
     a deliberate reversal *away* from www on 2026-07-13 (see
     `docs/growth.md`); do not re-introduce www canonicals.
 

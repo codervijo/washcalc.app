@@ -109,7 +109,7 @@ grep -c 'wc-faq-a' dist/index.html                # counts lines (misleading: ~1
 
 **Non-www apex `https://washcalc.app` is canonical** — all canonicals,
 breadcrumbs, sitemap URLs, and OG tags use the bare apex, never `www.`.
-A live `www → apex` 308 redirect enforces it. This was a deliberate
+A live `www → apex` 301 redirect (Vercel domain setting) enforces it. This was a deliberate
 reversal away from www on 2026-07-13 (see `docs/growth.md`). Do not
 re-introduce www canonicals.
 
@@ -128,10 +128,10 @@ Pages" were wrong.
 - **Config:** `vercel.json` — `cleanUrls`, no trailing slash, and 301
   redirects for the short forms (`/driveway`, `/roof`, `/house-washing`,
   `/deck`). Unknown routes serve `dist/404.html` with a real 404.
-- **www → apex** is a Vercel **domain-level** redirect (Project → Settings →
-  Domains → `www.washcalc.app`), currently **308**. It fires *before*
-  `vercel.json`, so the www rules in `vercel.json` never run; change the
-  status code in the dashboard, not in `vercel.json`.
+- **www → apex** and **`washcalc-app.vercel.app` → apex** are Vercel
+  **domain-level** 301 redirects (Project → Settings → Domains), set
+  2026-09-29. They fire *before* `vercel.json`, so host redirects belong in
+  the dashboard — don't add www/host rules to `vercel.json`, they never run.
 - **Domains:** managed in the Vercel project's Domains settings; DNS
   records live at Namecheap.
 
