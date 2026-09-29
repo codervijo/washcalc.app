@@ -1,5 +1,6 @@
 import SeoPageShell from "../components/SeoPageShell.jsx";
 import { HOUSE_COST } from "./seoPages.js";
+import { band, base, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
 
 const TOC = [
   { id: "cost", label: "What house washing costs" },
@@ -38,9 +39,10 @@ export default function HouseWashingCost() {
               <tr><th>Measure</th><th>Typical 2026 range</th><th>Source</th></tr>
             </thead>
             <tbody>
-              <tr><td>Soft washing</td><td className="wc-qt-rate">$0.25–$0.75 / sq ft</td><td className="wc-regional-src">HomeGuide</td></tr>
-              <tr><td>Pressure washing</td><td className="wc-qt-rate">$0.15–$0.50 / sq ft</td><td className="wc-regional-src">HomeGuide</td></tr>
-              <tr><td>Whole-house job</td><td className="wc-qt-rate">$100–$711 (avg ≈ $311)</td><td className="wc-regional-src">Angi</td></tr>
+              <tr><td>Soft washing (published)</td><td className="wc-qt-rate">{rateRange(PUBLISHED.sidingSoftWash.perSqFt)} / sq ft</td><td className="wc-regional-src">{PUBLISHED.sidingSoftWash.source}</td></tr>
+              <tr><td>Pressure washing (published)</td><td className="wc-qt-rate">{rateRange(PUBLISHED.sidingPressure.perSqFt)} / sq ft</td><td className="wc-regional-src">{PUBLISHED.sidingPressure.source}</td></tr>
+              <tr><td>Whole-house job (published)</td><td className="wc-qt-rate">{jobRange(PUBLISHED.house.job)} (avg ≈ ${PUBLISHED.house.avg})</td><td className="wc-regional-src">{PUBLISHED.house.source}</td></tr>
+              <tr><td>WashCalc rate card</td><td className="wc-qt-rate">{band("siding")} / sq ft of siding</td><td className="wc-regional-src">WashCalc model</td></tr>
               <tr><td>High-cost urban markets</td><td className="wc-qt-rate">+20% to +50%</td><td className="wc-regional-src">Angi</td></tr>
               <tr><td>Southeast &amp; rural markets</td><td className="wc-qt-rate">−10% to −20%</td><td className="wc-regional-src">Cajun Soft Wash</td></tr>
             </tbody>
@@ -49,13 +51,15 @@ export default function HouseWashingCost() {
         <p className="wc-qt-note">
           The regional rows are documented adjustments against the national baseline, not
           per-metro survey figures — comparable per-city medians are not published. The house
-          washing calculator carries a fuller regional benchmark table.
+          washing calculator carries a fuller regional benchmark table. Per-square-foot figures
+          are reproduced as each source publishes them; WashCalc's own rates and every worked
+          example below are per square foot of siding (wall area), never floor area.
         </p>
 
         <p>
           The $100 to $711 spread reported by Angi is not measurement noise. It is the honest
           range across a service that covers a small single-storey bungalow with 900 square feet
-          of vinyl and a large two-storey home with 3,000 square feet of stucco and difficult
+          of vinyl siding and a large two-storey home with 3,000 square feet of stucco siding and difficult
           access. The average of roughly $311 describes a typical single-storey house, and it is
           a reasonable anchor for exactly that.
         </p>
@@ -160,8 +164,8 @@ export default function HouseWashingCost() {
       <section className="wc-qt-section" id="examples">
         <h2>Worked examples</h2>
         <p className="wc-qt-sub">
-          Three homes priced with the WashCalc default model — $0.30 per square foot base rate at
-          350 sq ft per hour, with a 50% target margin.
+          Three homes priced with the WashCalc default model — {base("siding")} per square foot of siding base rate at
+          {productionRate("siding")} sq ft per hour (light condition), with a 50% target margin.
         </p>
 
         <h3>A small single-storey home, lightly soiled</h3>

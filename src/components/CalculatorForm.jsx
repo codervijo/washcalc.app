@@ -1,7 +1,7 @@
 import SurfaceSelector from "./SurfaceSelector.jsx";
 import { CONDITIONS } from "../PricingEngine.js";
 
-export default function CalculatorForm({ values, onChange, lockSurface, surfaceOnly }) {
+export default function CalculatorForm({ values, onChange, lockSurface, surfaceOnly, areaLabel, areaHelp }) {
   const set = (k) => (e) => onChange({ ...values, [k]: e.target.value });
   const setVal = (k, v) => onChange({ ...values, [k]: v });
 
@@ -20,12 +20,12 @@ export default function CalculatorForm({ values, onChange, lockSurface, surfaceO
 
       <div className="wc-form-row">
         <div className="wc-field">
-          <label className="wc-label" htmlFor="area">Area (square feet)</label>
+          <label className="wc-label" htmlFor="area">{areaLabel || "Area (square feet)"}</label>
           <input
             id="area" className="wc-input" type="number" min="0" inputMode="decimal"
             value={values.area} onChange={set("area")} placeholder="e.g. 800"
           />
-          <span className="wc-help">Total square footage to clean.</span>
+          <span className="wc-help">{areaHelp || "Total square footage to clean."}</span>
         </div>
 
         <div className="wc-field">
@@ -48,11 +48,12 @@ export default function CalculatorForm({ values, onChange, lockSurface, surfaceO
 
       <div className="wc-form-row">
         <div className="wc-field">
-          <label className="wc-label" htmlFor="laborRate">Labor rate / hour</label>
+          <label className="wc-label" htmlFor="laborRate">Labor cost / hour</label>
           <div className="wc-input-prefix">
             <span className="wc-prefix">$</span>
             <input id="laborRate" className="wc-input" type="number" min="0" value={values.laborRate} onChange={set("laborRate")} />
           </div>
+          <span className="wc-help">What a crew-hour costs you, not what you bill.</span>
         </div>
         <div className="wc-field">
           <label className="wc-label" htmlFor="chemicalCost">Chemical cost</label>

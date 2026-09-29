@@ -12,12 +12,15 @@ function n(v, d = 0) {
 }
 
 export default function JobProfitabilityCalculator({ chemCostFromSH }) {
-  const [quote, setQuote] = useState(400);
+  // Defaults: the 1,800 sq ft siding job the main calculator above prices at
+  // $540 ($0.30/sq ft), two-person crew at 300 sq ft per crew-hour (between
+  // the model's light 350 and moderate 280 siding production) → ~52% margin.
+  const [quote, setQuote] = useState(540);
   const [sqft, setSqft] = useState(1800);
   const [driveMin, setDriveMin] = useState(30);
-  const [onSiteHrs, setOnSiteHrs] = useState(2.5);
-  const [crew, setCrew] = useState(1);
-  const [laborCostHr, setLaborCostHr] = useState(25);
+  const [onSiteHrs, setOnSiteHrs] = useState(3);
+  const [crew, setCrew] = useState(2);
+  const [laborCostHr, setLaborCostHr] = useState(30);
   const [chemCost, setChemCost] = useState(35);
   const [fuelCost, setFuelCost] = useState(15);
 

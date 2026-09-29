@@ -1,5 +1,6 @@
 import SeoPageShell from "../components/SeoPageShell.jsx";
 import { DRIVEWAY_COST } from "./seoPages.js";
+import { band, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
 
 const TOC = [
   { id: "cost", label: "What driveway washing costs" },
@@ -41,16 +42,17 @@ export default function DrivewayPressureWashingCost() {
               <tr><th>Measure</th><th>Typical 2026 range</th><th>Source</th></tr>
             </thead>
             <tbody>
-              <tr><td>Concrete driveway cleaning</td><td className="wc-qt-rate">$0.20–$0.35 / sq ft</td><td className="wc-regional-src">HomeGuide, Angi</td></tr>
-              <tr><td>Typical residential job</td><td className="wc-qt-rate">$100–$300</td><td className="wc-regional-src">HomeGuide, Angi</td></tr>
+              <tr><td>Concrete driveway cleaning (published)</td><td className="wc-qt-rate">{rateRange(PUBLISHED.driveway.perSqFt)} / sq ft</td><td className="wc-regional-src">{PUBLISHED.driveway.source}</td></tr>
+              <tr><td>WashCalc rate card</td><td className="wc-qt-rate">{band("driveway")} / sq ft</td><td className="wc-regional-src">WashCalc model</td></tr>
+              <tr><td>Typical residential job</td><td className="wc-qt-rate">{jobRange(PUBLISHED.driveway.job)}</td><td className="wc-regional-src">{PUBLISHED.driveway.source}</td></tr>
               <tr><td>Minimum service charge</td><td className="wc-qt-rate">$100–$150</td><td className="wc-regional-src">Common trade practice</td></tr>
-              <tr><td>Production rate, surface cleaner</td><td className="wc-qt-rate">≈ 450 sq ft / hr</td><td className="wc-regional-src">WashCalc default model</td></tr>
+              <tr><td>Production rate, surface cleaner</td><td className="wc-qt-rate">≈ {productionRate("driveway")} sq ft / hr light, {productionRate("driveway", "moderate")} moderate</td><td className="wc-regional-src">WashCalc default model</td></tr>
             </tbody>
           </table>
         </div>
         <p className="wc-qt-note">
           The production rate is WashCalc's default modelling assumption for a 16–20 inch surface
-          cleaner in moderate condition, not a measured industry figure. Time your own first jobs
+          cleaner, not a measured industry figure. Time your own first jobs
           and replace it.
         </p>
 

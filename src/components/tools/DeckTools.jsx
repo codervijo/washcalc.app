@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import StainSealCoverageCalculator from "./StainSealCoverageCalculator.jsx";
 import CleanAndSealTimeline from "./CleanAndSealTimeline.jsx";
+import { rateRange, surface } from "../../rates.js";
 
 // Secondary-tool + copy block rendered below the main deck calculator.
 // (The material selector lives in the hero via CalculatorPage's heroExtra slot.)
@@ -31,8 +32,8 @@ export default function DeckTools() {
             which one you're on. Wood — pressure-treated pine, cedar, redwood, and dense hardwoods
             like IPE — needs low pressure, careful technique, and often a brightener to even out the
             cleaned surface, so it's slower and more chemical-intensive. Composite is forgiving and
-            cleans fast. Price wood decks around $0.35–$0.45 per square foot and composite at
-            $0.30–$0.38, and let the <a href="#deck-material">material selector</a> above nudge the
+            cleans fast. Price wood decks around {rateRange(surface("deck").wood)} per square foot and composite at{" "}
+            {rateRange(surface("deck").composite)}, and let the <a href="#deck-material">material selector</a> above nudge the
             rate for the extra care a premium or fragile board demands.
           </p>
           <p>

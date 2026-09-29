@@ -358,6 +358,17 @@
   color: var(--wc-text);
   line-height: 1.1;
 }
+.wc-sample-flag {
+  display: inline-block;
+  margin: 2px 0 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--wc-surface-alt);
+  border: 1px solid var(--wc-border);
+  color: var(--wc-text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
 .wc-result-price .wc-result-sub {
   font-size: 14px;
   color: var(--wc-text-soft);
@@ -386,6 +397,10 @@
   gap: 8px;
 }
 .wc-result-actions .wc-btn { font-size: 13px; padding: 10px 12px; }
+.wc-btn-soon:disabled { opacity: 0.5; cursor: not-allowed; }
+.wc-btn-soon:disabled:hover { background: transparent; }
+.wc-btn-soon:disabled:active { transform: none; }
+.wc-soon-note { margin: 10px 0 0; font-size: 12.5px; color: var(--wc-text-muted); text-align: center; }
 
 /* FAQ */
 .wc-faq-item {

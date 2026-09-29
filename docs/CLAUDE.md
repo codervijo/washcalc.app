@@ -75,10 +75,14 @@ future Claude sessions don't re-propose them.
 - **Footer / homepage links to the Phase 1.B pages** — deferred (2026-08-21).
   `Header`/`Footer`/`Layout`/`RelatedTools` render on indexed pages; adding
   links there changes indexed content. Needs an explicit operator OK.
-- **`DEFAULT_VALUES.laborRate = 75`** — left as is (2026-08-21). The engine
-  treats it as a *cost*, so $75 inflates prices, but the default is shared
-  with the indexed `/calculators/driveway`. Options in `docs/prd.md § Phase
-  1.B → Open item for operator decision`.
+  Revisit at the 2026-10-23 title-CTR review (`docs/growth.md`
+  2026-09-25) — held until then so it doesn't confound that test.
+- ~~**`DEFAULT_VALUES.laborRate = 75`**~~ — **resolved 2026-09-29** (operator
+  P1 credibility pass): default is now $35 labor *cost*/hr, field relabelled
+  "Labor cost / hour", condition default `light`; every calculator's default
+  output lands inside its page's stated $/sq ft band. Touched the indexed
+  `/`, `/calculators/driveway` and `/pressure-washing-pricing-guide` by
+  explicit operator instruction.
 - **City / location pSEO pages** — out of scope for Phase 1.B; listed under
   Phase 2 in `docs/prd.md`, not scheduled.
 - **HowTo / FAQ rich-result tracking** — dropped (2026-09-22). Google no

@@ -241,3 +241,33 @@ breakdown was pulled, so page-level attribution is unverified.
   GSC after deploy. Detail: `docs/prd.md § Phase 1.C`.
 - **Result:** TBD — review 2026-10-20
 - **Learning:** TBD
+
+## 2026-09-25 — "Calculator App" titles on / and the four surface calculators
+- **Status:** active — deployed 2026-09-25 (`3666346`), live-verified same day.
+- **Hypothesis:** searchers use "app"/"tool" wording; titles that say
+  "Calculator App" earn more clicks for the same impressions.
+- **KPI:** CTR on `/`, `/calculators/driveway`, `/calculators/roof`,
+  `/calculators/house-washing`, `/calculators/deck` (GSC by page, 28-day);
+  site-wide CTR. Count only after GSC shows each page recrawled post-deploy.
+- **Baseline (2026-09-25, 28-day rolling, `portfolio/data/seo/2026-09-25.json`):**
+  18 clicks / 1,137 impressions / CTR 1.6% / avg pos 48.5. Evidence for the
+  change is thin: operator-reported 5.3% CTR on "pressure washing calculator
+  app" — about one click (house-washing 1 / 18 in the 2026-08-22..09-19
+  window, see 2026-07-17 entry).
+- **Action:** titles (og:title/twitter:title follow) →
+  `/` "Pressure Washing Calculator App: Free Estimate & Quote Tool";
+  driveway / deck "<Surface> Pressure Washing Calculator App — WashCalc";
+  roof / house-washing "<Surface> Calculator App — WashCalc". "Cost" dropped
+  to separate them from the `*-cost` guides. H1s, URLs, content unchanged;
+  sitemap lastmod bumped for the 5 routes; indexed-title guard updated.
+  Canonical check same day: www → apex 308 already live, all canonicals and
+  sitemap URLs apex — no change needed.
+- **Next steps (agreed 2026-09-25):**
+  1. Now, no site change: refresh GSC URL inspection for all 15 sitemap URLs
+     (6 had no inspection data on 2026-09-21); request indexing for
+     `/calculators/house-washing` (stale 2026-04-30 "Page with redirect").
+  2. Hold all title/homepage changes until review so the CTR read is clean.
+  3. At review, decide on homepage links to the six Phase 1.B pages (deferred
+     in `docs/CLAUDE.md`). Doing it earlier would confound this test.
+- **Result:** TBD — review 2026-10-23
+- **Learning:** TBD

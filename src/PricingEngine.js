@@ -1,19 +1,8 @@
 // WashCalc pricing engine — pure functions, easy to extend.
 
-export const SURFACES = [
-  { id: "driveway", label: "Driveway", emoji: "🚗", baseRate: 0.22, sqftPerHour: 450 },
-  { id: "siding",   label: "House Siding", emoji: "🏠", baseRate: 0.30, sqftPerHour: 350 },
-  { id: "roof",     label: "Roof", emoji: "🏚️", baseRate: 0.50, sqftPerHour: 250 },
-  { id: "deck",     label: "Deck", emoji: "🪵", baseRate: 0.38, sqftPerHour: 220 },
-  { id: "patio",    label: "Patio", emoji: "🧱", baseRate: 0.25, sqftPerHour: 400 },
-  { id: "fence",    label: "Fence", emoji: "🪚", baseRate: 0.32, sqftPerHour: 280 },
-];
-
-export const CONDITIONS = [
-  { id: "light",    label: "Light",    multiplier: 1.0, timeMult: 1.0 },
-  { id: "moderate", label: "Moderate", multiplier: 1.2, timeMult: 1.25 },
-  { id: "heavy",    label: "Heavy",    multiplier: 1.5, timeMult: 1.6 },
-];
+// Rates live in rates.js (single source of truth for engine + page copy).
+import { SURFACES, CONDITIONS } from "./rates.js";
+export { SURFACES, CONDITIONS };
 
 export function getSurface(id) {
   return SURFACES.find((s) => s.id === id) || SURFACES[0];

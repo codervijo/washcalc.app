@@ -1,6 +1,7 @@
 import SeoPageShell from "../components/SeoPageShell.jsx";
 import TemplateBlock from "../components/TemplateBlock.jsx";
 import { QUOTE_TEMPLATE } from "./seoPages.js";
+import { base } from "../rates.js";
 
 const TOC = [
   { id: "template", label: "The template" },
@@ -258,7 +259,7 @@ export default function QuoteTemplate() {
 
         <p>
           The line prices come straight from the estimate calculator: 1,800 sq ft of siding in
-          moderate condition at the default $0.30 rate is $648, the 800 sq ft driveway is $211,
+          moderate condition at the default {base("siding")} rate is $648, the 800 sq ft driveway is $211,
           the 400 sq ft patio in light condition is $100. Behind the customer-facing document, the
           job carries about 9.7 hours of production time and roughly $408 of cost, so the accepted
           price of $863 leaves a gross margin near 53%.

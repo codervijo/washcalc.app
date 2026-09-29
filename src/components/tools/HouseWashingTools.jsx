@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SHDilutionCalculator from "./SHDilutionCalculator.jsx";
 import JobProfitabilityCalculator from "./JobProfitabilityCalculator.jsx";
 import RegionalPricingTable from "./RegionalPricingTable.jsx";
+import { band, productionRate, anchorArea, anchorPrice } from "../../rates.js";
 
 // Secondary-tool + copy block rendered below the main house-washing calculator.
 // Holds the shared chem cost so the profitability tool can auto-pull the SH
@@ -29,16 +30,18 @@ export default function HouseWashingTools() {
         </div>
       </section>
 
-      {/* Contractor copy — scaffold. Operator supplies verified prose. */}
+      {/* Contractor copy */}
       <section className="wc-section">
         <article className="wc-container" style={{ maxWidth: 820 }}>
           <h2 className="wc-section-title" style={{ textAlign: "left" }}>How to price a house wash for profit</h2>
           <p>
             House washing is the highest-frequency repeat service in residential exterior cleaning
             — most homeowners want it done annually, which makes a clean, defensible price the base
-            of a recurring book of work rather than a one-off. In most markets siding prices between
-            $0.25 and $0.35 per square foot of wall area, putting a typical single-story home at
-            $250–$450 and a two-story at $400–$700. Those bands are your market anchor, not your
+            of a recurring book of work rather than a one-off. In most markets siding prices at {band("siding")} per
+            square foot of wall area on WashCalc's rate card — not floor area. About{" "}
+            {anchorArea("sidingOneStory")} sq ft of siding, typical of a single-story home, lands at{" "}
+            {anchorPrice("sidingOneStory", "siding")}; about {anchorArea("sidingTwoStory")} sq ft of siding,
+            typical of a two-story, at {anchorPrice("sidingTwoStory", "siding")}. Those bands are your market anchor, not your
             quote: the number you send should come from reconciling that rate against your real
             cost per job.
           </p>
@@ -68,8 +71,8 @@ export default function HouseWashingTools() {
 
           <h3>Estimating labor and chemical cost</h3>
           <p>
-            Production on siding runs roughly 300–400 square feet of wall per hour in moderate
-            condition, slower on cut-up two-story elevations with a lot of trim and ladder work.
+            WashCalc models siding production at {productionRate("siding")} square feet of wall per
+            hour in light condition and about {productionRate("siding", "moderate")} in moderate, slower on cut-up two-story elevations with a lot of trim and ladder work.
             Multiply your estimated on-site hours by crew size and your fully-loaded hourly cost to
             get labor, then add the chemical cost from your mix and the fuel for the round trip.
             Chemical is real money that quietly disappears if you track it by the quarter instead of
@@ -87,7 +90,7 @@ export default function HouseWashingTools() {
             both costs you should be paid for. Don't discount them to win a bid; a two-story wash
             that prices like a ranch is a job you technically won and financially lost. Use the{" "}
             <a href="#regional-pricing">regional pricing table</a> as a sanity check against your
-            market once verified figures are in place — it tells you whether your number is in the
+            market — it tells you whether your number is in the
             right neighborhood, but it is never the quote itself. The quote comes from your cost and
             the specific home's access and condition.
           </p>

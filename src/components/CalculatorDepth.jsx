@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { SURFACES, CONDITIONS } from "../PricingEngine.js";
+import { band, rateRange, PUBLISHED } from "../rates.js";
 
 /**
  * Depth content for /calculator only.
@@ -113,7 +114,9 @@ export default function CalculatorDepth() {
           <div className="wc-qt-callout">
             <strong>A quick check.</strong> An 800 sq ft driveway in moderate condition at $35 per
             crew-hour of cost, $25 chemical and $20 travel with a 50% target prices at about $246
-            — around $0.31 per square foot, comfortably inside the published $0.20–$0.35 band. The
+            — around $0.31 per square foot. That is above WashCalc's {band("driveway")} driveway rate
+            card, because moderate condition and the cost floor both lift it, but inside the
+            published {rateRange(PUBLISHED.driveway.perSqFt)} market range ({PUBLISHED.driveway.source}). The
             same job entered at a $75 labor rate prices at $423, or $0.53 per square foot, which is
             well above what a residential driveway will bear.
           </div>

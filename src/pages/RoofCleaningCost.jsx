@@ -1,5 +1,6 @@
 import SeoPageShell from "../components/SeoPageShell.jsx";
 import { ROOF_COST } from "./seoPages.js";
+import { band, base, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
 
 const TOC = [
   { id: "cost", label: "What roof cleaning costs" },
@@ -40,8 +41,9 @@ export default function RoofCleaningCost() {
               <tr><th>Measure</th><th>Typical 2026 range</th><th>Source</th></tr>
             </thead>
             <tbody>
-              <tr><td>Soft-wash roof cleaning</td><td className="wc-qt-rate">$0.40–$0.60 / sq ft</td><td className="wc-regional-src">HomeGuide, Angi</td></tr>
-              <tr><td>Typical residential job</td><td className="wc-qt-rate">$300–$700</td><td className="wc-regional-src">HomeGuide, Angi</td></tr>
+              <tr><td>Soft-wash roof cleaning (published)</td><td className="wc-qt-rate">{rateRange(PUBLISHED.roof.perSqFt)} / sq ft</td><td className="wc-regional-src">{PUBLISHED.roof.source}</td></tr>
+              <tr><td>WashCalc rate card</td><td className="wc-qt-rate">{band("roof")} / sq ft</td><td className="wc-regional-src">WashCalc model</td></tr>
+              <tr><td>Typical residential job</td><td className="wc-qt-rate">{jobRange(PUBLISHED.roof.job)}</td><td className="wc-regional-src">{PUBLISHED.roof.source}</td></tr>
               <tr><td>Chemical cost per average roof</td><td className="wc-qt-rate">$40–$80</td><td className="wc-regional-src">WashCalc contractor guidance</td></tr>
               <tr><td>Target gross margin</td><td className="wc-qt-rate">55%+</td><td className="wc-regional-src">WashCalc default model</td></tr>
             </tbody>
@@ -111,8 +113,8 @@ export default function RoofCleaningCost() {
         <p>
           Almost every operator calculates per square foot behind the scenes, because it is the
           only model that stays consistent across roofs of different sizes. The rate is applied
-          to the roof area, then adjusted for condition. WashCalc's default model uses $0.50 per
-          square foot at a production rate of 250 sq ft per hour, with condition multipliers of
+          to the roof area, then adjusted for condition. WashCalc's default model uses {base("roof")} per
+          square foot at a production rate of {productionRate("roof")} sq ft per hour in light condition, with condition multipliers of
           ×1.0 light, ×1.2 moderate and ×1.5 heavy applied to the rate, and separate time
           multipliers applied to the hours.
         </p>

@@ -60,9 +60,10 @@ export default function ResultsPanel({ result, values, onReset }) {
         <div className="wc-result-actions">
           <button className="wc-btn wc-btn-primary" onClick={copyQuote}>Copy Quote</button>
           <button className="wc-btn wc-btn-ghost" onClick={onReset}>Reset</button>
-          <button className="wc-btn wc-btn-ghost" onClick={() => showToast("Save Quote — coming soon")}>Save Quote</button>
-          <button className="wc-btn wc-btn-ghost" onClick={() => showToast("PDF export — coming soon")}>Download PDF</button>
+          <button className="wc-btn wc-btn-ghost wc-btn-soon" type="button" disabled aria-describedby="wc-pro-soon">Save Quote</button>
+          <button className="wc-btn wc-btn-ghost wc-btn-soon" type="button" disabled aria-describedby="wc-pro-soon">Download PDF</button>
         </div>
+        <p id="wc-pro-soon" className="wc-soon-note">Save Quote &amp; PDF export — coming soon with WashCalc Pro.</p>
       </div>
 
       {toast && <div className="wc-toast" role="status">{toast}</div>}

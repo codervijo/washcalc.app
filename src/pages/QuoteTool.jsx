@@ -1,37 +1,42 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import useSEO from "../useSEO.js";
+import { QUOTE_TOOL_FAQS as FAQS } from "./faqs.js";
+import { band, rateRange, jobRange, productionRate, surface, PUBLISHED } from "../rates.js";
+import { calculateQuote, formatMoney } from "../PricingEngine.js";
 
-// Kept in sync with the FAQPage JSON-LD emitted by prerender.js for
-// /quote-tool. If you edit an answer here, edit the matching answer in
-// prerender.js (QUOTE_TOOL_FAQS) verbatim.
-const FAQS = [
-  {
-    q: "Is WashCalc's quote tool free?",
-    a: "Yes. The calculator is free to use on any device. Saved quotes, branded PDF export, and lead capture are on the roadmap for WashCalc Pro.",
-    open: true,
-  },
-  {
-    q: "How much should I charge for power washing in 2026?",
-    a: "Most contractors charge $0.15–$0.75 per square foot or $60–$160 per hour, depending on surface, region, and condition. Driveways run about $0.20–$0.35, roofs $0.40–$0.60. Use the formula above to find your own profitable floor, then benchmark against local rates.",
-  },
-  {
-    q: "What's the difference between a pressure wash and a soft wash quote?",
-    a: "Soft washing uses low pressure and cleaning solution and is required for siding, roofs, and most painted or delicate surfaces. It usually costs 10–20% more than concrete pressure washing because of chemical cost. Always note the method per line so the customer knows what they're getting.",
-  },
-  {
-    q: "Should I quote per square foot, flat rate, or hourly?",
-    a: "Use all three. Per-square-foot for commercial and large flat surfaces, flat-rate for standard residential jobs customers want simple pricing on, and hourly for unusual one-offs. Matching the model to the job is how top operators price higher and still win.",
-  },
-  {
-    q: "What should a power washing estimate include?",
-    a: "Your business and contact info, the client's name and service address, a unique estimate number and valid-until date, an itemized line per surface with square footage and method, optional add-ons, and clear terms — payment, deposit, weather reschedule, and exclusions.",
-  },
-  {
-    q: "How fast should I send a quote?",
-    a: "Same day, or within 24 hours. Fresh impressions approve faster, and for commercial work the first complete, professional estimate usually wins the contract.",
-  },
-];
+// Chart bars: WashCalc base rates, straight from rates.js.
+const CHART = ["driveway", "siding", "deck", "roof", "patio"].map((id) => ({
+  id, label: id === "siding" ? "House" : surface(id).label, rate: surface(id).baseRate,
+}));
+
+// Formula example: $55 hourly cost + $45 profit target over the model's
+// light-condition driveway production rate.
+const PROD = productionRate("driveway");
+const FLOOR = (55 + 45) / PROD;
+
+// Worked example, computed with the same model as the estimate calculator
+// (EstimateBuilder): per-line rate price, bundle discount, then the
+// cost-plus floor across the whole visit.
+const EX = (() => {
+  const inputs = { laborRate: 35, chemical: 45, travel: 25, marginPct: 50, bundlePct: 10 };
+  const lines = [
+    { surfaceId: "siding", area: 2200 },
+    { surfaceId: "driveway", area: 800 },
+    { surfaceId: "driveway", area: 600 },
+  ].map((l) => {
+    const q = calculateQuote({ ...l, conditionId: "light", laborRate: 0, chemicalCost: 0, travelCost: 0, marginPct: 0, minimumCharge: 0 });
+    return { ...l, price: q.recommendedPrice, perSqFt: q.pricePerSqFt, hours: q.hours };
+  });
+  const subtotal = lines.reduce((t, l) => t + l.price, 0);
+  const discount = subtotal * (inputs.bundlePct / 100);
+  const hours = lines.reduce((t, l) => t + l.hours, 0);
+  const cost = hours * inputs.laborRate + inputs.chemical + inputs.travel;
+  const costFloor = cost / (1 - inputs.marginPct / 100);
+  const total = Math.max(subtotal - discount, costFloor);
+  return { ...inputs, lines, discount, hours, costFloor, total, margin: ((total - cost) / total) * 100 };
+})();
+
 
 export default function QuoteTool() {
   useSEO({
@@ -108,19 +113,27 @@ export default function QuoteTool() {
           <h2>2026 pressure washing rates by surface</h2>
           <p className="wc-qt-sub">Benchmark ranges pulled from current national pricing guides. Use them as a sanity check on your own numbers — not as your price.</p>
 
-          <table className="wc-qt-table">
-            <thead>
-              <tr><th>Surface</th><th>Per sq ft</th><th>Typical job total</th><th>Method</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Concrete driveway</td><td className="wc-qt-rate">$0.20–$0.35</td><td className="wc-qt-rate">$100–$300</td><td>High pressure + surface cleaner</td></tr>
-              <tr><td>House siding</td><td className="wc-qt-rate">$0.15–$0.75</td><td className="wc-qt-rate">$200–$600</td><td>Soft wash (low pressure)</td></tr>
-              <tr><td>Wood / composite deck</td><td className="wc-qt-rate">$0.30–$0.60</td><td className="wc-qt-rate">$150–$400</td><td>Low pressure + brightener</td></tr>
-              <tr><td>Roof</td><td className="wc-qt-rate">$0.40–$0.60</td><td className="wc-qt-rate">$300–$700</td><td>Soft wash only</td></tr>
-              <tr><td>Commercial flatwork</td><td className="wc-qt-rate">$0.10–$0.40</td><td className="wc-qt-rate">Varies by area</td><td>Surface cleaner, volume rate</td></tr>
-            </tbody>
-          </table>
-          <p className="wc-qt-note">Ranges reflect 2026 residential/light-commercial guides (HomeGuide, Angi, HouseCall Pro, industry pricing reports). Regional markets, access, and condition move the real number.</p>
+          <div className="wc-table-scroll">
+            <table className="wc-qt-table">
+              <thead>
+                <tr><th>Surface</th><th>WashCalc rate card</th><th>Published range</th><th>Typical job (published)</th><th>Method</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Concrete driveway</td><td className="wc-qt-rate">{band("driveway")}</td><td className="wc-qt-rate">{rateRange(PUBLISHED.driveway.perSqFt)}</td><td className="wc-qt-rate">{jobRange(PUBLISHED.driveway.job)}</td><td>High pressure + surface cleaner</td></tr>
+                <tr><td>House siding</td><td className="wc-qt-rate">{band("siding")}</td><td className="wc-qt-rate">{rateRange(PUBLISHED.sidingSoftWash.perSqFt)}</td><td className="wc-qt-rate">{jobRange(PUBLISHED.house.job)}</td><td>Soft wash (low pressure)</td></tr>
+                <tr><td>Wood / composite deck</td><td className="wc-qt-rate">{band("deck")}</td><td className="wc-qt-rate">{rateRange(PUBLISHED.deck.perSqFt)}</td><td className="wc-qt-rate">{jobRange(PUBLISHED.deck.job)}</td><td>Low pressure + brightener</td></tr>
+                <tr><td>Roof</td><td className="wc-qt-rate">{band("roof")}</td><td className="wc-qt-rate">{rateRange(PUBLISHED.roof.perSqFt)}</td><td className="wc-qt-rate">{jobRange(PUBLISHED.roof.job)}</td><td>Soft wash only</td></tr>
+                <tr><td>Commercial flatwork</td><td className="wc-qt-rate">—</td><td className="wc-qt-rate">{rateRange(PUBLISHED.commercial.perSqFt)}</td><td className="wc-qt-rate">Varies by area</td><td>Surface cleaner, volume rate</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="wc-qt-note">
+            <strong>WashCalc rate card</strong> is the per-sq-ft band the calculators use (siding is
+            per sq ft of wall area). <strong>Published range</strong> and typical job totals are 2026
+            national guides — driveway and roof: {PUBLISHED.driveway.source}; siding soft wash:{" "}
+            {PUBLISHED.sidingSoftWash.source}; whole-house job: {PUBLISHED.house.source}; deck and
+            commercial: {PUBLISHED.deck.source}. Regional markets, access, and condition move the real number.
+          </p>
 
           <h3>What pushes a quote up</h3>
           <p>
@@ -132,8 +145,8 @@ export default function QuoteTool() {
             what it costs to show up.
           </p>
 
-          {/* SVG: per-surface rate chart — CSS-var driven so it inherits the site palette */}
-          <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart of average price per square foot by surface: driveway $0.28, house $0.45, deck $0.45, roof $0.50, commercial $0.25" style={{ width: "100%", height: "auto", margin: "18px 0" }}>
+          {/* SVG: per-surface rate chart — bars come from rates.js base rates */}
+          <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={`Bar chart of WashCalc base rate per square foot by surface: ${CHART.map((c) => `${c.label.toLowerCase()} $${c.rate.toFixed(2)}`).join(", ")}`} style={{ width: "100%", height: "auto", margin: "18px 0" }}>
             <style>{`
               .wc-qt-chart .bar{fill:var(--wc-primary);} .wc-qt-chart .barlite{fill:var(--wc-primary-dark);}
               .wc-qt-chart .axis{stroke:var(--wc-border);stroke-width:1;}
@@ -142,28 +155,19 @@ export default function QuoteTool() {
               .wc-qt-chart .ttl{fill:var(--wc-text-soft);font:600 11px var(--wc-font);letter-spacing:.04em;text-transform:uppercase;}
             `}</style>
             <g className="wc-qt-chart">
-              <text x="0" y="16" className="ttl">Average price per sq ft (mid-range)</text>
+              <text x="0" y="16" className="ttl">WashCalc base rate per sq ft (light condition)</text>
               <line className="axis" x1="0" y1="220" x2="640" y2="220" />
-              {/* driveway 0.28 */}
-              <rect className="bar" x="24" y="128" width="80" height="92" rx="4" />
-              <text className="val" x="64" y="120" textAnchor="middle">$0.28</text>
-              <text className="lbl" x="64" y="238" textAnchor="middle">Driveway</text>
-              {/* house 0.45 */}
-              <rect className="bar" x="148" y="72" width="80" height="148" rx="4" />
-              <text className="val" x="188" y="64" textAnchor="middle">$0.45</text>
-              <text className="lbl" x="188" y="238" textAnchor="middle">House</text>
-              {/* deck 0.45 */}
-              <rect className="bar" x="272" y="72" width="80" height="148" rx="4" />
-              <text className="val" x="312" y="64" textAnchor="middle">$0.45</text>
-              <text className="lbl" x="312" y="238" textAnchor="middle">Deck</text>
-              {/* roof 0.50 */}
-              <rect className="barlite" x="396" y="56" width="80" height="164" rx="4" />
-              <text className="val" x="436" y="48" textAnchor="middle">$0.50</text>
-              <text className="lbl" x="436" y="238" textAnchor="middle">Roof</text>
-              {/* commercial 0.25 */}
-              <rect className="bar" x="520" y="138" width="80" height="82" rx="4" />
-              <text className="val" x="560" y="130" textAnchor="middle">$0.25</text>
-              <text className="lbl" x="560" y="238" textAnchor="middle">Commercial</text>
+              {CHART.map((c, i) => {
+                const h = Math.round(c.rate * 328);
+                const x = 24 + i * 124;
+                return (
+                  <g key={c.id}>
+                    <rect className={c.id === "roof" ? "barlite" : "bar"} x={x} y={220 - h} width="80" height={h} rx="4" />
+                    <text className="val" x={x + 40} y={212 - h} textAnchor="middle">${c.rate.toFixed(2)}</text>
+                    <text className="lbl" x={x + 40} y="238" textAnchor="middle">{c.label}</text>
+                  </g>
+                );
+              })}
             </g>
           </svg>
         </section>
@@ -181,11 +185,12 @@ export default function QuoteTool() {
           <p>
             Say your fully-loaded cost to run for an hour — labor, fuel, insurance, equipment
             wear, a slice of overhead — is $55. You want $45/hour of profit on top. Your surface
-            cleaner covers about 1,000&nbsp;sq&nbsp;ft of concrete per hour. Then:
+            cleaner covers about {PROD}&nbsp;sq&nbsp;ft of concrete per hour in light condition
+            (WashCalc's default production rate). Then:
           </p>
           <div className="wc-qt-formula wc-qt-formula-light">
-            <div className="eq">( $55 + $45 ) ÷ 1,000 = <b>$0.10 / sq ft</b> floor</div>
-            <small>Never quote concrete below this. Market rate ($0.20–$0.35) is comfortably above it — that gap is your room to compete and still profit.</small>
+            <div className="eq">( $55 + $45 ) ÷ {PROD} = <b>${FLOOR.toFixed(2)} / sq ft</b> floor</div>
+            <small>Never quote concrete below this. It sits inside WashCalc's {band("driveway")} driveway rate card, so at these costs the bottom of the band is below your floor — exactly the case the cost floor exists for. The published {rateRange(PUBLISHED.driveway.perSqFt)} range leaves more room in higher-cost markets.</small>
           </div>
           <div className="wc-qt-callout">
             <strong>The tool's job:</strong> compare your cost-plus floor to the market rate price and
@@ -200,34 +205,43 @@ export default function QuoteTool() {
           <p className="wc-qt-sub">A bundled residential job — the kind that closes at a higher rate than three separate quotes.</p>
 
           <div className="wc-qt-example">
-            <div className="head">Estimate #2026-0142 · 2,200 sq ft home, moderate soiling</div>
+            <div className="head">Estimate #2026-0211 · {EX.lines[0].area.toLocaleString("en-US")} sq ft of siding, light soiling</div>
             <div className="body">
               <div className="wc-qt-line">
-                <span className="lbl">House exterior — soft wash<small>2,200 sq ft vinyl siding · SH + surfactant · under 500 PSI</small></span>
-                <span className="amt">$385</span>
+                <span className="lbl">House exterior — soft wash<small>{EX.lines[0].area.toLocaleString("en-US")} sq ft vinyl siding · SH + surfactant · under 500 PSI · ${EX.lines[0].perSqFt.toFixed(2)}/sq ft</small></span>
+                <span className="amt">{formatMoney(EX.lines[0].price)}</span>
               </div>
               <div className="wc-qt-line">
-                <span className="lbl">Driveway — surface clean<small>800 sq ft concrete · 3,000 PSI · light oil pre-treat</small></span>
-                <span className="amt">$210</span>
+                <span className="lbl">Driveway — surface clean<small>{EX.lines[1].area} sq ft concrete · 3,000 PSI · light oil pre-treat · ${EX.lines[1].perSqFt.toFixed(2)}/sq ft</small></span>
+                <span className="amt">{formatMoney(EX.lines[1].price)}</span>
               </div>
               <div className="wc-qt-line">
-                <span className="lbl">Walkways &amp; front steps<small>600 sq ft concrete · surface cleaner pass</small></span>
-                <span className="amt">$150</span>
+                <span className="lbl">Walkways &amp; front steps<small>{EX.lines[2].area} sq ft concrete · surface cleaner pass · ${EX.lines[2].perSqFt.toFixed(2)}/sq ft</small></span>
+                <span className="amt">{formatMoney(EX.lines[2].price)}</span>
               </div>
               <div className="wc-qt-line">
                 <span className="lbl">Surface prep &amp; protection<small>Cover outlets, tape fixtures, protect landscaping</small></span>
                 <span className="amt">$0 <small className="wc-qt-incl">(incl.)</small></span>
               </div>
               <div className="wc-qt-line discount">
-                <span className="lbl">Bundle discount<small>House + flatwork booked together</small></span>
-                <span className="amt">−$70</span>
+                <span className="lbl">Bundle discount<small>House + flatwork booked together · {EX.bundlePct}%</small></span>
+                <span className="amt">−{formatMoney(EX.discount)}</span>
               </div>
               <div className="wc-qt-line total">
                 <span className="lbl">Total estimate</span>
-                <span className="amt">$675</span>
+                <span className="amt">{formatMoney(EX.total)}</span>
               </div>
             </div>
           </div>
+          <p className="wc-qt-note">
+            Priced with the WashCalc model: each line is area × rate card, light condition, then a{" "}
+            {EX.bundlePct}% bundle discount. The cost floor — ${EX.laborRate}/hr labor cost over{" "}
+            {EX.hours.toFixed(1)} hours, ${EX.chemical} chemical and ${EX.travel} travel at a{" "}
+            {EX.marginPct}% target — is {formatMoney(EX.costFloor)}, below the bundled total, so the
+            surface rates set the price at a {EX.margin.toFixed(0)}% margin. Enter the same lines in
+            the <Link to="/pressure-washing-estimate-calculator">estimate calculator</Link> to
+            reproduce it.
+          </p>
           <p className="wc-qt-note">
             Optional add-ons quoted separately so the customer chooses without pressure:
             driveway sealing (+$180), gutter brightening (+$95), rust-stain removal (+$60).
@@ -292,7 +306,7 @@ export default function QuoteTool() {
           <p>
             Residential jobs reward simple, surface-based flat pricing — homeowners want a predictable
             number they don't have to think about. Commercial flatwork runs on volume, so large lots
-            price lower per square foot ($0.10–$0.40) but the real money is in the <em>recurring
+            price lower per square foot ({rateRange(PUBLISHED.commercial.perSqFt)}) but the real money is in the <em>recurring
             contract</em>. Quote the one-time clean, then offer a monthly or quarterly maintenance rate
             at a discount. One storefront becomes twelve visits a year.
           </p>

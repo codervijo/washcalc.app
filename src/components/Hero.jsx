@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatMoney } from "../PricingEngine.js";
+import { band } from "../rates.js";
 
 export default function Hero() {
   return (
@@ -21,6 +22,7 @@ export default function Hero() {
         <div className="wc-card wc-card-lg" style={{ padding: 22 }}>
           <div className="wc-result-headline">Sample quote · Driveway</div>
           <div className="wc-result-price">{formatMoney(245)} <span className="wc-result-sub">· $0.27/sq ft</span></div>
+          <div className="wc-sample-flag">Margin floor applied: $118 of cost at a 52% target lifts this above the {band("driveway")} rate card</div>
           <div className="wc-result-list">
             <div className="wc-result-row"><span className="wc-k">Area</span><span className="wc-v">900 sq ft · Moderate</span></div>
             <div className="wc-result-row"><span className="wc-k">Time</span><span className="wc-v">~2.5 hrs</span></div>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import useSEO from "../useSEO.js";
 import { PRICING_GUIDE_FAQS } from "./variants.js";
+import { band, rateRange, productionRate, surface, anchorArea, anchorPrice, PUBLISHED } from "../rates.js";
 
 export default function PricingGuide() {
   useSEO({
@@ -76,21 +77,28 @@ export default function PricingGuide() {
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Average cost per square foot</h2>
           <p>
-            Across the U.S. in 2026, pressure washing prices land in a fairly narrow band per square foot, and most variation comes from <em>surface type</em> and <em>condition</em>. Here is the range you can quote against without raising eyebrows in the residential market:
+            Across the U.S. in 2026, pressure washing prices land in a fairly narrow band per square foot, and most variation comes from <em>surface type</em> and <em>condition</em>. Here is WashCalc's rate card — the range you can quote against without raising eyebrows in the residential market:
           </p>
           <ul style={{ paddingLeft: 22, lineHeight: 1.75 }}>
-            <li><strong>Driveway (concrete or asphalt):</strong> $0.20–$0.25 per sq ft</li>
-            <li><strong>House siding (vinyl, stucco, painted):</strong> $0.25–$0.35 per sq ft</li>
-            <li><strong>Roof (soft-wash):</strong> $0.40–$0.60 per sq ft</li>
-            <li><strong>Wood or composite deck:</strong> $0.30–$0.45 per sq ft</li>
-            <li><strong>Patio or pool deck:</strong> $0.20–$0.30 per sq ft</li>
-            <li><strong>Wood or vinyl fence:</strong> $0.25–$0.40 per sq ft</li>
+            <li><strong>Driveway (concrete or asphalt):</strong> {band("driveway")} per sq ft</li>
+            <li><strong>House siding (vinyl, stucco, painted):</strong> {band("siding")} per sq ft of siding</li>
+            <li><strong>Roof (soft-wash):</strong> {band("roof")} per sq ft</li>
+            <li><strong>Wood or composite deck:</strong> {band("deck")} per sq ft</li>
+            <li><strong>Patio or pool deck:</strong> {band("patio")} per sq ft</li>
+            <li><strong>Wood or vinyl fence:</strong> {band("fence")} per sq ft</li>
           </ul>
+          <p>
+            Published national guides run wider, because they span every region and job size:
+            driveways {rateRange(PUBLISHED.driveway.perSqFt)} ({PUBLISHED.driveway.source}), soft-wash
+            siding {rateRange(PUBLISHED.sidingSoftWash.perSqFt)} ({PUBLISHED.sidingSoftWash.source}), decks{" "}
+            {rateRange(PUBLISHED.deck.perSqFt)} and roofs {rateRange(PUBLISHED.roof.perSqFt)}. Use them as a
+            sanity check on the rate card, not as a quote.
+          </p>
           <p>
             Those numbers are starting points, not gospel. A heavily-soiled surface multiplies labor time. A second-story roof multiplies the safety overhead. A long drive multiplies your fuel and unbillable hours. The job of a pricing system is to translate those multipliers into dollars rather than guess at them. WashCalc bakes a condition multiplier (light × 1.0, moderate × 1.2, heavy × 1.5) directly into both the rate and labor estimates so you stop eyeballing.
           </p>
           <p>
-            One more useful anchor: in most markets, a typical 800–1,000 sq ft residential driveway prices between $160 and $250. A typical 1,800–2,200 sq ft single-story house wash lands at $250–$450. A typical 1,500 sq ft soft-wash roof clean lands at $600–$900. If your number lands far outside those bands, double-check before you send the quote.
+            One more useful set of anchors, each measured on the surface you actually clean: an {anchorArea("driveway")} sq ft residential driveway (surface area) prices at {anchorPrice("driveway", "driveway")}. A single-story house wash with about {anchorArea("sidingOneStory")} sq ft of siding (wall area, not the home's floor area) lands at {anchorPrice("sidingOneStory", "siding")}. A soft-wash roof with {anchorArea("roof")} sq ft of roof surface lands at {anchorPrice("roof", "roof")}. Each band is simply the area times the rate card above. If your number lands far outside those bands, double-check before you send the quote.
           </p>
           <p>
             A note on commercial and HOA work: per-square-foot rates drop sharply at scale because production rates climb, but minimum charges become irrelevant. A 12,000 sq ft commercial parking lot might price at $0.10–$0.14 per sq ft — half the residential rate — yet still produce far better hourly economics because setup, drive, and admin overhead are amortized across one big number. If you start moving into commercial work, build a separate rate card with its own production rates, chemical mix, and travel assumptions; do not just discount your residential pricing across the board.
@@ -100,26 +108,26 @@ export default function PricingGuide() {
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>Driveways</h3>
           <p>
-            Driveways are the volume product of residential pressure washing — high frequency, low complexity, modest margin. Production rates with a good 16–20 inch surface cleaner run around 450 sq ft per hour in moderate condition. Heavy oil staining, road grime from a long downhill driveway, or a pebbled aggregate finish can drop that rate by 30–60%. Chemical cost is usually low: a degreaser pretreatment and a post-rinse is enough for most jobs. Price between $0.20 and $0.25 per sq ft, with a hard minimum charge of $150 to cover travel and setup. The{" "}
+            Driveways are the volume product of residential pressure washing — high frequency, low complexity, modest margin. Production rates with a good 16–20 inch surface cleaner run around {productionRate("driveway")} sq ft per hour in light condition and about {productionRate("driveway", "moderate")} in moderate. Heavy oil staining, road grime from a long downhill driveway, or a pebbled aggregate finish can drop that rate by 30–60%. Chemical cost is usually low: a degreaser pretreatment and a post-rinse is enough for most jobs. Price at {band("driveway")} per sq ft, with a hard minimum charge of $150 to cover travel and setup. The{" "}
             <a href="/calculators/driveway">driveway cleaning cost calculator</a>{" "}
             ships with these defaults pre-set.
           </p>
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>House washing</h3>
           <p>
-            House washing is the highest-frequency repeat service in residential pressure washing — most homeowners want it done annually, which makes it a strong base of recurring work. The technique depends entirely on the siding: vinyl, painted wood, stucco and painted brick all get a soft-wash with a sodium hypochlorite mix (never a high-pressure tip), while unpainted brick and stone can take more pressure. Production rates run around 300–400 sq ft of siding per hour. Price between $0.25 and $0.35 per sq ft of siding — a typical single-story home lands at $250–$450 and a two-story home at $400–$700. Use the{" "}
+            House washing is the highest-frequency repeat service in residential pressure washing — most homeowners want it done annually, which makes it a strong base of recurring work. The technique depends entirely on the siding: vinyl, painted wood, stucco and painted brick all get a soft-wash with a sodium hypochlorite mix (never a high-pressure tip), while unpainted brick and stone can take more pressure. Production runs around {productionRate("siding")} sq ft of siding per hour in light condition and about {productionRate("siding", "moderate")} in moderate. Price at {band("siding")} per sq ft of siding — wall area (perimeter × wall height per storey), not the home's floor area. About {anchorArea("sidingOneStory")} sq ft of siding, typical of a single-story home, lands at {anchorPrice("sidingOneStory", "siding")}; about {anchorArea("sidingTwoStory")} sq ft of siding, typical of a two-story home, lands at {anchorPrice("sidingTwoStory", "siding")}. Use the{" "}
             <a href="/calculators/house-washing">house washing cost calculator</a>{" "}
             to dial in vinyl, brick or stucco quickly.
           </p>
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>Roofs</h3>
           <p>
-            Roofs are the highest-margin surface in residential pressure washing — and the highest-risk. The work is done with a low-pressure soft-wash system using a sodium hypochlorite mix, never with a high-pressure tip that would lift shingles or void warranties. The price reflects both the chemical cost (12.5% sodium hypochlorite plus surfactant runs $40–$80 per average roof) and the safety overhead of working at height. Quote between $0.40 and $0.60 per sq ft, with a higher target margin (55%+) than other surfaces because the risk and the equipment depreciation are real costs you’ll regret ignoring.
+            Roofs are the highest-margin surface in residential pressure washing — and the highest-risk. The work is done with a low-pressure soft-wash system using a sodium hypochlorite mix, never with a high-pressure tip that would lift shingles or void warranties. The price reflects both the chemical cost (12.5% sodium hypochlorite plus surfactant runs $40–$80 per average roof) and the safety overhead of working at height. Quote at {band("roof")} per sq ft, with a higher target margin (55%+) than other surfaces because the risk and the equipment depreciation are real costs you’ll regret ignoring.
           </p>
 
           <h3 style={{ fontSize: 20, marginTop: 24 }}>Decks</h3>
           <p>
-            Decks split into two categories that don’t price the same. Wood decks need lower pressure (500–1,200 PSI), a fan tip, and often a brightener to even out the cleaned surface — that’s slower work and more chemical. Composite decks are forgiving and clean fast. Price wood decks at $0.35–$0.45 per sq ft and composite at $0.30–$0.38 per sq ft. If the customer asks for sealing or staining, that’s a separate line item priced by gallon and hour, not bundled into the wash.
+            Decks split into two categories that don’t price the same. Wood decks need lower pressure (500–1,200 PSI), a fan tip, and often a brightener to even out the cleaned surface — that’s slower work and more chemical. Composite decks are forgiving and clean fast. Price wood decks at {rateRange(surface("deck").wood)} per sq ft and composite at {rateRange(surface("deck").composite)} per sq ft. If the customer asks for sealing or staining, that’s a separate line item priced by gallon and hour, not bundled into the wash.
           </p>
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Common mistakes</h2>

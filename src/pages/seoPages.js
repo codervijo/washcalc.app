@@ -1,3 +1,4 @@
+import { band, base, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
 // Phase 1.B SEO page metadata — titles, descriptions, canonicals,
 // breadcrumbs and FAQ sets for the six new search-demand pages.
 //
@@ -63,12 +64,13 @@ export const ROOF_COST = {
   description:
     "What roof cleaning costs in 2026: soft-wash price per square foot, what drives the number up, how contractors price pitch and access, worked examples, and DIY versus professional.",
   canonical: `${ORIGIN}/roof-cleaning-cost`,
+  lastmod: "2026-09-29",
   h1: "Roof Cleaning Cost",
   breadcrumbs: [HOME, crumb("Roof Cleaning Cost", "/roof-cleaning-cost")],
   faqs: [
     {
       q: "How much does roof cleaning cost?",
-      a: "Published 2026 guides put soft-wash roof cleaning at roughly $0.40–$0.60 per square foot, with a typical residential job landing around $300–$700 (HomeGuide, Angi). A 1,500 sq ft roof in moderate condition sits near the middle of that band. Steep pitch, difficult access, a second storey or heavy black-streak coverage push a job toward and past the top of it.",
+      a: `Published 2026 guides put soft-wash roof cleaning at roughly ${rateRange(PUBLISHED.roof.perSqFt)} per square foot, with a typical residential job landing around ${jobRange(PUBLISHED.roof.job)} (${PUBLISHED.roof.source}). WashCalc's rate card uses the same ${band("roof")} band: a 1,500 sq ft roof in light condition prices at the ${base("roof")} base rate, the middle of it, and moderate condition takes it to the top. Steep pitch, difficult access, a second storey or heavy black-streak coverage push a job toward and past the top of it.`,
     },
     {
       q: "Why is roof cleaning more expensive per square foot than a driveway?",
@@ -106,12 +108,13 @@ export const DRIVEWAY_COST = {
   description:
     "Driveway pressure washing cost in 2026: price per square foot for concrete and asphalt, what oil stains and aggregate do to the number, worked pricing examples, and when a minimum charge applies.",
   canonical: `${ORIGIN}/driveway-pressure-washing-cost`,
+  lastmod: "2026-09-29",
   h1: "Driveway Pressure Washing Cost",
   breadcrumbs: [HOME, crumb("Driveway Pressure Washing Cost", "/driveway-pressure-washing-cost")],
   faqs: [
     {
       q: "How much does it cost to pressure wash a driveway?",
-      a: "Published 2026 ranges put concrete driveway cleaning at roughly $0.20–$0.35 per square foot, with a typical residential job at about $100–$300 (HomeGuide, Angi). A standard two-car driveway of 600–900 sq ft in moderate condition therefore lands in the low-to-mid hundreds. Below roughly $150 most operators apply a minimum charge instead of the square-foot rate.",
+      a: `Published 2026 ranges put concrete driveway cleaning at roughly ${rateRange(PUBLISHED.driveway.perSqFt)} per square foot, with a typical residential job at about ${jobRange(PUBLISHED.driveway.job)} (${PUBLISHED.driveway.source}); WashCalc's own rate card sits in the lower part of that, at ${band("driveway")}. A standard two-car driveway of 600–900 sq ft in moderate condition therefore lands in the low-to-mid hundreds. Below roughly $150 most operators apply a minimum charge instead of the square-foot rate.`,
     },
     {
       q: "Why do small driveways cost more per square foot?",
@@ -131,7 +134,7 @@ export const DRIVEWAY_COST = {
     },
     {
       q: "How long does a driveway take to clean?",
-      a: "With a 16–20 inch surface cleaner, a working figure is around 450 sq ft per hour in moderate condition — the WashCalc default. Light soiling runs faster; heavy soiling, exposed aggregate, a stamped or pebbled finish, or oil treatment can cut the rate by 30–60%. Time the first few jobs against your own gear rather than trusting any published rate, including ours.",
+      a: `With a 16–20 inch surface cleaner, the WashCalc default is ${productionRate("driveway")} sq ft per hour in light condition and about ${productionRate("driveway", "moderate")} in moderate. Heavy soiling, exposed aggregate, a stamped or pebbled finish, or oil treatment can cut the rate by 30–60%. Time the first few jobs against your own gear rather than trusting any published rate, including ours.`,
     },
     {
       q: "Can a homeowner pressure wash their own driveway?",
@@ -149,12 +152,13 @@ export const HOUSE_COST = {
   description:
     "House washing cost in 2026: soft-wash price per square foot, how vinyl, stucco and brick differ, what a second storey adds, worked examples, and how contractors build the number.",
   canonical: `${ORIGIN}/house-washing-cost`,
+  lastmod: "2026-09-29",
   h1: "House Washing Cost",
   breadcrumbs: [HOME, crumb("House Washing Cost", "/house-washing-cost")],
   faqs: [
     {
       q: "How much does house washing cost?",
-      a: "Angi reports whole-house exterior cleaning spanning roughly $100–$711 with an average near $311, and HomeGuide puts soft washing at about $0.25–$0.75 per square foot against $0.15–$0.50 for straight pressure washing. In practice a single-storey home commonly lands in the mid hundreds and a two-storey home meaningfully above that. The spread is wide because siding area, storey count and regional labor move the number more than anything the contractor chooses.",
+      a: `Angi reports whole-house exterior cleaning spanning roughly ${jobRange(PUBLISHED.house.job)} with an average near $${PUBLISHED.house.avg}, and HomeGuide puts soft washing at about ${rateRange(PUBLISHED.sidingSoftWash.perSqFt)} per square foot against ${rateRange(PUBLISHED.sidingPressure.perSqFt)} for straight pressure washing. WashCalc's own rate card is ${band("siding")} per square foot of siding. In practice a single-storey home commonly lands in the mid hundreds and a two-storey home meaningfully above that. The spread is wide because siding area, storey count and regional labor move the number more than anything the contractor chooses.`,
     },
     {
       q: "How do contractors measure siding area?",

@@ -4,6 +4,8 @@ import Hero from "../components/Hero.jsx";
 import FAQ from "../components/FAQ.jsx";
 import RelatedTools from "../components/RelatedTools.jsx";
 import useSEO from "../useSEO.js";
+import { LANDING_FAQS as FAQS } from "./faqs.js";
+import { band, base } from "../rates.js";
 
 const BENEFITS = [
   { icon: "⚡", title: "Quote faster", body: "Build a defensible price in under a minute — even on your phone in the truck." },
@@ -14,18 +16,6 @@ const BENEFITS = [
   { icon: "🪪", title: "Look professional", body: "Send clean, consistent numbers customers trust on the first call." },
 ];
 
-const FAQS = [
-  { q: "How much should I charge for pressure washing?",
-    a: "Most operators land between $0.20 and $0.60 per square foot depending on surface and condition. Driveways are usually $0.20–$0.25/sq ft, roofs $0.40–$0.60/sq ft. WashCalc combines a per-surface base rate with your real labor, chemical and travel cost so you never quote below profitability." },
-  { q: "How does WashCalc estimate labor time?",
-    a: "Each surface has a typical productivity rate in square feet per hour. We multiply by a condition factor (light, moderate, heavy) so a heavily-soiled deck takes longer than a fresh one." },
-  { q: "What is a healthy gross margin for pressure washing?",
-    a: "40–60% gross margin is a common target for solo and small-crew operators. WashCalc lets you set a target margin and protects it automatically." },
-  { q: "Does this replace a CRM or invoicing tool?",
-    a: "No — WashCalc is a focused pricing tool. Saved quotes, PDF export and lead capture are on the roadmap." },
-  { q: "Can I use this on mobile?",
-    a: "Yes. The calculator is fully responsive — use it on the truck, on the lawn, or at the kitchen table." },
-];
 
 export default function Landing() {
   useSEO({
@@ -47,31 +37,33 @@ export default function Landing() {
             <a href="/calculators/driveway" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
               <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Driveway Cleaning Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Concrete or asphalt driveway pricing at $0.20–$0.25 per square foot.
+                Concrete or asphalt driveway pricing at {band("driveway")} per square foot.
               </div>
             </a>
             <a href="/calculators/house-washing" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
               <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>House Washing Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Vinyl, brick or stucco siding pricing at $0.25–$0.35 per square foot.
+                Vinyl, brick or stucco siding pricing at {band("siding")} per square foot of siding.
               </div>
             </a>
             <a href="/calculators/roof" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
               <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Roof Cleaning Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Soft-wash roof pricing at $0.40–$0.60 per square foot.
+                Soft-wash roof pricing at {band("roof")} per square foot.
               </div>
             </a>
             <a href="/calculators/deck" className="wc-card wc-card-pad" style={{ display: "block", color: "inherit" }}>
               <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>Deck Cleaning Calculator</div>
               <div style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>
-                Wood and composite deck pricing at $0.30–$0.45 per square foot.
+                Wood and composite deck pricing at {band("deck")} per square foot.
               </div>
             </a>
           </div>
           <p style={{ textAlign: "center", marginTop: 18, fontSize: 14.5, color: "var(--wc-text-muted)" }}>
             Pricing a mixed job? Use the <a href="/calculator">all-surface pressure washing calculator</a>.
             {" "}Building a full estimate? See the <a href="/quote-tool">power washing quote tool</a>.
+            {" "}Rates shown are WashCalc's rate card; published national ranges are in
+            the <a href="/pressure-washing-pricing-guide">pricing guide</a>.
           </p>
         </div>
       </section>
@@ -113,7 +105,7 @@ export default function Landing() {
             <div className="wc-card wc-card-pad">
               <div className="wc-benefit-icon">1</div>
               <h3 style={{ marginTop: 0 }}>Surface base rate</h3>
-              <p style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>Each surface has a typical $/sq ft. Driveway ~$0.22, roof ~$0.50, deck ~$0.38.</p>
+              <p style={{ color: "var(--wc-text-muted)", fontSize: 14.5 }}>Each surface has a typical $/sq ft. Driveway ~{base("driveway")}, roof ~{base("roof")}, deck ~{base("deck")}.</p>
             </div>
             <div className="wc-card wc-card-pad">
               <div className="wc-benefit-icon">2</div>

@@ -1,5 +1,6 @@
 import Layout from "../components/Layout.jsx";
 import useSEO from "../useSEO.js";
+import { base } from "../rates.js";
 
 export default function About() {
   useSEO({
@@ -50,8 +51,8 @@ export default function About() {
             <li>
               <strong>Rate-based price</strong> — area × a per-surface base rate × a condition
               multiplier (light × 1.0, moderate × 1.2, heavy × 1.5). This is the market-friendly
-              anchor a homeowner recognizes: driveways ~$0.22/sq ft, house siding ~$0.30, roofs
-              ~$0.50, decks ~$0.38.
+              anchor a homeowner recognizes: driveways ~{base("driveway")}/sq ft, house siding ~{base("siding")}, roofs
+              ~{base("roof")}, decks ~{base("deck")}.
             </li>
             <li>
               <strong>Cost-plus price</strong> — (labor + chemical + travel) ÷ (1 − your target

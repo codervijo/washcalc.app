@@ -1,6 +1,7 @@
 import SeoPageShell from "../components/SeoPageShell.jsx";
 import EstimateBuilder from "../components/tools/EstimateBuilder.jsx";
 import { ESTIMATE_CALCULATOR } from "./seoPages.js";
+import { base } from "../rates.js";
 
 const TOC = [
   { id: "builder", label: "Build the estimate" },
@@ -45,7 +46,7 @@ export default function EstimateCalculator() {
           multiplier</strong>. The surface rate is the per-square-foot anchor your local market
           recognizes; the condition multiplier is how much harder this particular surface is than
           a clean one. WashCalc ships with light at ×1.0, moderate at ×1.2 and heavy at ×1.5. A
-          1,800 sq ft wall of vinyl siding at the default $0.30 rate in moderate condition is
+          1,800 sq ft wall of vinyl siding at the default {base("siding")} rate in moderate condition is
           therefore 1,800 × 0.30 × 1.2 = $648.
         </p>
         <p>

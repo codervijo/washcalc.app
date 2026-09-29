@@ -1,3 +1,4 @@
+import { band, rateRange, jobRange, PUBLISHED } from "../../rates.js";
 // Regional house-washing pricing benchmarks.
 //
 // NOTE ON DATA: verified per-metro median $/sq ft figures for individual cities
@@ -15,15 +16,16 @@
 const LAST_UPDATED = "2026-07-17";
 
 const NATIONAL = [
-  { metric: "Soft wash (siding)", range: "$0.25–$0.75 / sq ft", source: "HomeGuide / Angi" },
-  { metric: "Pressure wash", range: "$0.15–$0.50 / sq ft", source: "HomeGuide / Angi" },
-  { metric: "Typical whole-house job", range: "$100–$711 (avg ≈ $311)", source: "Angi" },
+  { metric: "Soft wash (published)", range: `${rateRange(PUBLISHED.sidingSoftWash.perSqFt)} / sq ft`, source: PUBLISHED.sidingSoftWash.source },
+  { metric: "Pressure wash (published)", range: `${rateRange(PUBLISHED.sidingPressure.perSqFt)} / sq ft`, source: PUBLISHED.sidingPressure.source },
+  { metric: "Typical whole-house job (published)", range: `${jobRange(PUBLISHED.house.job)} (avg ≈ $${PUBLISHED.house.avg})`, source: PUBLISHED.house.source },
+  { metric: "WashCalc rate card (siding)", range: `${band("siding")} / sq ft`, source: "WashCalc model" },
 ];
 
 const TIERS = [
   { tier: "High-cost urban", metros: "New York, San Francisco, Boston", adj: "+20% to +50%", perSqFt: "≈ $0.30–$1.10", source: "Angi" },
   { tier: "Pacific NW", metros: "Portland, Seattle (labor + heavy algae)", adj: "≈ +40%", perSqFt: "≈ $0.35–$1.05", source: "NJM Roof Cleaners" },
-  { tier: "Mid-market metros", metros: "Most US metros", adj: "≈ national", perSqFt: "$0.25–$0.75", source: "HomeGuide" },
+  { tier: "Mid-market metros", metros: "Most US metros", adj: "≈ national", perSqFt: rateRange(PUBLISHED.sidingSoftWash.perSqFt), source: PUBLISHED.sidingSoftWash.source },
   { tier: "Southeast & rural", metros: "Southeast US, rural areas", adj: "−10% to −20%", perSqFt: "≈ $0.20–$0.70", source: "Cajun Soft Wash" },
 ];
 

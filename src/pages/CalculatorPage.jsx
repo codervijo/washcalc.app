@@ -7,26 +7,21 @@ import FAQ from "../components/FAQ.jsx";
 import RelatedTools from "../components/RelatedTools.jsx";
 import { calculateQuote } from "../PricingEngine.js";
 import useSEO from "../useSEO.js";
+import { ALLSURFACE_FAQS as FAQS } from "./faqs.js";
 
 const DEFAULT_VALUES = {
   surfaceId: "driveway",
-  conditionId: "moderate",
+  conditionId: "light",
   area: 800,
-  laborRate: 75,
+  // laborRate is a COST per crew-hour (wages + burden), not a billing rate —
+  // the engine divides cost by (1 − margin). $35 matches EstimateBuilder.
+  laborRate: 35,
   chemicalCost: 25,
   travelCost: 20,
-  marginPct: 50,
+  marginPct: 45,
   minimumCharge: 150,
 };
 
-const FAQS = [
-  { q: "What's a fair price per square foot for pressure washing?",
-    a: "Driveways usually run $0.20–$0.25/sq ft, house siding $0.25–$0.35, roofs $0.40–$0.60, decks $0.30–$0.45, patios $0.20–$0.30 and fences $0.25–$0.40." },
-  { q: "How is labor time estimated?",
-    a: "Each surface has a productivity rate in sq ft per hour. We multiply by a condition factor — heavy soil takes 60% longer than light." },
-  { q: "Why does the price sometimes jump?",
-    a: "WashCalc enforces your target margin. If your costs (labor, chemical, travel) exceed the rate-based price, we raise the price to protect profit." },
-];
 
 /**
  * Reusable calculator page. Pass `preset` to lock surface and customize content.
@@ -88,6 +83,8 @@ export default function CalculatorPage({ preset, heroExtra, belowHero }) {
               onChange={setValues}
               lockSurface={!!preset?.lockSurface}
               surfaceOnly={preset?.surfaceOnly}
+              areaLabel={preset?.areaLabel}
+              areaHelp={preset?.areaHelp}
             />
             <ResultsPanel
               result={result}
