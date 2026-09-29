@@ -13,7 +13,8 @@ Growth is organic search; see `docs/prd.md` (phases) and `docs/growth.md`
   writes per-route meta, JSON-LD and `sitemap.xml`.
 - Tests: vitest crawl suite (`tests/crawl.test.js`) against a static server
   (`scripts/crawl-runner.js`) — no JS execution, i.e. what Googlebot sees.
-- Hosting: Cloudflare Pages (auto-build on push to `main`).
+- Hosting: **Vercel** (NOT Cloudflare — verified 2026-09-29). Auto-build on
+  push to `main`; routing/redirects in `vercel.json`. See "Deployment info".
 
 ## Project structure
 - `src/PricingEngine.js` — surface rates, condition multipliers, `calculateQuote`.
@@ -114,7 +115,23 @@ re-introduce www canonicals.
 
 ## Deployment info
 
-Cloudflare Pages. Push to `main` triggers an auto-build via the
-`wrangler.jsonc` config; build output is `dist/`. Custom domain
-configured via the CF Pages dashboard.
+**Hosting is Vercel — NOT Cloudflare.** Double-checked 2026-09-29: live
+responses carry `server: Vercel` / `x-vercel-id` and no `cf-ray`; apex A
+record is `76.76.21.21` and `www` CNAMEs to `cname.vercel-dns.com`; DNS is at
+Namecheap (`registrar-servers.com`), not Cloudflare; there is no
+`wrangler.jsonc` and no `*.pages.dev` deploy. Older notes saying "Cloudflare
+Pages" were wrong.
+
+- **Deploy:** push to `main` → Vercel auto-builds (build output `dist/`,
+  live ~30 s after push). No `wrangler.jsonc`, no `_redirects` — do not add
+  Cloudflare config.
+- **Config:** `vercel.json` — `cleanUrls`, no trailing slash, and 301
+  redirects for the short forms (`/driveway`, `/roof`, `/house-washing`,
+  `/deck`). Unknown routes serve `dist/404.html` with a real 404.
+- **www → apex** is a Vercel **domain-level** redirect (Project → Settings →
+  Domains → `www.washcalc.app`), currently **308**. It fires *before*
+  `vercel.json`, so the www rules in `vercel.json` never run; change the
+  status code in the dashboard, not in `vercel.json`.
+- **Domains:** managed in the Vercel project's Domains settings; DNS
+  records live at Namecheap.
 

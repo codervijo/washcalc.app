@@ -5,6 +5,8 @@
 schema = "lamill-toml-v1"
 
 [deploy]
+# Hosting is Vercel — NOT Cloudflare. Double-checked 2026-09-29 (server: Vercel
+# headers, apex A 76.76.21.21, www CNAME cname.vercel-dns.com, DNS at Namecheap).
 platform = "vercel"
 production_branch = "main"
 custom_domains = [

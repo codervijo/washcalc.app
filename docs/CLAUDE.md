@@ -9,7 +9,8 @@ non-features that aren't obvious from the code or git history.
 washcalc.app is a free pressure-washing pricing site for contractors —
 surface calculators, a multi-surface estimate builder, cost guides and
 quote/estimate templates. Stack: React + Vite + pnpm with build-time
-prerendering, on Cloudflare Pages; `Makefile` forwards to the sites/
+prerendering, hosted on **Vercel (not Cloudflare — verified 2026-09-29)**;
+`Makefile` forwards to the sites/
 workspace and the central builder. Full orientation: `AI_AGENTS.md`.
 
 ## Commands
@@ -24,7 +25,7 @@ make build          # production build → dist/
 make test           # if a test suite is wired in
 
 # Deploy
-git push            # Cloudflare Pages auto-builds on push to main
+git push            # Vercel auto-builds on push to main (NOT Cloudflare)
 ```
 
 ## Conventions
@@ -32,8 +33,11 @@ git push            # Cloudflare Pages auto-builds on push to main
   - Build path: this project's `Makefile` → `../Makefile` (parent
     workspace) → `~/work/projects/builder/` (central builder).
   - Stack: pnpm-only. No `package-lock.json` / `bun.lockb` / `yarn.lock`.
-  - Deploy: Cloudflare Pages via `wrangler.jsonc`. No `_redirects`
-    SPA fallback (uses CF's `not_found_handling` instead).
+  - Deploy: **Vercel, not Cloudflare** (double-checked 2026-09-29 —
+    `server: Vercel` headers, Vercel DNS targets, no `wrangler.jsonc`).
+    Routing and short-form redirects live in `vercel.json`; www → apex is
+    a Vercel domain-level redirect set in the dashboard. Details:
+    `AI_AGENTS.md § Deployment info`.
   - **Canonical host: non-www apex `https://washcalc.app`.** Every
     canonical, breadcrumb, sitemap URL, and OG tag uses the bare apex —
     never `www.`. A live `www → apex` 308 redirect enforces it. This was

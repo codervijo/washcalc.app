@@ -19,7 +19,7 @@
 - [x] Add JSON-LD `WebApplication` schema to HTML shell
 - [x] Automated crawl test suite (`pnpm test:crawl`) — 49 tests, no JS execution
 - [x] GitHub Actions CI (`crawl-test.yml`) — runs on PR and push to main
-- [x] Force redirect **www → apex** (308 via `vercel.json`; live-verified 2026-07-13)
+- [x] Force redirect **www → apex** (308, live-verified 2026-07-13; re-checked 2026-09-29 — it is Vercel's domain-level redirect, not the `vercel.json` rule. Hosting is Vercel, not Cloudflare)
 - [x] Submit sitemap in Google Search Console (`https://washcalc.app/sitemap.xml` submitted 2026-07-14, 0 errors — per portfolio GSC snapshot). Per-URL "Request indexing" is tracked per phase (see Phase 1.C).
 
 ## Phase 1.B — SEO page expansion (search-demand targets)
