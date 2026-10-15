@@ -4,6 +4,7 @@ import CalculatorPage from "./pages/CalculatorPage.jsx";
 import HouseWashingPage from "./pages/HouseWashingPage.jsx";
 import DeckPage from "./pages/DeckPage.jsx";
 import RoofPage from "./pages/RoofPage.jsx";
+import DrivewayPage from "./pages/DrivewayPage.jsx";
 import PricingGuide from "./pages/PricingGuide.jsx";
 import QuoteTool from "./pages/QuoteTool.jsx";
 import About from "./pages/About.jsx";
@@ -15,7 +16,6 @@ import DrivewayPressureWashingCost from "./pages/DrivewayPressureWashingCost.jsx
 import HouseWashingCost from "./pages/HouseWashingCost.jsx";
 import QuoteTemplate from "./pages/QuoteTemplate.jsx";
 import EstimateTemplate from "./pages/EstimateTemplate.jsx";
-import { DRIVEWAY } from "./pages/variants.js";
 
 export default function App() {
   return (
@@ -23,10 +23,10 @@ export default function App() {
       <Route path="/" element={<Landing />} />
 
       {/* /calculator carries the Phase 1.B depth block. It is passed HERE and
-          not inside CalculatorPage so the surface-variant routes below — one
-          of which (/calculators/driveway) is indexed — render unchanged. */}
+          not inside CalculatorPage so each surface-variant route below gets
+          only its own route-scoped content. */}
       <Route path="/calculator" element={<CalculatorPage belowHero={<CalculatorDepth />} />} />
-      <Route path="/calculators/driveway" element={<CalculatorPage preset={DRIVEWAY} />} />
+      <Route path="/calculators/driveway" element={<DrivewayPage />} />
       <Route path="/calculators/roof" element={<RoofPage />} />
       <Route path="/calculators/house-washing" element={<HouseWashingPage />} />
       <Route path="/calculators/deck" element={<DeckPage />} />

@@ -362,6 +362,46 @@ describe("Phase 1.C — /calculators/roof tool page", () => {
   });
 });
 
+// WHY: /calculators/driveway was the last surface calculator on the stock
+// template (~390 words). It is indexed, so its title/H1/canonical stay put
+// (guarded below); these guards keep the added tool + copy in static HTML.
+describe("/calculators/driveway — area tool + contractor copy", () => {
+  let body;
+  beforeAll(async () => {
+    body = (await get("/calculators/driveway")).body;
+  });
+
+  const FRAGMENTS = [
+    'id="driveway-area"',
+    "Driveway area from measurements",
+    "Measuring a driveway for the calculator",
+    "Which number is setting your price",
+    "Why cutting margin does not always cut the price",
+  ];
+  for (const f of FRAGMENTS) {
+    it(`static HTML contains "${f}"`, () => {
+      expect(body, `/calculators/driveway lost "${f}" from its prerendered HTML`).toContain(f);
+    });
+  }
+
+  it("keeps its H1", () => {
+    expect(body).toMatch(/<h1[^>]*>Driveway Cleaning Cost Calculator<\/h1>/);
+  });
+
+  it("links to the driveway cost guide", () => {
+    expect(body).toContain('href="/driveway-pressure-washing-cost"');
+  });
+
+  it("FAQPage schema carries the new driveway questions", () => {
+    const ld = [...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+      .map((m) => JSON.parse(m[1]))
+      .find((o) => o["@type"] === "FAQPage");
+    const names = (ld?.mainEntity || []).map((q) => q.name);
+    expect(names).toContain("How do I measure a driveway for a pressure washing quote?");
+    expect(names).toContain("Why doesn't lowering my margin change the driveway price?");
+  });
+});
+
 describe("Phase 1.C — /calculator is the all-surface hub", () => {
   let body;
   beforeAll(async () => {

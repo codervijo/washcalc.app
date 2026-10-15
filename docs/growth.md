@@ -271,3 +271,30 @@ breakdown was pulled, so page-level attribution is unverified.
      in `docs/CLAUDE.md`). Doing it earlier would confound this test.
 - **Result:** TBD — review 2026-10-23
 - **Learning:** TBD
+
+## 2026-10-14 — thicken `/calculators/driveway` (last stock-template calculator)
+- **Status:** active — built 2026-10-14, not yet deployed.
+- **Hypothesis:** the driveway calculator is the only surface calculator still
+  on the stock template (~390 words, ~30% shared boilerplate). Depth that's
+  specific to the tool (measuring, which pricing rule sets the number) makes
+  it worth landing on and lifts its impressions/position without
+  cannibalizing `/driveway-pressure-washing-cost`.
+- **KPI:** GSC by page for `/calculators/driveway` — impressions, clicks, avg
+  position (28-day); confirm it stays `submitted_indexed`.
+- **Baseline (2026-10-14):** site 16 clicks / 1,245 impressions / CTR 1.3% /
+  avg pos 40.0 (`portfolio/data/seo/2026-10-14.json`). Page indexed, last
+  crawl 2026-10-14 (`portfolio/data/gsc/washcalc.app/2026-10-14.json`).
+  Per-page baseline not pulled — pull it at deploy.
+- **Action:** operator-approved content change on an indexed page. Title, H1,
+  intro, meta description and canonical unchanged. Added: driveway area tool
+  (slab + flare + pad + walkway → calculator), "Measuring a driveway",
+  "Which number is setting your price" (minimum / cost-plus / rate-card
+  crossovers, engine-computed), margin-cut failure case, concrete/asphalt/
+  paver guidance, cost-guide + template cross-links, 3 new FAQs (FAQPage).
+  ~1,590 words. Every other route byte-identical vs a HEAD build; 256 crawl
+  tests pass. sitemap lastmod → 2026-10-14.
+- **Confound:** `/calculators/driveway` is in the 2026-09-25 title-CTR test
+  (review 2026-10-23). The title is unchanged, but a content change can move
+  position/impressions — read that test's driveway row with this in mind.
+- **Result:** TBD — review 28 days after deploy
+- **Learning:** TBD

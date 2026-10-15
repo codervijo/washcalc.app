@@ -50,7 +50,7 @@ const ROUTES = [
     title: DRIVEWAY.title,
     description: DRIVEWAY.description,
     canonical: DRIVEWAY.canonical,
-    lastmod: "2026-09-29",
+    lastmod: "2026-10-14",
     schema: {
       "@type": "SoftwareApplication",
       name: DRIVEWAY.h1,

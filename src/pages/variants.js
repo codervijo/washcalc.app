@@ -1,4 +1,4 @@
-import { band, rateRange, jobRange, productionRate, surface, anchorArea, anchorPrice, PUBLISHED } from "../rates.js";
+import { band, base, rateRange, jobRange, productionRate, surface, anchorArea, anchorPrice, PUBLISHED } from "../rates.js";
 
 // Per-surface presets for variant calculator pages.
 // Add a new entry + route to publish a new SEO page.
@@ -24,6 +24,12 @@ export const DRIVEWAY = {
       a: `About ${productionRate("driveway")} sq ft per hour with a surface cleaner in light condition, and about ${productionRate("driveway", "moderate")} in moderate. Heavy oil staining can add 30–60%.` },
     { q: "Should I include sealing in the quote?",
       a: "Sealing is a separate line item. Use WashCalc for the wash, then add sealing as a flat add-on." },
+    { q: "How do I measure a driveway for a pressure washing quote?",
+      a: "Measure it in pieces and add them up: the main slab (length × width), the flare where it widens at the street (extra width × flare depth ÷ 2), any parking pad or turnaround, and the walkway if you are cleaning it. Stop at the garage door. The driveway area tool on this page does the math and puts the total into the calculator." },
+    { q: "Why doesn't lowering my margin change the driveway price?",
+      a: `Because on that driveway the rate card is setting the price, not the cost-plus floor. The calculator takes the highest of your minimum charge, the cost-plus floor and the rate card (area × ${base("driveway")} × condition). At the default inputs the rate card takes over above about 1,040 sq ft in light condition, so a margin cut there changes nothing. On mid-size driveways the cost-plus floor is in charge and a margin cut does lower the price.` },
+    { q: "Can I use this calculator for asphalt or paver driveways?",
+      a: "Yes, with one adjustment. The driveway rate describes plain broom-finish concrete, so set asphalt, exposed aggregate and stamped concrete one condition level higher to cover the slower work. For pavers, decide before quoting whether re-sanding the joints is in scope and price it as its own line if it is." },
   ],
 };
 
