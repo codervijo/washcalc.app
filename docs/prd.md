@@ -1,6 +1,14 @@
 # PRD — washcalc.app
 
-## Phase 1 — MVP
+## v1.A — Kickoff / decisions lock
+
+Status: **shipped** — 2026-04-19. Retroactive row: no separate planning
+phase was recorded at the time. The locked decisions — operator audience,
+SaaS-style calculator site, Vite build, surface base rate × condition
+multiplier, a recommended price that protects target margin — are the
+product spec in `docs/Prompts.md` (2026-04-19 entry).
+
+## v1.B — MVP
 
 ### Core app
 - [x] Pricing engine (surface rates, condition multipliers, cost-plus margin)
@@ -20,9 +28,9 @@
 - [x] Automated crawl test suite (`pnpm test:crawl`) — 49 tests, no JS execution
 - [x] GitHub Actions CI (`crawl-test.yml`) — runs on PR and push to main
 - [x] Force redirect **www → apex** (308, live-verified 2026-07-13; re-checked 2026-09-29 — it is Vercel's domain-level redirect, not the `vercel.json` rule. Hosting is Vercel, not Cloudflare)
-- [x] Submit sitemap in Google Search Console (`https://washcalc.app/sitemap.xml` submitted 2026-07-14, 0 errors — per portfolio GSC snapshot). Per-URL "Request indexing" is tracked per phase (see Phase 1.C).
+- [x] Submit sitemap in Google Search Console (`https://washcalc.app/sitemap.xml` submitted 2026-07-14, 0 errors — per portfolio GSC snapshot). Per-URL "Request indexing" is tracked per phase (see v1.D).
 
-## Phase 1.B — SEO page expansion (search-demand targets)
+## v1.C — SEO page expansion (search-demand targets)
 
 Status: **shipped** — deployed 2026-08-21 (`102fbda`). Early results in `docs/growth.md` (2026-08-21 entry); full review 2026-10-19.
 
@@ -145,7 +153,7 @@ tunable defaults are labelled as assumptions the operator should confirm.
 Crawlable `<a href>` links, present in the prerendered HTML.
 
 - New pages link out to: the main calculator, the quote tool, the pricing
-  guide, the relevant surface calculator, and their sibling Phase 1.B pages.
+  guide, the relevant surface calculator, and their sibling v1.C pages.
 - Each cost guide ↔ its matching surface calculator.
 - The two template pages point at each other with an explicit
   "quote vs estimate" distinction.
@@ -217,7 +225,7 @@ default to ~$35 and accept a content change on an indexed page, or (c) rename
 the field to "labor cost / hour" everywhere, which is also an indexed-page
 content change.
 
-## Phase 1.C — Index the non-indexed pages
+## v1.D — Index the non-indexed pages
 
 Status: **shipped** — deployed 2026-09-22. Remaining step is the operator's manual GSC "Request indexing" (last deliverable below). Review 2026-10-20 in `docs/growth.md`.
 
@@ -278,17 +286,17 @@ the operator places it.
 - [ ] Request indexing: `/calculators/driveway` (thickened 2026-10-14),
       `/calculator`, `/calculators/roof`, `/calculators/deck`, `/quote-tool`.
       All but driveway have never been crawled. `/quote-tool` isn't on the
-      Phase 1.C checklist in `docs/prd.md`. Inspect:
+      v1.D checklist in `docs/prd.md`. Inspect:
       https://search.google.com/search-console/inspect?resource_id=sc-domain%3Awashcalc.app
 - [ ] Remove the stale `https://www.washcalc.app/sitemap.xml` submission
       (last fetched 2026-05-03; www is a 308 to apex):
       https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Awashcalc.app
 
 **Scheduled reviews (`docs/growth.md`)**
-- [ ] 2026-10-19 — Phase 1.B full review.
-- [ ] 2026-10-20 — Phase 1.C review (index state of the four calculator URLs).
+- [ ] 2026-10-19 — v1.C full review.
+- [ ] 2026-10-20 — v1.D review (index state of the four calculator URLs).
 - [ ] 2026-10-23 — "Calculator App" title-CTR review. Same day: decide on
-      homepage/footer links to the Phase 1.B pages (see Deferred decisions).
+      homepage/footer links to the v1.C pages (see Deferred decisions).
       The driveway row is confounded by the 2026-10-14 content change.
 - [ ] 2026-11-11 — `/calculators/driveway` thickening review. Per-page GSC
       baseline wasn't pulled at deploy, so pull the earliest window available.
@@ -315,17 +323,17 @@ the operator places it.
       web-UI CSV export or a plan change.
 
 **Doc hygiene**
-- [ ] `AI_AGENTS.md § Versioning` documents three-level `vN.X.Y`, which
-      contradicts the canonical scheme in `sites/portfolio/AI_AGENTS.md`
-      (two levels only). The PRD headings use "Phase 1.B / 1.C" rather than
-      `v1.B` / `v1.C`. Fix both.
 - [ ] Placeholders to fill: `docs/prd.md` "Problem" and "Users";
       `AI_AGENTS.md` "Out of scope / don't touch".
 - [ ] `/calculators/house-washing` shows a static "Last updated: 2026-07-17".
       It's the regional-table data date, so it's defensible, but the skill
       flags static dates. Confirm it's labelled as the data date.
 
-## Phase 2 — Growth
+## v2 — Growth
+
+Status: **unscheduled.** Opens with `v2.A` (kickoff / decisions lock) when
+the operator schedules it. The items below are candidates, not phases.
+
 - [ ] Saved quotes (local storage or account)
 - [ ] PDF quote export
 - [ ] Lead capture / email CTA

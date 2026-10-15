@@ -1,5 +1,5 @@
 import { band, base, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
-// Phase 1.B SEO page metadata — titles, descriptions, canonicals,
+// v1.C SEO page metadata — titles, descriptions, canonicals,
 // breadcrumbs and FAQ sets for the six new search-demand pages.
 //
 // This module is imported by BOTH the JSX page components and prerender.js,

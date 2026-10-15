@@ -76,7 +76,7 @@ mistakes at the point of writing, not at quarterly cleanup time.
 Things deliberately *not* shipped. Append entries with rationale so
 future Claude sessions don't re-propose them.
 
-- **Footer / homepage links to the Phase 1.B pages** — deferred (2026-08-21).
+- **Footer / homepage links to the v1.C pages** — deferred (2026-08-21).
   `Header`/`Footer`/`Layout`/`RelatedTools` render on indexed pages; adding
   links there changes indexed content. Needs an explicit operator OK.
   Revisit at the 2026-10-23 title-CTR review (`docs/growth.md`
@@ -87,8 +87,8 @@ future Claude sessions don't re-propose them.
   output lands inside its page's stated $/sq ft band. Touched the indexed
   `/`, `/calculators/driveway` and `/pressure-washing-pricing-guide` by
   explicit operator instruction.
-- **City / location pSEO pages** — out of scope for Phase 1.B; listed under
-  Phase 2 in `docs/prd.md`, not scheduled.
+- **City / location pSEO pages** — out of scope for v1.C; listed under
+  v2 in `docs/prd.md`, not scheduled.
 - **HowTo / FAQ rich-result tracking** — dropped (2026-09-22). Google no
   longer shows these for this site type; schema stays, it just isn't a KPI.
 

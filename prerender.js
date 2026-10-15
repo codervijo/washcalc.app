@@ -159,7 +159,7 @@ const ROUTES = [
       { name: "About", url: "https://washcalc.app/about" },
     ],
   },
-  // ── Phase 1.B — search-demand pages ────────────────────────────────
+  // ── v1.C — search-demand pages ────────────────────────────────
   // Built from src/pages/seoPages.js so the visible FAQ text on each page
   // and the FAQPage JSON-LD emitted here come from one source and cannot
   // drift apart. Only the estimate calculator declares SoftwareApplication

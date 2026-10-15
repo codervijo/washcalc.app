@@ -300,14 +300,14 @@ describe("sitemap.xml", () => {
   }
 });
 
-// ─── Phase 1.C — sitemap lastmod + non-indexed page upgrades ─────────────────
+// ─── v1.D — sitemap lastmod + non-indexed page upgrades ─────────────────
 //
 // WHY: stamping every URL with the build date teaches Google to ignore
 // lastmod. Each route now carries its last content-change date instead.
 // /calculators/roof and /calculator were "Discovered – not indexed" in GSC
-// (2026-09-21); these guards keep the Phase 1.C content in the static HTML.
+// (2026-09-21); these guards keep the v1.D content in the static HTML.
 
-describe("Phase 1.C — sitemap lastmod is per-route, not build date", () => {
+describe("v1.D — sitemap lastmod is per-route, not build date", () => {
   let body;
   beforeAll(async () => {
     body = (await get("/sitemap.xml")).body;
@@ -327,7 +327,7 @@ describe("Phase 1.C — sitemap lastmod is per-route, not build date", () => {
   });
 });
 
-describe("Phase 1.C — /calculators/roof tool page", () => {
+describe("v1.D — /calculators/roof tool page", () => {
   let body;
   beforeAll(async () => {
     body = (await get("/calculators/roof")).body;
@@ -402,7 +402,7 @@ describe("/calculators/driveway — area tool + contractor copy", () => {
   });
 });
 
-describe("Phase 1.C — /calculator is the all-surface hub", () => {
+describe("v1.D — /calculator is the all-surface hub", () => {
   let body;
   beforeAll(async () => {
     body = (await get("/calculator")).body;
@@ -658,14 +658,14 @@ describe("Canonical host is non-www apex (regression guard)", () => {
   }
 });
 
-// ─── Phase 1.B — search-demand pages ──────────────────────────────────────────
+// ─── v1.C — search-demand pages ──────────────────────────────────────────
 //
 // WHY: six new URLs were added to capture validated search demand. These tests
 // prove each one is a real prerendered page — reachable, uniquely titled,
 // self-canonical on the apex, carrying its schema and its cross-links — rather
 // than an SPA shell that only fills in once JavaScript runs.
 
-const PHASE_1B = [
+const V1C_PAGES = [
   {
     path: "/pressure-washing-estimate-calculator",
     h1: "Pressure Washing Estimate Calculator",
@@ -752,11 +752,11 @@ const PHASE_1B = [
   },
 ];
 
-describe("Phase 1.B pages — initial HTML (no JS)", () => {
+describe("v1.C pages — initial HTML (no JS)", () => {
   let homePage;
   beforeAll(async () => { homePage = await get("/"); });
 
-  for (const route of PHASE_1B) {
+  for (const route of V1C_PAGES) {
     describe(route.path, () => {
       let page;
       beforeAll(async () => { page = await get(route.path); });
@@ -848,9 +848,9 @@ describe("Phase 1.B pages — initial HTML (no JS)", () => {
     });
   }
 
-  it("every Phase 1.B URL is listed in sitemap.xml", async () => {
+  it("every v1.C URL is listed in sitemap.xml", async () => {
     const sm = await get("/sitemap.xml");
-    for (const route of PHASE_1B) {
+    for (const route of V1C_PAGES) {
       expect(
         sm.body,
         `sitemap.xml is missing ${route.path} — the page will not be submitted to Google`
@@ -863,7 +863,7 @@ describe("Phase 1.B pages — initial HTML (no JS)", () => {
       "/", "/calculator", "/calculators/driveway", "/calculators/roof",
       "/calculators/house-washing", "/calculators/deck",
       "/pressure-washing-pricing-guide", "/quote-tool", "/about",
-      ...PHASE_1B.map((r) => r.path),
+      ...V1C_PAGES.map((r) => r.path),
     ];
     const titles = await Promise.all(paths.map(async (p) => [p, extractTitle((await get(p)).body)]));
     const seen = new Map();
@@ -877,7 +877,7 @@ describe("Phase 1.B pages — initial HTML (no JS)", () => {
 // ─── Indexed-page protection ──────────────────────────────────────────────────
 //
 // WHY: /, /calculators/driveway and /about are `submitted_indexed` in Google
-// Search Console. Phase 1.B was explicitly scoped to add new URLs without
+// Search Console. v1.C was explicitly scoped to add new URLs without
 // touching them. These guards fail if a later change alters their title, H1 or
 // canonical — the three signals that would cost existing rankings.
 
@@ -886,7 +886,7 @@ describe("Indexed pages — protected signals unchanged", () => {
     { path: "/", title: "Pressure Washing Calculator App: Free Estimate & Quote Tool", canonical: "https://washcalc.app/" },
     { path: "/calculators/driveway", title: "Driveway Pressure Washing Calculator App — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
     { path: "/about", title: "About WashCalc — Who Built It & How Pricing Works", canonical: "https://washcalc.app/about" },
-    // Indexed per GSC URL inspection 2026-09-21 (Phase 1.C).
+    // Indexed per GSC URL inspection 2026-09-21 (v1.D).
     { path: "/pressure-washing-pricing-guide", title: "Pressure Washing Pricing Guide (2026) — WashCalc", canonical: "https://washcalc.app/pressure-washing-pricing-guide" },
     { path: "/pressure-washing-estimate-calculator", title: "Pressure Washing Estimate Calculator — Multi-Surface Job Totals | WashCalc", canonical: "https://washcalc.app/pressure-washing-estimate-calculator" },
     { path: "/driveway-pressure-washing-cost", title: "Driveway Pressure Washing Cost (2026) — Rates, Factors & Examples | WashCalc", canonical: "https://washcalc.app/driveway-pressure-washing-cost" },

@@ -3,7 +3,7 @@ import Layout from "./Layout.jsx";
 import useSEO from "../useSEO.js";
 
 /**
- * Structural shell for the Phase 1.B SEO pages.
+ * Structural shell for the v1.C SEO pages.
  *
  * Deliberately carries NO prose of its own — every word on these pages is
  * written per page so nothing is duplicated across them. This component only

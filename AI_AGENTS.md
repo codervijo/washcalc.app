@@ -19,7 +19,7 @@ Growth is organic search; see `docs/prd.md` (phases) and `docs/growth.md`
 ## Project structure
 - `src/PricingEngine.js` — surface rates, condition multipliers, `calculateQuote`.
 - `src/pages/` — route pages; `variants.js` (surface calculator presets + FAQs)
-  and `seoPages.js` (Phase 1.B page meta + FAQs) are the single source for
+  and `seoPages.js` (v1.C page meta + FAQs) are the single source for
   visible FAQ text and FAQPage JSON-LD.
 - `src/components/` — shared UI; `src/components/tools/` — page-specific tools.
 - `prerender.js` — route list (title, description, canonical, lastmod, schema).
@@ -50,17 +50,18 @@ Inside the `sites1` container (see "Running builds" below):
 
 ## Versioning
 
-This project follows the two-level versioning convention canonical
-to the portfolio (see `sites/portfolio/AI_AGENTS.md` for the full
-statement):
+Two-level `vN.X` only — canonical statement in
+`sites/portfolio/AI_AGENTS.md § Versioning`; it wins over anything here.
 
 - **`vN`** — major capability tier (SemVer-MAJOR semantics).
-- **`vN.X`** — phase letter within a tier (A, B, C, …) for
-  internal slicing.
-- **`vN.X.Y`** — numeric sub-phase for follow-up work that lands
-  after `vN.X` shipped.
+- **`vN.X`** — phase letter within a tier (A, B, C, …); each is a
+  shippable slice.
+- **`vN.A` is always kickoff / decisions lock.** Build work starts at `.B`.
+- **Never `vN.X.Y`**, and no parallel labels (`Phase 1.B`, `0.1.0`,
+  `Sprint 3`). Follow-up work inside a tier pushes later letters down.
 
-Track current phase + completed work in `docs/prd.md`.
+Applies to `docs/prd.md` headings, `docs/Prompts.md` phase references and
+commit subjects. Track current phase + completed work in `docs/prd.md`.
 
 ## Building info
 

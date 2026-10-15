@@ -22,7 +22,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
 
-      {/* /calculator carries the Phase 1.B depth block. It is passed HERE and
+      {/* /calculator carries the v1.C depth block. It is passed HERE and
           not inside CalculatorPage so each surface-variant route below gets
           only its own route-scoped content. */}
       <Route path="/calculator" element={<CalculatorPage belowHero={<CalculatorDepth />} />} />
@@ -35,7 +35,7 @@ export default function App() {
       <Route path="/quote-tool" element={<QuoteTool />} />
       <Route path="/about" element={<About />} />
 
-      {/* ── Phase 1.B — search-demand pages ──────────────────────────── */}
+      {/* ── v1.C — search-demand pages ──────────────────────────── */}
       <Route path="/pressure-washing-estimate-calculator" element={<EstimateCalculator />} />
       <Route path="/roof-cleaning-cost" element={<RoofCleaningCost />} />
       <Route path="/driveway-pressure-washing-cost" element={<DrivewayPressureWashingCost />} />
