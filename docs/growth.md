@@ -273,7 +273,9 @@ breakdown was pulled, so page-level attribution is unverified.
 - **Learning:** TBD
 
 ## 2026-10-14 — thicken `/calculators/driveway` (last stock-template calculator)
-- **Status:** active — built 2026-10-14, not yet deployed.
+- **Status:** active — deployed 2026-10-14 (`f3146eb`), live-verified same day
+  (area tool, new sections, 6 FAQPage questions, sitemap lastmod 2026-10-14
+  all in the served HTML). Operator: Request indexing in GSC.
 - **Hypothesis:** the driveway calculator is the only surface calculator still
   on the stock template (~390 words, ~30% shared boilerplate). Depth that's
   specific to the tool (measuring, which pricing rule sets the number) makes
@@ -296,5 +298,5 @@ breakdown was pulled, so page-level attribution is unverified.
 - **Confound:** `/calculators/driveway` is in the 2026-09-25 title-CTR test
   (review 2026-10-23). The title is unchanged, but a content change can move
   position/impressions — read that test's driveway row with this in mind.
-- **Result:** TBD — review 28 days after deploy
+- **Result:** TBD — review 2026-11-11
 - **Learning:** TBD

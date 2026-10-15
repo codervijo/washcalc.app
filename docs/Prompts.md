@@ -474,3 +474,58 @@ are now baked into the text above:
 5. **Worked-example numbers must come from the engine, not from prose.**
    Every figure quoted on a page was computed by running `calculateQuote`
    first, so a reader entering the stated inputs reproduces them exactly.
+
+## 2026-10-14 (thicken /calculators/driveway)
+> Thicken the driveway calculator page using our write-lamill-seo-page skill.
+>
+> Context: `/calculators/driveway` is indexed (GSC `submitted_indexed`) and
+> was the last surface calculator on the stock template (~390 words, ~30% of
+> it shared boilerplate); roof/deck/house-washing are 1,400–1,800 words.
+> Operator explicitly approved a content change on this indexed page.
+>
+> Constraints:
+> - Keep title, H1, intro, meta description and canonical unchanged (the page
+>   is in the 2026-09-25 title-CTR test until 2026-10-23).
+> - Route-scoped only: a `DrivewayPage` passing `heroExtra` / `belowHero` to
+>   `CalculatorPage`, the same pattern as `RoofPage`. No edits to shared
+>   components.
+> - Don't cannibalize `/driveway-pressure-washing-cost`: the guide owns
+>   published rates, factors, rust/runoff, minimum-charge rationale and DIY.
+>   The calculator page owns tool intent: measuring the input and reading the
+>   output.
+> - No invented numbers: tools are pure geometry; every $ figure is
+>   `calculateQuote()` output for stated inputs (the calculator's driveway
+>   defaults unless stated).
+>
+> Build: a driveway area tool in the hero (slab + flare triangles + pad +
+> walkway → "Use N sq ft in the calculator"); copy on measuring in pieces
+> with a slab-only failure case; "which number is setting your price"
+> (minimum / cost-plus floor / rate card crossovers per condition); a
+> margin-cut example showing it does nothing when the rate card governs;
+> concrete/asphalt/paver handling; cross-links to the cost guide, estimate
+> calculator and both templates; 2–3 new FAQs that don't repeat the cost
+> guide's questions. Bump the route's sitemap lastmod. Add crawl-test guards
+> (fragments, H1, cost-guide link, new FAQPage questions).
+>
+> Verify: `pnpm test:crawl` in the `sites1` container; build HEAD in a git
+> worktree and diff the prerendered HTML (normalize asset hashes) — only the
+> driveway page and its sitemap lastmod may change. Remove the worktree
+> (delete its root-owned `dist/` from inside the container). Log in
+> `docs/growth.md`.
+
+### Corrections folded in during this run
+
+1. **"discovered_not_indexed" is not a thinness signal.** The portfolio
+   tool's blocker advice ("Improve the page or remove it from the sitemap")
+   was wrong for `/calculator`, roof, deck and `/quote-tool`: all are
+   1,265–1,977 words, never crawled, and already linked 1–7 times from every
+   indexed page. Thickening targets the thin *indexed* page instead; the fix
+   for the never-crawled pages is GSC Request indexing.
+2. **Find crossovers from the engine, not algebra in prose.** The
+   minimum → cost-plus → rate-card handovers (~480 / ~1,040 sq ft light at
+   defaults) came from stepping `calculateQuote` 1 sq ft at a time. Host
+   node is v12 (no `??`), so keep scratch scripts ES2019.
+3. **`sites1` may be stopped.** `docker ps -a --filter ancestor=sites1` and
+   `docker start <name>` before building; don't fall back to host pnpm.
+4. **A stale `dist/` lies.** The pre-existing build was older than the last
+   content commit; rebuild before auditing word counts.
