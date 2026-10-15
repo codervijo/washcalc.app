@@ -268,6 +268,63 @@ Every non-indexed URL is already linked from all three indexed pages
 - OSHA 29 CFR 1926.500(b) — low-slope ≤ 4 in 12, steep > 4 in 12.
   https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.500
 
+## Open items (unphased)
+
+Logged 2026-10-14 for later sessions. Not a phase: tick or delete as they
+close. Anything that becomes build work gets its own phase row here once
+the operator places it.
+
+**Operator, manual (GSC)**
+- [ ] Request indexing: `/calculators/driveway` (thickened 2026-10-14),
+      `/calculator`, `/calculators/roof`, `/calculators/deck`, `/quote-tool`.
+      All but driveway have never been crawled. `/quote-tool` isn't on the
+      Phase 1.C checklist in `docs/prd.md`. Inspect:
+      https://search.google.com/search-console/inspect?resource_id=sc-domain%3Awashcalc.app
+- [ ] Remove the stale `https://www.washcalc.app/sitemap.xml` submission
+      (last fetched 2026-05-03; www is a 308 to apex):
+      https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Awashcalc.app
+
+**Scheduled reviews (`docs/growth.md`)**
+- [ ] 2026-10-19 — Phase 1.B full review.
+- [ ] 2026-10-20 — Phase 1.C review (index state of the four calculator URLs).
+- [ ] 2026-10-23 — "Calculator App" title-CTR review. Same day: decide on
+      homepage/footer links to the Phase 1.B pages (see Deferred decisions).
+      The driveway row is confounded by the 2026-10-14 content change.
+- [ ] 2026-11-11 — `/calculators/driveway` thickening review. Per-page GSC
+      baseline wasn't pulled at deploy, so pull the earliest window available.
+
+**Needs operator decision**
+- [ ] De-duplicate the copy `CalculatorPage` shares across the 5 calculator
+      routes (~119 words: "How this price is calculated", "Factors that
+      affect job price", the "WashCalc Pro coming soon" banner). The
+      write-lamill-seo-page skill flags it as a template fingerprint. Touches
+      the indexed `/`, `/calculators/driveway` and `/calculators/house-washing`,
+      so wait for the 10-23 review.
+- [ ] Calculator H1s say "… Cost Calculator" while the `*-cost` guides own the
+      "cost" queries. Revisit after 10-23; H1 changes on indexed pages need
+      operator OK.
+- [ ] Unplaced ideas from the 2026-10-14 Ahrefs keyword-plan draft: a
+      "February Pro launch", 50 state pages ("pressure washing license
+      [state]"), a "gating plan", and keyword batches for chemistry,
+      business, adjacent services and competitor comparisons. **None are in
+      `docs/prd.md`; place them there before any work.** Several seeds overlap
+      existing pages (price per sq ft and commercial → pricing guide; SH
+      dilution → house-washing tools; "app" → `/` + calculator titles).
+- [ ] Ahrefs API is unusable: trial workspace limit is **0 units** (not just
+      exhausted), so the 2026-11-03 reset won't help. Keyword data needs a
+      web-UI CSV export or a plan change.
+
+**Doc hygiene**
+- [ ] `AI_AGENTS.md § Versioning` documents three-level `vN.X.Y`, which
+      contradicts the canonical scheme in `sites/portfolio/AI_AGENTS.md`
+      (two levels only). The PRD headings use "Phase 1.B / 1.C" rather than
+      `v1.B` / `v1.C`. Fix both.
+- [ ] Placeholders to fill: `docs/prd.md` "Problem" and "Users";
+      `AI_AGENTS.md` "Out of scope / don't touch".
+- [ ] `/calculators/house-washing` shows a static "Last updated: 2026-07-17".
+      It's the regional-table data date, so it's defensible, but the skill
+      flags static dates. Confirm it's labelled as the data date.
+
 ## Phase 2 — Growth
 - [ ] Saved quotes (local storage or account)
 - [ ] PDF quote export
