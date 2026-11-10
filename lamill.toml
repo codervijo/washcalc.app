@@ -17,6 +17,9 @@ custom_domains = [
 indexnow_key = "fd1c8a65c95041bd80415d020350188b"
 indexnow_enabled = true
 
+[analytics]
+ga4_id = "G-BXLM1DCYDV"
+
 [stack]
 framework = "vite-react"
 
