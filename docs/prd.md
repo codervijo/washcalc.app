@@ -366,7 +366,7 @@ mix page belongs with the P2 batch); "pressure washing invoice template"
 - [x] Per-surface worked example + factors on the 5 calculator pages
 - [x] Footer "Guides & templates" column; homepage guides section
 - [x] Sitemap lastmod bumped for every changed route; crawl tests extended
-- [ ] Deploy and verify in production (Googlebot UA curl)
+- [x] Deploy and verify in production (Googlebot UA curl) — `65e3913`, 2026-11-11: 18/18 URLs 200, self-canonical, footer + JSON-LD present
 - [ ] Operator (manual, GSC): Request indexing for the 3 new URLs plus
       `/calculator`, `/calculators/roof`, `/quote-tool` and both templates
 

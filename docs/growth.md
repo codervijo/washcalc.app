@@ -387,7 +387,7 @@ breakdown was pulled, so page-level attribution is unverified.
   other open reviews.
 
 ## 2026-11-11 — v1.E: three new pages, intent retitles, sitewide guide links
-- **Status:** active — built and tested 2026-11-11; deploy recorded below.
+- **Status:** active — deployed 2026-11-11 (`65e3913`), live-verified as Googlebot the same day.
 - **Hypothesis:** the site's impressions are capped by coverage, not by depth.
   Pages for proven-demand, low-KD queries that we don't cover (commercial
   pricing, deck cost, price per square foot), a clean split of
