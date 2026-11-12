@@ -397,6 +397,14 @@ the operator places it.
       (last fetched 2026-05-03; www is a 308 to apex):
       https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Awashcalc.app
 
+**Delegated to rankmill (off-site, not built here)**
+- [ ] Forum and Reddit outreach for washcalc.app, owned by the rankmill tool
+      (operator decision 2026-11-11). Targets from the v1.E SERP pull:
+      pressurewashingresource.com (on 8 of 24 SERPs) and r/pressurewashing
+      (14 of 24). Link pages: per-sq-ft, commercial, pricing guide. Link
+      acceptance not checked. No work in this repo; rankmill is not modified
+      from here.
+
 **Scheduled reviews (`docs/growth.md`)**
 - [x] 2026-10-19 — v1.C full review (done 2026-11-11; 6/8 indexed, no traffic).
 - [x] 2026-10-20 — v1.D review (done 2026-11-11; 2/4 indexed).
