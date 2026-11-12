@@ -283,25 +283,30 @@ close. Anything that becomes build work gets its own phase row here once
 the operator places it.
 
 **Operator, manual (GSC)**
-- [ ] Request indexing: `/calculators/driveway` (thickened 2026-10-14),
-      `/calculator`, `/calculators/roof`, `/calculators/deck`, `/quote-tool`.
-      All but driveway have never been crawled. `/quote-tool` isn't on the
-      v1.D checklist in `docs/prd.md`. Inspect:
+- [ ] Request indexing (still uncrawled per URL inspection 2026-11-11):
+      `/calculator`, `/calculators/roof`, `/quote-tool`,
+      `/pressure-washing-quote-template`, `/pressure-washing-estimate-template`.
+      Deck and driveway are indexed now, so they're dropped from this list.
+      Inspect:
       https://search.google.com/search-console/inspect?resource_id=sc-domain%3Awashcalc.app
 - [ ] Remove the stale `https://www.washcalc.app/sitemap.xml` submission
       (last fetched 2026-05-03; www is a 308 to apex):
       https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Awashcalc.app
 
 **Scheduled reviews (`docs/growth.md`)**
-- [ ] 2026-10-19 — v1.C full review.
-- [ ] 2026-10-20 — v1.D review (index state of the four calculator URLs).
-- [ ] 2026-10-23 — "Calculator App" title-CTR review. Same day: decide on
-      homepage/footer links to the v1.C pages (see Deferred decisions).
-      The driveway row is confounded by the 2026-10-14 content change.
-- [ ] 2026-11-11 — `/calculators/driveway` thickening review. Per-page GSC
-      baseline wasn't pulled at deploy, so pull the earliest window available.
+- [x] 2026-10-19 — v1.C full review (done 2026-11-11; 6/8 indexed, no traffic).
+- [x] 2026-10-20 — v1.D review (done 2026-11-11; 2/4 indexed).
+- [x] 2026-10-23 — "Calculator App" title-CTR review (done 2026-11-11; failed,
+      CTR fell).
+- [x] 2026-11-11 — `/calculators/driveway` thickening review (KPI not met,
+      not attributable).
+- [ ] 2026-12-09 — re-review v1.C, v1.D and driveway.
 
 **Needs operator decision**
+- [ ] "Calculator App" titles: revert, keep or retitle (the title-CTR test
+      failed; see `docs/growth.md` 2026-09-25).
+- [ ] Homepage/footer links to the v1.C pages: the 2026-10-23 hold is over
+      (see `docs/CLAUDE.md` Deferred decisions).
 - [ ] De-duplicate the copy `CalculatorPage` shares across the 5 calculator
       routes (~119 words: "How this price is calculated", "Factors that
       affect job price", the "WashCalc Pro coming soon" banner). The

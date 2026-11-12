@@ -158,7 +158,8 @@ https://search.google.com/search-console directly.
   Phase 1.C deploy.
 
 ## 2026-08-21 — Phase 1.B: six new SEO pages + deepened `/calculator`
-- **Status:** active — early signal positive (see 2026-09-22 check below)
+- **Status:** testing — reviewed 2026-11-11: index KPI mostly met (6 of 8
+  URLs indexed), traffic KPI not met. Re-review 2026-12-09.
 - **KPI:** site-wide GSC clicks / impressions / avg position (28-day rolling);
   index state of the six new URLs and of `/calculators/deck` +
   `/pressure-washing-pricing-guide` (link-equity targets).
@@ -173,12 +174,31 @@ https://search.google.com/search-console directly.
   from new pages into deck calc + pricing guide. Indexed pages byte-identical;
   no header/footer/homepage links added. Sitemap 15 URLs. Full detail:
   `docs/prd.md § Phase 1.B`.
-- **Result:** partial — check 2026-09-22 below; full review 2026-10-19
-  (≈ 28 days after the new pages were first crawled on 2026-08-25).
-- **Learning:** TBD at review. Early read: new cost-guide / tool pages get
-  crawled and indexed within ~4–5 days of deploy on this site, while
-  never-linked-from-indexed-pages URLs (`/calculator`, `/calculators/roof`,
-  `/calculators/deck`) stay "Discovered – not indexed".
+- **Result:** partial check 2026-09-22 below. Full review 2026-11-11 (it was
+  scheduled for 2026-10-19). Source: GSC API, `sc-domain:washcalc.app`, pulled
+  2026-11-11. Searchanalytics window 2026-10-12..2026-11-08 (28 days, the
+  latest GSC data). URL inspection run 2026-11-11.
+  - Site: 7 clicks / 1,829 impressions / avg pos 47.1 (baseline 13 / 840 /
+    47.7).
+  - Indexed: `/pressure-washing-estimate-calculator`,
+    `/driveway-pressure-washing-cost`, `/roof-cleaning-cost` (crawled
+    2026-11-01), `/house-washing-cost` (crawled 2026-10-24). Both link-equity
+    targets are also indexed: `/calculators/deck` (crawled 2026-10-29) and
+    `/pressure-washing-pricing-guide` (crawled 2026-10-31).
+  - **Not crawled:** `/pressure-washing-quote-template` and
+    `/pressure-washing-estimate-template` (Discovered – currently not
+    indexed).
+  - New pages (clicks / impressions / pos): estimate calculator 0 / 26 / 42.6;
+    driveway cost 0 / 5 / 20.4; roof cleaning cost 0 / 3 / 4.0. House-washing
+    cost and both templates had no rows.
+- **Learning:** the indexing part worked. Content pages here get crawled and
+  indexed without help. The traffic part didn't: the four indexed new pages
+  draw about 34 impressions and 0 clicks between them. Site impressions grew
+  for other reasons. Compared with 2026-08-28..09-24, the pricing guide gained
+  528 impressions (231 → 759), mostly commercial pricing queries at positions
+  70–90, and the homepage gained 282 (718 → 1,000). The fall in clicks is on
+  the homepage (see the 2026-09-25 entry). The templates have never been
+  crawled, so they're added to the Request indexing list in `docs/prd.md`.
 
 ### 2026-09-22 check — metrics snapshot
 
@@ -222,7 +242,8 @@ not recorded) likely drove the first leg. Impressions growth after
 breakdown was pulled, so page-level attribution is unverified.
 
 ## 2026-09-22 — Phase 1.C: get the four non-indexed calculator URLs indexed
-- **Status:** active — deployed 2026-09-22.
+- **Status:** testing — deployed 2026-09-22; reviewed 2026-11-11. 2 of 4
+  URLs indexed. Re-review 2026-12-09.
 - **KPI:** GSC index state of `/calculator`, `/calculators/roof`,
   `/calculators/deck`, `/calculators/house-washing` (target: Submitted and
   indexed); site-wide clicks / impressions / avg pos (28-day rolling).
@@ -239,11 +260,34 @@ breakdown was pulled, so page-level attribution is unverified.
   links) to stop duplicating the homepage. Indexed pages verified
   byte-identical vs HEAD. Operator: request indexing for the four URLs in
   GSC after deploy. Detail: `docs/prd.md § Phase 1.C`.
-- **Result:** TBD — review 2026-10-20
-- **Learning:** TBD
+- **Result:** reviewed 2026-11-11 (it was scheduled for 2026-10-20). Source:
+  the GSC API pull described in the 2026-08-21 entry.
+  - `/calculators/house-washing`: **Submitted and indexed** (crawled
+    2026-10-02). 0 clicks / 141 impressions / pos 31.6, up from 1 / 17 / 6.2
+    in 2026-08-28..09-24. Its new queries are soft-wash cost queries at
+    positions 69–79 ("how much to softwash a house": 37 impressions).
+  - `/calculators/deck`: **Submitted and indexed** (crawled 2026-10-29).
+    0 / 72 / pos 46.1.
+  - `/calculator` and `/calculators/roof`: **never crawled.** The live
+    inspection and the portfolio snapshot from the same morning disagree on
+    which URL is "Discovered" and which is "URL is unknown". Neither has a
+    crawl date.
+  - Site: 7 / 1,829 / pos 47.1 (baseline 18 / 1,153 / 49.8).
+- **Learning:** the stale "Page with redirect" state on house-washing cleared
+  on recrawl with no code change. Deck was crawled about 5 weeks after
+  deploy. `/calculator` and roof are still uncrawled 7 weeks on, even though
+  every indexed page links to them. Whether the operator requested indexing
+  isn't recorded; the `docs/prd.md` checkbox is still open. If it was
+  requested and they're still uncrawled, Google is deprioritizing these
+  URLs, and more links won't fix that. GSC also reports impressions for both
+  uncrawled URLs (40 each). "pressure washing calculator app" shows
+  identical figures (29 impressions, pos 3.4) on `/calculator`, roof and
+  driveway, which most likely means they appear as sitelinks under the
+  homepage result. That's an inference, not verified.
 
 ## 2026-09-25 — "Calculator App" titles on / and the four surface calculators
-- **Status:** active — deployed 2026-09-25 (`3666346`), live-verified same day.
+- **Status:** failed — CTR fell (reviewed 2026-11-11). Deployed 2026-09-25
+  (`3666346`), live-verified same day.
 - **Hypothesis:** searchers use "app"/"tool" wording; titles that say
   "Calculator App" earn more clicks for the same impressions.
 - **KPI:** CTR on `/`, `/calculators/driveway`, `/calculators/roof`,
@@ -269,11 +313,37 @@ breakdown was pulled, so page-level attribution is unverified.
   2. Hold all title/homepage changes until review so the CTR read is clean.
   3. At review, decide on homepage links to the six Phase 1.B pages (deferred
      in `docs/CLAUDE.md`). Doing it earlier would confound this test.
-- **Result:** TBD — review 2026-10-23
-- **Learning:** TBD
+- **Result:** reviewed 2026-11-11 (it was scheduled for 2026-10-23). Source:
+  the GSC API pull described in the 2026-08-21 entry. The two windows
+  compared are 2026-08-28..09-24 (before the change) and 2026-10-12..11-08
+  (after). `/` was recrawled on 2026-10-02, so the "after" window is fully
+  post-change for the homepage. Figures are clicks / impressions / CTR / pos.
+  - Site: 17 / 1,128 / 1.5% / 46.5 before, 7 / 1,829 / 0.4% / 47.1 after.
+  - `/`: 15 / 718 / 2.1% / 44.6 before, 7 / 1,000 / 0.7% / 32.6 after.
+  - The 40 queries on `/` that appear in both windows: 4 / 535 / 0.7% /
+    52.2 before, 1 / 813 / 0.1% / 34.7 after.
+  - "pressure washing calculator app" on `/`: 4 / 60 at pos 2.1 before,
+    1 / 46 at pos 1.4 after.
+  - Most homepage clicks fall on anonymized queries that GSC doesn't list:
+    11 of 15 before, 6 of 7 after.
+  - Other pages, before → after: driveway 1 / 139 / pos 11.9 → 0 / 118 /
+    17.2; house-washing 1 / 17 / 6.2 → 0 / 141 / 31.6; deck 0 / 9 → 0 / 72;
+    roof 0 / 17 → 0 / 40 (roof isn't indexed).
+- **Learning:** the hypothesis isn't supported. CTR fell and clicks halved,
+  even though the homepage's average position improved by 12. The click
+  counts are single digits, so this is weak evidence in either direction,
+  but nothing in the data supports keeping the "App" titles because of CTR.
+  Much of the drop comes from a shift in mix: impressions moved toward
+  "estimate" queries where `/` ranks 28–60 and clicks aren't expected. Even
+  so, on the one named query that gets clicks, CTR fell while the position
+  improved. Next: the operator decides whether to revert, keep or retitle.
+  This review also unblocks the deferred footer/homepage-links decision in
+  `docs/CLAUDE.md`.
 
 ## 2026-10-14 — thicken `/calculators/driveway` (last stock-template calculator)
-- **Status:** active — deployed 2026-10-14 (`f3146eb`), live-verified same day
+- **Status:** testing — KPI not met in the first window (reviewed 2026-11-11);
+  the cause isn't attributable. Re-check 2026-12-09. Deployed 2026-10-14
+  (`f3146eb`), live-verified same day
   (area tool, new sections, 6 FAQPage questions, sitemap lastmod 2026-10-14
   all in the served HTML). Operator: Request indexing in GSC.
 - **Hypothesis:** the driveway calculator is the only surface calculator still
@@ -298,5 +368,20 @@ breakdown was pulled, so page-level attribution is unverified.
 - **Confound:** `/calculators/driveway` is in the 2026-09-25 title-CTR test
   (review 2026-10-23). The title is unchanged, but a content change can move
   position/impressions — read that test's driveway row with this in mind.
-- **Result:** TBD — review 2026-11-11
-- **Learning:** TBD
+- **Result:** reviewed 2026-11-11. Source: the GSC API pull described in the
+  2026-08-21 entry. The two windows compared are 2026-09-16..10-13 (28 days,
+  used as the per-page baseline that wasn't pulled at deploy) and
+  2026-10-15..11-08 (25 days, the latest available). Figures are clicks /
+  impressions / pos.
+  - `/calculators/driveway`: 0 / 207 / 8.0 before, 0 / 94 / 20.1 after.
+    Still Submitted and indexed (crawled 2026-11-02).
+  - `/driveway-pressure-washing-cost` (unchanged in this deploy): 0 / 89 / 8.8
+    before, 0 / 5 / 20.4 after.
+  - Site: 17 / 1,204 / 38.8 before, 5 / 1,682 / 46.9 after.
+- **Learning:** the KPI wasn't met: impressions roughly halved and position
+  got worse. The data doesn't show the content change caused this, though.
+  The sibling cost guide wasn't touched and fell further (89 → 5), which fits
+  a site- or SERP-level shift just as well. The baseline position is also
+  unreliable, because part of it comes from sitelink-style impressions (see
+  the 2026-09-22 entry). The content stays. Re-check 2026-12-09 alongside the
+  other open reviews.
