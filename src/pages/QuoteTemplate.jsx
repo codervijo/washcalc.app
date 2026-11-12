@@ -16,8 +16,8 @@ const LINKS = [
   { to: "/pressure-washing-estimate-template", label: "Estimate template", note: "the ranged version, for when you have not measured yet." },
   { to: "/pressure-washing-estimate-calculator", label: "Estimate calculator", note: "produce the line prices this template asks for." },
   { to: "/quote-tool", label: "Power washing quote tool", note: "the pricing formula and quote anatomy in more depth." },
-  { to: "/calculator", label: "All-surface calculator", note: "price any single surface before it becomes a line." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "how to set the rates that fill these lines." },
+  { to: "/calculator", label: "Pressure washing price calculator", note: "price any single surface before it becomes a line." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "how to set the rates that fill these lines." },
   { to: "/calculators/deck", label: "Deck cleaning calculator", note: "material, PSI and stain coverage for a deck line." },
 ];
 

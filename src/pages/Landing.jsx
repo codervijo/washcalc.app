@@ -60,11 +60,27 @@ export default function Landing() {
             </a>
           </div>
           <p style={{ textAlign: "center", marginTop: 18, fontSize: 14.5, color: "var(--wc-text-muted)" }}>
-            Pricing a mixed job? Use the <a href="/calculator">all-surface pressure washing calculator</a>.
+            Pricing a mixed job? Use the <a href="/calculator">pressure washing price calculator</a>.
             {" "}Building a full estimate? See the <a href="/quote-tool">power washing quote tool</a>.
             {" "}Rates shown are WashCalc's rate card; published national ranges are in
             the <a href="/pressure-washing-pricing-guide">pricing guide</a>.
           </p>
+        </div>
+      </section>
+
+      {/* Pricing guides — contextual links into the cost guides and templates */}
+      <section className="wc-section-tight">
+        <div className="wc-container">
+          <h2 className="wc-section-title">Pricing guides for contractors</h2>
+          <p className="wc-section-sub">What to charge, surface by surface — with sourced ranges and worked examples.</p>
+          <ul className="wc-pillar-links" style={{ maxWidth: 860, margin: "0 auto" }}>
+            <li><a href="/pressure-washing-pricing-guide">How much to charge for pressure washing</a> — the cost floor, rates, minimums and hourly pricing in one method.</li>
+            <li><a href="/pressure-washing-price-per-square-foot">Pressure washing price per square foot</a> — published rates by surface, and why small jobs cost more per foot.</li>
+            <li><a href="/commercial-pressure-washing-pricing">Commercial pressure washing pricing</a> — parking lots per space, dumpster pads, building exteriors and monthly contracts.</li>
+            <li><a href="/driveway-pressure-washing-cost">Driveway pressure washing cost</a>, <a href="/house-washing-cost">house washing cost</a>, <a href="/roof-cleaning-cost">soft wash roof cleaning cost</a> and <a href="/deck-pressure-washing-cost">deck pressure washing cost</a> — one guide per surface.</li>
+            <li><a href="/pressure-washing-estimate-calculator">Multi-surface estimate calculator</a> — total a whole visit, with a bundle discount and your minimum.</li>
+            <li><a href="/pressure-washing-quote-template">Pressure washing quote template</a> and <a href="/pressure-washing-estimate-template">estimate template</a> — copy, fill in and send.</li>
+          </ul>
         </div>
       </section>
 

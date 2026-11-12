@@ -4,6 +4,12 @@ import { band, base, rateRange, jobRange, productionRate, surface, anchorArea, a
 // Add a new entry + route to publish a new SEO page.
 
 export const DRIVEWAY = {
+  noun: "driveway",
+  factors: [
+    { title: "Oil and rust", body: "Oil spots need degreaser and dwell time; rust needs a separate treatment. Quote rust removal as its own line, not inside the per-foot rate." },
+    { title: "Finish", body: "Exposed aggregate, stamped concrete and pavers clean slower than broom-finish concrete. Set them one condition level higher." },
+    { title: "Length versus the minimum", body: "On short driveways the minimum charge or your cost floor sets the price. The per-foot rate only takes over on long ones — see the worked lines above." },
+  ],
   surfaceId: "driveway",
   lockSurface: true,
   title: "Driveway Pressure Washing Calculator App — WashCalc",
@@ -34,9 +40,15 @@ export const DRIVEWAY = {
 };
 
 export const ROOF = {
+  noun: "roof",
+  factors: [
+    { title: "Pitch and storeys", body: "Steeper and higher roofs are slower and need more fall protection. That time is cost, so it belongs in the price." },
+    { title: "Streak coverage", body: "How much of the roof carries black algae streaking sets the mix strength, the dwell time and the chemical bill." },
+    { title: "Roofing material", body: "Asphalt shingles are the standard soft-wash job. Confirm the method for tile, metal or wood shakes before you quote." },
+  ],
   surfaceId: "roof",
   lockSurface: true,
-  title: "Roof Cleaning Calculator App — WashCalc",
+  title: "Roof Cleaning Cost Calculator — Soft Wash Pricing | WashCalc",
   description: "Soft-wash roof cleaning calculator. Estimate price, labor time and profit per square foot.",
   canonical: "https://washcalc.app/calculators/roof",
   h1: "Roof Cleaning Cost Calculator",
@@ -62,6 +74,12 @@ export const ROOF = {
 };
 
 export const HOUSE_WASHING = {
+  noun: "house wash",
+  factors: [
+    { title: "Siding material", body: "Vinyl rinses fastest. Stucco, brick and painted wood hold dirt and absorb mix, so they take more chemical and time." },
+    { title: "Storeys", body: "A second storey means ladders, extension wands or a pump that reaches. Measure wall area — floor area understates two-storey homes." },
+    { title: "Landscaping and access", body: "Plants to pre-wet and protect, tight side yards and decks against the wall all add setup time every visit." },
+  ],
   surfaceId: "siding",
   lockSurface: true,
   title: "House Washing Calculator App — WashCalc",
@@ -90,6 +108,12 @@ export const HOUSE_WASHING = {
 };
 
 export const DECK = {
+  noun: "deck",
+  factors: [
+    { title: "Board material", body: "Cedar and redwood need low pressure and patience; composite goes faster. The material selector on this page sets a matching rate." },
+    { title: "Railings, stairs and lattice", body: "Small in area, large in time. Price them as their own line rather than folding them into the deck's square footage." },
+    { title: "What comes next", body: "A deck being stained needs brightener and a full dry-down. Quote the prep the stain needs, not just a rinse." },
+  ],
   surfaceId: "deck",
   lockSurface: true,
   title: "Deck Pressure Washing Calculator App — WashCalc",

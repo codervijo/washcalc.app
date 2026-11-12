@@ -5,7 +5,7 @@ const ALL = [
   { to: "/calculators/roof",           label: "Roof Cleaning Calculator",     emoji: "🏚️" },
   { to: "/calculators/house-washing",  label: "House Washing Calculator",     emoji: "🏠" },
   { to: "/calculators/deck",           label: "Deck Cleaning Calculator",     emoji: "🪵" },
-  { to: "/calculator",                 label: "All-Surface Calculator",       emoji: "🧮" },
+  { to: "/calculator",                 label: "Price Calculator (All Surfaces)", emoji: "🧮" },
 ];
 
 export default function RelatedTools({ exclude }) {

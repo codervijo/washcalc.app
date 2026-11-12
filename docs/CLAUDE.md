@@ -76,7 +76,9 @@ mistakes at the point of writing, not at quarterly cleanup time.
 Things deliberately *not* shipped. Append entries with rationale so
 future Claude sessions don't re-propose them.
 
-- **Footer / homepage links to the v1.C pages** — deferred (2026-08-21).
+- ~~**Footer / homepage links to the v1.C pages**~~ — **resolved 2026-11-11**
+  (v1.E): footer "Guides & templates" column + homepage guides section. Was
+  deferred (2026-08-21).
   `Header`/`Footer`/`Layout`/`RelatedTools` render on indexed pages; adding
   links there changes indexed content. Needs an explicit operator OK.
   Revisit at the 2026-10-23 title-CTR review (`docs/growth.md`

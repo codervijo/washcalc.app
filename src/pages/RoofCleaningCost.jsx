@@ -14,16 +14,17 @@ const TOC = [
 const LINKS = [
   { to: "/calculators/roof", label: "Roof cleaning cost calculator", note: "put your own numbers in and get a price for a specific roof." },
   { to: "/house-washing-cost", label: "House washing cost", note: "roofs and siding are usually sold together — price the pair." },
+  { to: "/pressure-washing-price-per-square-foot", label: "Price per square foot by surface", note: "why roofs carry the top residential rate." },
   { to: "/pressure-washing-estimate-calculator", label: "Estimate calculator", note: "build a roof-plus-siding visit as one multi-line estimate." },
   { to: "/pressure-washing-quote-template", label: "Quote template", note: "the exclusions wording that matters most on roof work." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "how roof rates fit the wider 2026 pricing picture." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "how roof rates fit the wider 2026 pricing picture." },
 ];
 
 export default function RoofCleaningCost() {
   return (
     <SeoPageShell
       meta={ROOF_COST}
-      lead="Roof cleaning carries the highest price per square foot in residential exterior work and the highest risk behind it. This guide covers what the job costs in 2026, the factors that move the number, how contractors actually build the price, and where the honest line sits between doing it yourself and hiring it out."
+      lead={`Soft wash roof cleaning costs ${rateRange(PUBLISHED.roof.perSqFt)} per square foot, and a typical residential roof lands at ${jobRange(PUBLISHED.roof.job)} (${PUBLISHED.roof.source}). Steep pitch, a second storey and heavy black streaking push a job to the top of that range or past it. Roofs carry the highest per-foot rate in residential exterior work because they are slow, chemical-heavy and done at height — the sections below show how each of those turns into dollars.`}
       toc={TOC}
       links={LINKS}
     >

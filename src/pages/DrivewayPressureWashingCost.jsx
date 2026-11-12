@@ -12,19 +12,20 @@ const TOC = [
 ];
 
 const LINKS = [
-  { to: "/calculator", label: "All-surface calculator", note: "price a driveway with your own costs and margin." },
+  { to: "/calculator", label: "Pressure washing price calculator", note: "price a driveway with your own costs and margin." },
   { to: "/pressure-washing-estimate-calculator", label: "Estimate calculator", note: "add walkways and a patio to the same visit and total it." },
   { to: "/house-washing-cost", label: "House washing cost", note: "the surface most often bundled with a driveway clean." },
   { to: "/roof-cleaning-cost", label: "Roof cleaning cost", note: "the high-margin surface at the other end of the range." },
+  { to: "/pressure-washing-price-per-square-foot", label: "Price per square foot by surface", note: "where concrete sits against siding, wood and roofs." },
   { to: "/pressure-washing-estimate-template", label: "Estimate template", note: "send a ranged figure when you have only seen photos." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "where driveway rates sit in the full 2026 picture." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "where driveway rates sit in the full 2026 picture." },
 ];
 
 export default function DrivewayPressureWashingCost() {
   return (
     <SeoPageShell
       meta={DRIVEWAY_COST}
-      lead="Driveways are the highest-volume job in residential pressure washing and the easiest one to underprice. This guide covers 2026 rates for concrete and asphalt, the factors that genuinely change the number, why small driveways cost more per square foot, and three worked examples built with a real pricing model."
+      lead={`Charge ${rateRange(PUBLISHED.driveway.perSqFt)} per square foot to pressure wash a concrete driveway — the published national range (${PUBLISHED.driveway.source}) — which puts a typical residential driveway at ${jobRange(PUBLISHED.driveway.job)}. WashCalc's rate card sits at ${band("driveway")}. Small driveways cost more per foot because a minimum charge covers the trip, and oil staining moves a job to the top of the range.`}
       toc={TOC}
       links={LINKS}
     >

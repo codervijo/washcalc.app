@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import useSEO from "../useSEO.js";
 import { PRICING_GUIDE_FAQS } from "./variants.js";
-import { band, rateRange, productionRate, surface, anchorArea, anchorPrice, PUBLISHED } from "../rates.js";
+import { band, rateRange, productionRate, surface, anchorArea, anchorPrice, PUBLISHED, HOURLY, SOURCES, COMMERCIAL } from "../rates.js";
 
 export default function PricingGuide() {
   useSEO({
-    title: "Pressure Washing Pricing Guide (2026) — WashCalc",
+    title: "How Much to Charge for Pressure Washing (2026 Guide)",
     description:
-      "How to price pressure washing jobs in 2026. Average cost per square foot, pricing by surface (deck, roof, driveway), labor and chemical costs, plus common mistakes to avoid.",
+      "How much to charge for pressure washing in 2026: the cost floor, rates by surface, hourly vs per sq ft, minimums, and the mistakes that cost operators margin.",
     canonical: "https://washcalc.app/pressure-washing-pricing-guide",
     breadcrumbs: [
       { name: "Home", url: "https://washcalc.app/" },
-      { name: "Pressure Washing Pricing Guide", url: "https://washcalc.app/pressure-washing-pricing-guide" },
+      { name: "How Much to Charge for Pressure Washing", url: "https://washcalc.app/pressure-washing-pricing-guide" },
     ],
   });
 
@@ -22,14 +22,14 @@ export default function PricingGuide() {
         <div className="wc-container" style={{ maxWidth: 820 }}>
           <nav className="wc-breadcrumbs" aria-label="Breadcrumb" style={{ marginBottom: 16 }}>
             <a href="/">Home</a><span>/</span>
-            <span style={{ color: "var(--wc-text)" }}>Pressure Washing Pricing Guide</span>
+            <span style={{ color: "var(--wc-text)" }}>How Much to Charge for Pressure Washing</span>
           </nav>
 
           <h1 style={{ fontSize: "clamp(30px,3.6vw,42px)", margin: "0 0 12px", letterSpacing: "-0.01em" }}>
-            Pressure Washing Pricing Guide (2026)
+            How Much to Charge for Pressure Washing
           </h1>
           <p style={{ color: "var(--wc-text-muted)", fontSize: 17, margin: "0 0 32px" }}>
-            A complete walkthrough of how professional pressure washing contractors price jobs in 2026 — what to charge per square foot, how to estimate labor, what surfaces command a premium, and the costly mistakes that quietly destroy margin.
+            Charge the higher of two numbers: the market rate for the surface — {band("driveway")} per square foot for driveways up to {band("roof")} for soft-wash roofs on WashCalc's rate card — and your cost floor, which is labor, chemical and travel divided by one minus your target margin. Never go below your minimum charge. This 2026 pricing guide walks through each piece, the hourly alternative, and the mistakes that quietly cost operators their margin.
           </p>
 
           {/* Pillar hub — contextual links out to every tool */}
@@ -39,7 +39,7 @@ export default function PricingGuide() {
               This guide is the hub. Each surface below has a dedicated calculator with tuned defaults.
             </p>
             <ul className="wc-pillar-links">
-              <li><Link to="/calculator">All-surface calculator</Link> — mixed jobs and less common surfaces.</li>
+              <li><Link to="/calculator">Pressure washing price calculator</Link> — every surface on one form, including patios and fences.</li>
               <li><Link to="/calculators/driveway">Driveway calculator</Link> — concrete and asphalt.</li>
               <li><Link to="/calculators/house-washing">House washing calculator</Link> — plus SH dilution &amp; job-profit tools.</li>
               <li><Link to="/calculators/roof">Roof calculator</Link> — soft-wash pricing with chemical defaults.</li>
@@ -54,7 +54,10 @@ export default function PricingGuide() {
             <ul className="wc-pillar-links">
               <li><Link to="/driveway-pressure-washing-cost">Driveway pressure washing cost</Link> — rates, oil staining, minimum charges.</li>
               <li><Link to="/house-washing-cost">House washing cost</Link> — measuring siding, storey count, material.</li>
-              <li><Link to="/roof-cleaning-cost">Roof cleaning cost</Link> — pitch, access, and the DIY line.</li>
+              <li><Link to="/roof-cleaning-cost">Soft wash roof cleaning cost</Link> — pitch, access, and the DIY line.</li>
+              <li><Link to="/deck-pressure-washing-cost">Deck pressure washing cost</Link> — wood vs composite, railings, staining.</li>
+              <li><Link to="/pressure-washing-price-per-square-foot">Pressure washing price per square foot</Link> — the rate table for every surface.</li>
+              <li><Link to="/commercial-pressure-washing-pricing">Commercial pressure washing pricing</Link> — per-space, per-foot and contract rates.</li>
               <li><Link to="/pressure-washing-quote-template">Quote template</Link> — firm fixed-price document, ready to copy.</li>
               <li><Link to="/pressure-washing-estimate-template">Estimate template</Link> — ranged version for pricing from photos.</li>
             </ul>
@@ -69,7 +72,7 @@ export default function PricingGuide() {
           </p>
           <p>
             The fastest way to apply this in the field is to use the{" "}
-            <a href="/calculator">WashCalc all-surface calculator</a> — it runs both calculations
+            <a href="/calculator">pressure washing price calculator</a> — it runs both calculations
             in parallel and shows you the recommended quote, the labor hours, and the gross profit
             instantly. If you’re pricing a specific surface type, use one of the dedicated tools
             below for tuned defaults.
@@ -92,7 +95,18 @@ export default function PricingGuide() {
             driveways {rateRange(PUBLISHED.driveway.perSqFt)} ({PUBLISHED.driveway.source}), soft-wash
             siding {rateRange(PUBLISHED.sidingSoftWash.perSqFt)} ({PUBLISHED.sidingSoftWash.source}), decks{" "}
             {rateRange(PUBLISHED.deck.perSqFt)} and roofs {rateRange(PUBLISHED.roof.perSqFt)}. Use them as a
-            sanity check on the rate card, not as a quote.
+            sanity check on the rate card, not as a quote. The full table, by material and with
+            the reasons small jobs cost more per foot, is on the{" "}
+            <a href="/pressure-washing-price-per-square-foot">pressure washing price per square foot</a> page.
+          </p>
+          <h3 style={{ fontSize: 20, marginTop: 24 }}>Hourly rates</h3>
+          <p>
+            Some work prices better by the hour: detailed, mixed or hard-to-reach jobs where area
+            says little about effort. Published residential rates run ${HOURLY.homeguideResidential[0]}–${HOURLY.homeguideResidential[1]} per
+            hour ({SOURCES.homeguideResidential.name}, {SOURCES.homeguideResidential.date}), and{" "}
+            {SOURCES.housecallPro.name} puts residential at ${HOURLY.hcpResidential[0]}–${HOURLY.hcpResidential[1]} per crew
+            member and commercial at ${HOURLY.hcpCommercial[0]}–${HOURLY.hcpCommercial[1]}. Set your own from your
+            cost per crew-hour divided by (1 − target margin), not from the published range.
           </p>
           <p>
             Those numbers are starting points, not gospel. A heavily-soiled surface multiplies labor time. A second-story roof multiplies the safety overhead. A long drive multiplies your fuel and unbillable hours. The job of a pricing system is to translate those multipliers into dollars rather than guess at them. WashCalc bakes a condition multiplier (light × 1.0, moderate × 1.2, heavy × 1.5) directly into both the rate and labor estimates so you stop eyeballing.
@@ -101,7 +115,7 @@ export default function PricingGuide() {
             One more useful set of anchors, each measured on the surface you actually clean: an {anchorArea("driveway")} sq ft residential driveway (surface area) prices at {anchorPrice("driveway", "driveway")}. A single-story house wash with about {anchorArea("sidingOneStory")} sq ft of siding (wall area, not the home's floor area) lands at {anchorPrice("sidingOneStory", "siding")}. A soft-wash roof with {anchorArea("roof")} sq ft of roof surface lands at {anchorPrice("roof", "roof")}. Each band is simply the area times the rate card above. If your number lands far outside those bands, double-check before you send the quote.
           </p>
           <p>
-            A note on commercial and HOA work: per-square-foot rates drop sharply at scale because production rates climb, but minimum charges become irrelevant. A 12,000 sq ft commercial parking lot might price at $0.10–$0.14 per sq ft — half the residential rate — yet still produce far better hourly economics because setup, drive, and admin overhead are amortized across one big number. If you start moving into commercial work, build a separate rate card with its own production rates, chemical mix, and travel assumptions; do not just discount your residential pricing across the board.
+            A note on commercial and HOA work: per-square-foot rates drop sharply at scale because production rates climb, but minimum charges become irrelevant. Published commercial rates start at ${COMMERCIAL.bySurface[0].lo.toFixed(2)} per sq ft for sidewalks and parking garages, and surface lots are priced per space ({SOURCES.homeguideCommercial.name}, {SOURCES.homeguideCommercial.date}) — yet the work can still produce better hourly economics because setup, drive, and admin overhead are amortized across one big number. The full rate tables are in <a href="/commercial-pressure-washing-pricing">commercial pressure washing pricing</a>. If you start moving into commercial work, build a separate rate card with its own production rates, chemical mix, and travel assumptions; do not just discount your residential pricing across the board.
           </p>
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Pricing by surface (driveway, house, roof, deck)</h2>

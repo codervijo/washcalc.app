@@ -18,7 +18,7 @@ const LINKS = [
   { to: "/house-washing-cost", label: "House washing cost", note: "why siding area is the number you most often cannot verify." },
   { to: "/driveway-pressure-washing-cost", label: "Driveway pressure washing cost", note: "the flatwork ranges to sanity-check against." },
   { to: "/quote-tool", label: "Power washing quote tool", note: "pricing formula, quote anatomy and common mistakes." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "the rate card behind every figure you put in the range." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "the rate card behind every figure you put in the range." },
 ];
 
 const TEMPLATE = `═══════════════════════════════════════════════════════════

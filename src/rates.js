@@ -90,3 +90,78 @@ export function anchorArea(anchorKey) {
   const [a0, a1] = ANCHORS[anchorKey];
   return a0 === a1 ? a0.toLocaleString("en-US") : `${a0.toLocaleString("en-US")}–${a1.toLocaleString("en-US")}`;
 }
+
+// ── v1.E — named third-party sources, quoted as published ──────────────
+// Each figure below is copied from the cited page (checked 2026-11-11).
+// Render the source name + date beside any figure taken from here.
+export const SOURCES = {
+  homeguideCommercial: {
+    name: "HomeGuide",
+    title: "How much are commercial pressure washing prices?",
+    date: "October 9, 2025",
+    url: "https://homeguide.com/costs/commercial-pressure-washing-prices",
+  },
+  homeguideResidential: {
+    name: "HomeGuide",
+    title: "Pressure washing prices",
+    date: "April 19, 2024",
+    url: "https://homeguide.com/costs/pressure-washing-prices",
+  },
+  housecallPro: {
+    name: "Housecall Pro",
+    title: "How to price pressure washing jobs",
+    date: "October 2026",
+    url: "https://www.housecallpro.com/resources/how-to-price-pressure-washing-jobs/",
+  },
+};
+
+// HomeGuide commercial tables (homeguideCommercial).
+export const COMMERCIAL = {
+  overallPerSqFt: [0.10, 1.00],
+  flatFeeRange: [200, 3000],
+  byJob: [
+    { job: "Basic commercial",          price: "$0.10–$0.35 per sq ft", uses: "Sidewalks, storefronts, exterior walls" },
+    { job: "Intensive commercial",      price: "$0.40–$1.00 per sq ft", uses: "Grease, graffiti, heavy staining" },
+    { job: "Hourly rate",               price: "$50–$150 per hour",     uses: "Inaccessible or mixed-area jobs" },
+    { job: "Flat fee (small area)",     price: "$200–$500",             uses: "Areas under 2,000 sq ft" },
+    { job: "Flat fee (large property)", price: "$600–$3,000+",          uses: "Plazas, business parks, custom quotes" },
+    { job: "Monthly service contract",  price: "$100–$600 per month",   uses: "Based on size and needs" },
+  ],
+  bySurface: [
+    { surface: "Sidewalks & walkways", price: "$0.10–$0.30 per sq ft", lo: 0.10, hi: 0.30 },
+    { surface: "Building exteriors",   price: "$0.15–$0.90 per sq ft", lo: 0.15, hi: 0.90 },
+    { surface: "Dumpster pads",        price: "$0.75–$1.00 per sq ft", lo: 0.75, hi: 1.00 },
+    { surface: "Parking garages",      price: "$0.10–$0.25 per sq ft", lo: 0.10, hi: 0.25 },
+    { surface: "Parking lots",         price: "$8–$20 per space",      lo: 8,    hi: 20, perSpace: true },
+  ],
+};
+
+// Housecall Pro per-sq-ft by surface material (housecallPro).
+export const PER_SQFT_BY_MATERIAL = [
+  { material: "Concrete (driveways, patios, walkways)", lo: 0.20, hi: 0.40 },
+  { material: "Brick",        lo: 0.10, hi: 0.40 },
+  { material: "Vinyl siding", lo: 0.20, hi: 0.50 },
+  { material: "Stucco",       lo: 0.30, hi: 0.50 },
+  { material: "Wood",         lo: 0.30, hi: 0.55 },
+  { material: "Roof",         lo: 0.50, hi: 1.00 },
+];
+
+// HomeGuide residential deck figures (homeguideResidential).
+export const DECK_PUBLISHED = {
+  job: [120, 240],            // average cost to power wash a deck
+  typicalPerSqFt: 0.35,       // "most homeowners paying around"
+  washStainSeal: [0.50, 1.50],// power wash + stain + seal, per sq ft
+  lattice: [0.85, 0.95],      // per sq ft
+  underside: 1.50,            // per sq ft
+  hcpJob: [100, 250],         // Housecall Pro: decks run $100–$250
+};
+
+// Hourly rates as published.
+export const HOURLY = {
+  homeguideResidential: [50, 160],  // "$50 to $160 per hour"
+  hcpResidential: [50, 100],        // per crew member
+  hcpCommercial: [50, 150],
+};
+
+// HomeGuide pressure-washer rental, per day (homeguideResidential table).
+export const RENTAL_PER_DAY = [75, 180];

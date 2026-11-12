@@ -529,3 +529,38 @@ are now baked into the text above:
    `docker start <name>` before building; don't fall back to host pnpm.
 4. **A stale `dist/` lies.** The pre-existing build was older than the last
    content commit; rebuild before auditing word counts.
+
+## 2026-11-11 (v1.E search growth, Week 1)
+
+Operator prompt (summarized): goal 10× Google Search impressions in 90 days.
+Week 1: audit technical SEO and fix verified problems; research real SERPs and
+20–30 keyword opportunities without inventing volumes; map clusters to pages,
+resolve cannibalization, fix titles/H1s/meta; deepen calculators with sourced
+assumptions; link important calculators from indexed pages; build up to five
+new pages only with clear differentiation and demonstrated demand; validate
+structured data; build, test, deploy, verify; report. Don't modify LaMill CLI
+or Rankmill. Placed as `v1.E` in `docs/prd.md`.
+
+### Corrections folded in during this run
+
+1. **Check live rankings before reverting a title.** The "failed" CTR test's
+   homepage title turned out to rank #1 live for "pressure washing estimate
+   calculator" (480/mo) and #2 for "pressure washing quote". GSC by-query
+   positions confirmed it was improving. When the goal is impressions, a
+   CTR verdict alone isn't grounds to revert.
+2. **Keyword data:** SE Ranking via treg (`seranking.google.keywords.volume`,
+   about $0.0018/keyword, `source=us` in the query string). Live SERPs via
+   `treg call treg.google.serp.organic` from the CLI, which keeps the raw JSON
+   out of the context. The output has a trailing `treg: charged …` line, so
+   parse it with `json.JSONDecoder().raw_decode`. Total spend this run was
+   about $0.14.
+3. **HomeGuide and Angi return 403 to WebFetch.** `treg.web.extract` gets
+   HomeGuide and Housecall Pro; Angi and Homewyse were refused there too. Cite
+   only what was actually read.
+4. **SSR text nodes:** `How this {noun} price` renders with `<!-- -->`
+   markers between the parts. Build headings and asserted strings as one
+   template literal, or crawl tests can't match them.
+5. **JSX line breaks drop spaces** between `{expr}` and a following word on
+   the next line (`$0.35average`). Use `{" "}` at the line end.
+6. **The command safety check can reject complex python heredocs** (it can't
+   parse the quoting). Write the edit script to the scratchpad and run it.

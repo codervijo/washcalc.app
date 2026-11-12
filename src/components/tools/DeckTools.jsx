@@ -28,6 +28,11 @@ export default function DeckTools() {
         <article className="wc-container" style={{ maxWidth: 820 }}>
           <h2 className="wc-section-title" style={{ textAlign: "left" }}>How to price deck cleaning and sealing</h2>
           <p>
+            Researching what a deck clean should cost rather than pricing one? The{" "}
+            <a href="/deck-pressure-washing-cost">deck pressure washing cost guide</a> has the published
+            ranges, wood versus composite, and worked examples.
+          </p>
+          <p>
             Decks split into two jobs that don't price the same, and the material is what decides
             which one you're on. Wood — pressure-treated pine, cedar, redwood, and dense hardwoods
             like IPE — needs low pressure, careful technique, and often a brightener to even out the

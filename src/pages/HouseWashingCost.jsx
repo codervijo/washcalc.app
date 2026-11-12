@@ -15,16 +15,17 @@ const LINKS = [
   { to: "/calculators/house-washing", label: "House washing calculator", note: "price a specific home, with SH dilution and job-profit tools." },
   { to: "/roof-cleaning-cost", label: "Roof cleaning cost", note: "the natural companion sale on the same visit." },
   { to: "/driveway-pressure-washing-cost", label: "Driveway pressure washing cost", note: "the other half of most residential bundles." },
+  { to: "/deck-pressure-washing-cost", label: "Deck pressure washing cost", note: "the third surface in most backyard bundles." },
   { to: "/pressure-washing-estimate-calculator", label: "Estimate calculator", note: "total a house-plus-driveway visit as one estimate." },
   { to: "/pressure-washing-quote-template", label: "Quote template", note: "the firm document to send once you have measured." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "the full 2026 method behind these rates." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "the full 2026 method behind these rates." },
 ];
 
 export default function HouseWashingCost() {
   return (
     <SeoPageShell
       meta={HOUSE_COST}
-      lead="House washing is the most repeatable service in residential exterior cleaning and the one where quotes vary most wildly. Almost all of that variance traces to a single thing: how the siding area was measured. This guide covers 2026 pricing, how to measure a home properly, what siding material and storey count really cost, and three worked examples."
+      lead={`Soft washing a house costs ${rateRange(PUBLISHED.sidingSoftWash.perSqFt)} per square foot of siding (${PUBLISHED.sidingSoftWash.source}), and Angi puts the average whole-house job at $${PUBLISHED.house.avg}, within a ${jobRange(PUBLISHED.house.job)} range. WashCalc's rate card uses ${band("siding")}. Most of the variance between quotes comes from one thing — how the siding area was measured — so measure wall area, not floor area.`}
       toc={TOC}
       links={LINKS}
     >

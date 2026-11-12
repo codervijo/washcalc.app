@@ -70,7 +70,7 @@ export default function About() {
             You can read the exact defaults in the{" "}
             <a href="/pressure-washing-pricing-guide">2026 pressure washing pricing guide</a> and put
             them to work in the{" "}
-            <a href="/calculator">all-surface calculator</a>.
+            <a href="/calculator">pressure washing price calculator</a>.
           </p>
 
           <h2 style={{ fontSize: 26, marginTop: 32 }}>Who’s behind it</h2>

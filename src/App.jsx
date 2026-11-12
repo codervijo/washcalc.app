@@ -16,6 +16,9 @@ import DrivewayPressureWashingCost from "./pages/DrivewayPressureWashingCost.jsx
 import HouseWashingCost from "./pages/HouseWashingCost.jsx";
 import QuoteTemplate from "./pages/QuoteTemplate.jsx";
 import EstimateTemplate from "./pages/EstimateTemplate.jsx";
+import CommercialPressureWashingPricing from "./pages/CommercialPressureWashingPricing.jsx";
+import DeckPressureWashingCost from "./pages/DeckPressureWashingCost.jsx";
+import PricePerSquareFoot from "./pages/PricePerSquareFoot.jsx";
 
 export default function App() {
   return (
@@ -42,6 +45,11 @@ export default function App() {
       <Route path="/house-washing-cost" element={<HouseWashingCost />} />
       <Route path="/pressure-washing-quote-template" element={<QuoteTemplate />} />
       <Route path="/pressure-washing-estimate-template" element={<EstimateTemplate />} />
+
+      {/* ── v1.E — search growth ─────────────────────────────────── */}
+      <Route path="/commercial-pressure-washing-pricing" element={<CommercialPressureWashingPricing />} />
+      <Route path="/deck-pressure-washing-cost" element={<DeckPressureWashingCost />} />
+      <Route path="/pressure-washing-price-per-square-foot" element={<PricePerSquareFoot />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

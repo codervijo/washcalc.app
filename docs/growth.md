@@ -385,3 +385,37 @@ breakdown was pulled, so page-level attribution is unverified.
   unreliable, because part of it comes from sitelink-style impressions (see
   the 2026-09-22 entry). The content stays. Re-check 2026-12-09 alongside the
   other open reviews.
+
+## 2026-11-11 — v1.E: three new pages, intent retitles, sitewide guide links
+- **Status:** active — built and tested 2026-11-11; deploy recorded below.
+- **Hypothesis:** the site's impressions are capped by coverage, not by depth.
+  Pages for proven-demand, low-KD queries that we don't cover (commercial
+  pricing, deck cost, price per square foot), a clean split of
+  title intent between pages, and sitewide crawl paths will grow impressions
+  toward the operator's goal of 10× in 90 days.
+- **KPI:** site impressions (28-day rolling); index state of the 3 new URLs
+  plus `/calculator`, `/calculators/roof`, `/quote-tool` and both templates;
+  count of non-branded queries with impressions; GSC by page for the new URLs.
+- **Baseline:** 1,829 impressions / 7 clicks / avg pos 47.1 (2026-10-12..11-08);
+  90 days 4,371 / 42 (2026-08-11..11-08); 169 queries with impressions in
+  90 days. 10 of 15 URLs indexed (URL inspection 2026-11-11). Target: about
+  18,300 per 28 days by 2027-02-09.
+- **Action:** new `/commercial-pressure-washing-pricing`,
+  `/deck-pressure-washing-cost` and `/pressure-washing-price-per-square-foot`,
+  each with HomeGuide or Housecall Pro figures cited inline and examples
+  computed by the engine. Retitled `/calculator` (price calculator),
+  `/calculators/roof`, `/roof-cleaning-cost` (soft wash),
+  `/driveway-pressure-washing-cost` (what to charge) and the pricing guide
+  ("How Much to Charge for Pressure Washing"). Homepage title **kept**, since it
+  ranks #1/#2 live for estimate calculator / quote. The three cost guides and
+  the pricing guide now open with a direct answer. The calculator pages' shared
+  "how calculated / factors" block became per-surface and engine-worked. Added
+  a footer "Guides & templates" column and a homepage guides section. Removed
+  an unsourced commercial $/sq ft claim from the pricing guide. 18 URLs,
+  324 crawl tests. Full map and data: `docs/prd.md § v1.E`.
+- **Confound:** this ships a week after the four reviews above, and it
+  changes titles on 5 URLs plus the footer on every page at once, so
+  per-change attribution won't be possible. Read it as one intervention.
+- **Result:** TBD — first check 2026-12-09 (index state + impressions);
+  full review 2027-02-09
+- **Learning:** TBD

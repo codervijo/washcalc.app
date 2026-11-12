@@ -1,4 +1,5 @@
-import { band, base, rateRange, jobRange, productionRate, PUBLISHED } from "../rates.js";
+import { calculateQuote } from "../PricingEngine.js";
+import { band, base, rateRange, jobRange, productionRate, PUBLISHED, SOURCES, COMMERCIAL, DECK_PUBLISHED, HOURLY, surface } from "../rates.js";
 // v1.C SEO page metadata — titles, descriptions, canonicals,
 // breadcrumbs and FAQ sets for the six new search-demand pages.
 //
@@ -60,13 +61,13 @@ export const ESTIMATE_CALCULATOR = {
    ───────────────────────────────────────────────────────────────────── */
 export const ROOF_COST = {
   path: "/roof-cleaning-cost",
-  title: "Roof Cleaning Cost (2026) — What to Charge and Why | WashCalc",
+  title: "Soft Wash Roof Cleaning Cost (2026): Rates & Examples",
   description:
     "What roof cleaning costs in 2026: soft-wash price per square foot, what drives the number up, how contractors price pitch and access, worked examples, and DIY versus professional.",
   canonical: `${ORIGIN}/roof-cleaning-cost`,
-  lastmod: "2026-09-29",
-  h1: "Roof Cleaning Cost",
-  breadcrumbs: [HOME, crumb("Roof Cleaning Cost", "/roof-cleaning-cost")],
+  lastmod: "2026-11-11",
+  h1: "Soft Wash Roof Cleaning Cost",
+  breadcrumbs: [HOME, crumb("Soft Wash Roof Cleaning Cost", "/roof-cleaning-cost")],
   faqs: [
     {
       q: "How much does roof cleaning cost?",
@@ -104,11 +105,11 @@ export const ROOF_COST = {
    ───────────────────────────────────────────────────────────────────── */
 export const DRIVEWAY_COST = {
   path: "/driveway-pressure-washing-cost",
-  title: "Driveway Pressure Washing Cost (2026) — Rates, Factors & Examples | WashCalc",
+  title: "Driveway Pressure Washing Cost: What to Charge (2026)",
   description:
     "Driveway pressure washing cost in 2026: price per square foot for concrete and asphalt, what oil stains and aggregate do to the number, worked pricing examples, and when a minimum charge applies.",
   canonical: `${ORIGIN}/driveway-pressure-washing-cost`,
-  lastmod: "2026-09-29",
+  lastmod: "2026-11-11",
   h1: "Driveway Pressure Washing Cost",
   breadcrumbs: [HOME, crumb("Driveway Pressure Washing Cost", "/driveway-pressure-washing-cost")],
   faqs: [
@@ -152,7 +153,7 @@ export const HOUSE_COST = {
   description:
     "House washing cost in 2026: soft-wash price per square foot, how vinyl, stucco and brick differ, what a second storey adds, worked examples, and how contractors build the number.",
   canonical: `${ORIGIN}/house-washing-cost`,
-  lastmod: "2026-09-29",
+  lastmod: "2026-11-11",
   h1: "House Washing Cost",
   breadcrumbs: [HOME, crumb("House Washing Cost", "/house-washing-cost")],
   faqs: [
@@ -281,6 +282,134 @@ export const ESTIMATE_TEMPLATE = {
   ],
 };
 
+
+/* ─────────────────────────────────────────────────────────────────────────
+   v1.E — /commercial-pressure-washing-pricing
+   Target: "commercial pressure washing pricing / prices / cost / rates".
+   The pricing guide was drawing these impressions at positions 70–90 without
+   covering them; this page does.
+   ───────────────────────────────────────────────────────────────────── */
+const HGC = `${SOURCES.homeguideCommercial.name}, ${SOURCES.homeguideCommercial.date}`;
+export const COMMERCIAL_PRICING = {
+  path: "/commercial-pressure-washing-pricing",
+  title: "Commercial Pressure Washing Pricing: Rates by Job Type",
+  description:
+    "Commercial pressure washing rates by job type: sidewalks, building exteriors, dumpster pads, parking lots per space, hourly and monthly contracts — with the cost floor to check every bid against.",
+  canonical: `${ORIGIN}/commercial-pressure-washing-pricing`,
+  lastmod: "2026-11-11",
+  h1: "Commercial Pressure Washing Pricing",
+  breadcrumbs: [HOME, crumb("Commercial Pressure Washing Pricing", "/commercial-pressure-washing-pricing")],
+  faqs: [
+    {
+      q: "How much does commercial pressure washing cost per square foot?",
+      a: `Basic commercial work — sidewalks, storefronts and exterior walls — runs $0.10–$0.35 per square foot, and intensive work such as grease, graffiti and heavy staining runs $0.40–$1.00 (${HGC}). Housecall Pro's October 2026 guide publishes the same two bands. Large sites are often quoted as a flat fee or contract instead of a raw per-foot figure.`,
+    },
+    {
+      q: "How do you price a parking lot for pressure washing?",
+      a: `By the space. Published rates are $8–$20 per parking space (${HGC}), so a 120-space lot lands between $960 and $2,400. Count the spaces from a satellite view before the site visit, then check the per-space figure against your own crew-hours, chemical and water-recovery cost — the per-space rate is the market's number, not your floor.`,
+    },
+    {
+      q: "Why is commercial pressure washing cheaper per square foot than residential?",
+      a: "Because fixed costs are spread over far more area. Drive time, setup and teardown cost the same whether you clean 800 or 20,000 square feet, and flat commercial concrete lets a large surface cleaner run at full production. Small residential jobs carry a minimum charge for the same reason in reverse: the fixed costs dominate.",
+    },
+    {
+      q: "What do monthly commercial pressure washing contracts cost?",
+      a: `Published monthly service contracts run $100–$600 per month depending on property size and scope (${HGC}). Price them from a per-visit price multiplied by visit frequency, then discount for predictable scheduling — not from a monthly figure picked to sound affordable.`,
+    },
+    {
+      q: "What hourly rate should I charge for commercial pressure washing?",
+      a: `Published commercial hourly rates are $${HOURLY.hcpCommercial[0]}–$${HOURLY.hcpCommercial[1]} per hour (${SOURCES.housecallPro.name}, ${SOURCES.housecallPro.date}). Use hourly billing for mixed or hard-to-access work where area is a poor measure of effort, and set the number from your own cost per crew-hour divided by (1 − target margin).`,
+    },
+  ],
+};
+
+/* ─────────────────────────────────────────────────────────────────────────
+   v1.E — /deck-pressure-washing-cost
+   Target: "cost to power wash deck", "deck pressure washing cost".
+   Completes the cost-guide set; /calculators/deck stays the tool.
+   ───────────────────────────────────────────────────────────────────── */
+// Engine-computed examples quoted in FAQ answers, so the text can't drift
+// from what the calculator returns for the same inputs.
+export const EXAMPLE_COSTS = { laborRate: 35, chemicalCost: 25, travelCost: 20, marginPct: 45, minimumCharge: 150, conditionId: "light" };
+export const exampleQuote = (surfaceId, area, extra = {}) => calculateQuote({ ...EXAMPLE_COSTS, surfaceId, area, ...extra });
+const usd2 = (n) => `$${n.toFixed(2)}`;
+const DECK_SMALL = exampleQuote("deck", 200);
+const DRIVE_SMALL = exampleQuote("driveway", 150);
+const DRIVE_BIG = exampleQuote("driveway", 3000);
+const HGR = `${SOURCES.homeguideResidential.name}, ${SOURCES.homeguideResidential.date}`;
+export const DECK_COST = {
+  path: "/deck-pressure-washing-cost",
+  title: "Deck Pressure Washing Cost (2026): Wood vs Composite",
+  description:
+    "What it costs to pressure wash a deck: published per-sq-ft and job ranges, wood vs composite, railings, stairs and staining add-ons, and worked examples from a real pricing model.",
+  canonical: `${ORIGIN}/deck-pressure-washing-cost`,
+  lastmod: "2026-11-11",
+  h1: "Deck Pressure Washing Cost",
+  breadcrumbs: [HOME, crumb("Deck Pressure Washing Cost", "/deck-pressure-washing-cost")],
+  faqs: [
+    {
+      q: "How much does it cost to pressure wash a deck?",
+      a: `Published guides put it at $${DECK_PUBLISHED.job[0]}–$${DECK_PUBLISHED.job[1]} for a typical deck, with most homeowners paying around $${DECK_PUBLISHED.typicalPerSqFt.toFixed(2)} per square foot (${HGR}). Housecall Pro puts decks at $${DECK_PUBLISHED.hcpJob[0]}–$${DECK_PUBLISHED.hcpJob[1]}. WashCalc's rate card uses ${rateRange(surface("deck").wood)} per square foot for wood and ${rateRange(surface("deck").composite)} for composite.`,
+    },
+    {
+      q: "How much does it cost to pressure wash and stain a deck?",
+      a: `Cleaning, staining and sealing together run $${DECK_PUBLISHED.washStainSeal[0].toFixed(2)}–$${DECK_PUBLISHED.washStainSeal[1].toFixed(2)} per square foot (${HGR}). Quote the wash and the stain as separate lines: the wood needs to dry before it takes stain, so they are usually different visits, and the customer can see what each part costs.`,
+    },
+    {
+      q: "Is it cheaper to clean a composite deck than a wood deck?",
+      a: `Usually a little, per square foot. Composite doesn't fuzz or splinter under pressure the way softwood does, so the work goes faster. WashCalc's rate card reflects that: composite at ${rateRange(surface("deck").composite)}, wood at ${rateRange(surface("deck").wood)}. Heavy mildew on either one moves the price more than the board material does.`,
+    },
+    {
+      q: "Do railings, stairs and lattice cost extra?",
+      a: `They should be priced, not absorbed. HomeGuide lists lattice at $${DECK_PUBLISHED.lattice[0].toFixed(2)}–$${DECK_PUBLISHED.lattice[1].toFixed(2)} per square foot and cleaning the underside of a deck at $${DECK_PUBLISHED.underside.toFixed(2)} per square foot (${HGR}) — roughly 2½ to 4 times the deck-surface average, because it is slow, detailed work. Railings and stairs add time out of proportion to their area; time them on your first few jobs and add a line.`,
+    },
+    {
+      q: "Why is a small deck so expensive per square foot?",
+      a: `Because the minimum charge is doing the pricing. Drive time, setup and cleanup cost the same on a 150 sq ft landing as on a 600 sq ft deck. In the worked examples on this page, a 200 sq ft deck prices at ${usd2(DECK_SMALL.recommendedPrice)} — ${usd2(DECK_SMALL.pricePerSqFt)} per square foot, set by the minimum charge — while a 1,000 sq ft deck comes in at the rate card.`,
+    },
+  ],
+};
+
+/* ─────────────────────────────────────────────────────────────────────────
+   v1.E — /pressure-washing-price-per-square-foot
+   Target: "pressure washing cost/price per square foot".
+   The rate reference. The pricing guide keeps "how much to charge" (method)
+   and links here for the full table.
+   ───────────────────────────────────────────────────────────────────── */
+const HCP = `${SOURCES.housecallPro.name}, ${SOURCES.housecallPro.date}`;
+export const PER_SQFT = {
+  path: "/pressure-washing-price-per-square-foot",
+  title: "Pressure Washing Price per Square Foot by Surface (2026)",
+  description:
+    "Pressure washing price per square foot for concrete, siding, brick, stucco, wood, roofs and commercial flatwork — and why the rate drops as the job gets bigger.",
+  canonical: `${ORIGIN}/pressure-washing-price-per-square-foot`,
+  lastmod: "2026-11-11",
+  h1: "Pressure Washing Price per Square Foot",
+  breadcrumbs: [HOME, crumb("Pressure Washing Price per Square Foot", "/pressure-washing-price-per-square-foot")],
+  faqs: [
+    {
+      q: "What is the average pressure washing price per square foot?",
+      a: `Housecall Pro puts most residential surfaces at $0.10–$0.50 per square foot, with roofs and wood running higher (${HCP}). HomeGuide's average is about $0.40 per square foot (${HGR}). The number that matters for your quote is the surface rate — concrete and wood are not priced alike.`,
+    },
+    {
+      q: "How much should I charge per square foot for concrete?",
+      a: `Published concrete rates — driveways, patios and walkways — are $0.20–$0.40 per square foot (${HCP}). WashCalc's rate card uses ${band("driveway")} for driveways and ${band("patio")} for patios. Oil staining or a degreaser treatment moves a job toward the top of the range.`,
+    },
+    {
+      q: "Why does the price per square foot go down on bigger jobs?",
+      a: `Because part of every job's cost is fixed — the drive, setup, teardown — and a minimum charge recovers it on small jobs. On this page's driveway example, 150 sq ft prices at ${usd2(DRIVE_SMALL.pricePerSqFt)} per square foot (the minimum) and 3,000 sq ft at ${usd2(DRIVE_BIG.pricePerSqFt)} (the rate card). The per-foot rate only becomes a straight line once the job is big enough that the rate card, not the minimum or your cost floor, sets the price.`,
+    },
+    {
+      q: "Should I charge per square foot or by the hour?",
+      a: `Per square foot for open, measurable surfaces — it is what customers compare and what keeps quotes consistent. Hourly for mixed, detailed or hard-to-access work where area says little about effort. Published residential hourly rates are $${HOURLY.homeguideResidential[0]}–$${HOURLY.homeguideResidential[1]} per hour (${HGR}).`,
+    },
+    {
+      q: "How do I measure square footage for a house wash?",
+      a: "Measure the walls, not the floor plan. Multiply the home's perimeter by the wall height, add the triangles of any gables (width × gable height ÷ 2), and leave windows in — you clean around them anyway. Floor area understates a two-storey home's siding badly, which is the most common reason house-wash quotes come in low.",
+    },
+  ],
+};
+
 export const SEO_PAGES = [
   ESTIMATE_CALCULATOR,
   ROOF_COST,
@@ -288,4 +417,7 @@ export const SEO_PAGES = [
   HOUSE_COST,
   QUOTE_TEMPLATE,
   ESTIMATE_TEMPLATE,
+  COMMERCIAL_PRICING,
+  DECK_COST,
+  PER_SQFT,
 ];

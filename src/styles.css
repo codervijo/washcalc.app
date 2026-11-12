@@ -443,6 +443,8 @@
   flex-wrap: wrap;
 }
 .wc-footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.wc-footer-guides { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--wc-border); }
+.wc-footer-heading { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--wc-text-muted); margin: 0 0 10px; }
 
 /* CTA banner */
 .wc-cta-banner {

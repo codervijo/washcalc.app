@@ -49,9 +49,9 @@ async function getNoFollow(path) {
 const SURFACE_ROUTES = [
   {
     path: "/calculator",
-    label: "All-surface calculator",
-    titleFragment: "All-Surface Pressure Washing Calculator",
-    bodyFragment: "All-Surface Pressure Washing Calculator",
+    label: "Price calculator (all surfaces)",
+    titleFragment: "Pressure Washing Price Calculator",
+    bodyFragment: "Pressure Washing Price Calculator",
   },
   {
     path: "/calculators/driveway",
@@ -402,14 +402,14 @@ describe("/calculators/driveway — area tool + contractor copy", () => {
   });
 });
 
-describe("v1.D — /calculator is the all-surface hub", () => {
+describe("/calculator is the all-surface price calculator (v1.D hub, v1.E retitle)", () => {
   let body;
   beforeAll(async () => {
     body = (await get("/calculator")).body;
   });
 
-  it("H1 is the all-surface calculator, distinct from the homepage", () => {
-    expect(body).toMatch(/<h1[^>]*>All-Surface Pressure Washing Calculator<\/h1>/);
+  it("H1 is the price calculator, distinct from the homepage", () => {
+    expect(body).toMatch(/<h1[^>]*>Pressure Washing Price Calculator<\/h1>/);
   });
 
   for (const href of ["/calculators/driveway", "/calculators/house-washing", "/calculators/roof", "/calculators/deck"]) {
@@ -750,6 +750,48 @@ const V1C_PAGES = [
     links: ["/pressure-washing-quote-template", "/pressure-washing-estimate-calculator", "/house-washing-cost"],
     hasForm: true, // <textarea>
   },
+  // ── v1.E — search growth pages ──────────────────────────────────────
+  {
+    path: "/commercial-pressure-washing-pricing",
+    h1: "Commercial Pressure Washing Pricing",
+    mustContain: [
+      "Commercial pressure washing rates",
+      "$8–$20 per space",
+      "Check every bid against your cost floor",
+      "The failure case: pricing a plaza like a driveway",
+      "homeguide.com/costs/commercial-pressure-washing-prices",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/pressure-washing-price-per-square-foot", "/quote-tool", "/pressure-washing-pricing-guide"],
+    hasForm: false,
+  },
+  {
+    path: "/deck-pressure-washing-cost",
+    h1: "Deck Pressure Washing Cost",
+    mustContain: [
+      "What deck pressure washing costs",
+      "Wood versus composite",
+      "The failure case: pricing a small deck by the foot",
+      "Cleaning before staining or sealing",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculators/deck", "/pressure-washing-price-per-square-foot", "/house-washing-cost"],
+    hasForm: false,
+  },
+  {
+    path: "/pressure-washing-price-per-square-foot",
+    h1: "Pressure Washing Price per Square Foot",
+    mustContain: [
+      "Price per square foot by surface",
+      "Why the rate drops as jobs grow",
+      "Minimum charge",
+      "Rate card",
+      "The failure case: a tiny job at the per-foot rate",
+    ],
+    schema: ['"@type":"FAQPage"', '"@type":"BreadcrumbList"'],
+    links: ["/calculator", "/commercial-pressure-washing-pricing", "/deck-pressure-washing-cost"],
+    hasForm: false,
+  },
 ];
 
 describe("v1.C pages — initial HTML (no JS)", () => {
@@ -887,9 +929,12 @@ describe("Indexed pages — protected signals unchanged", () => {
     { path: "/calculators/driveway", title: "Driveway Pressure Washing Calculator App — WashCalc", canonical: "https://washcalc.app/calculators/driveway" },
     { path: "/about", title: "About WashCalc — Who Built It & How Pricing Works", canonical: "https://washcalc.app/about" },
     // Indexed per GSC URL inspection 2026-09-21 (v1.D).
-    { path: "/pressure-washing-pricing-guide", title: "Pressure Washing Pricing Guide (2026) — WashCalc", canonical: "https://washcalc.app/pressure-washing-pricing-guide" },
+    // Retitled 2026-11-11 by operator decision (v1.E intent split): the guide
+    // owns "how much to charge", the per-sq-ft page owns the rate table.
+    { path: "/pressure-washing-pricing-guide", title: "How Much to Charge for Pressure Washing (2026 Guide)", canonical: "https://washcalc.app/pressure-washing-pricing-guide" },
     { path: "/pressure-washing-estimate-calculator", title: "Pressure Washing Estimate Calculator — Multi-Surface Job Totals | WashCalc", canonical: "https://washcalc.app/pressure-washing-estimate-calculator" },
-    { path: "/driveway-pressure-washing-cost", title: "Driveway Pressure Washing Cost (2026) — Rates, Factors & Examples | WashCalc", canonical: "https://washcalc.app/driveway-pressure-washing-cost" },
+    // Retitled 2026-11-11 (v1.E) toward "how much to charge to pressure wash a driveway".
+    { path: "/driveway-pressure-washing-cost", title: "Driveway Pressure Washing Cost: What to Charge (2026)", canonical: "https://washcalc.app/driveway-pressure-washing-cost" },
   ];
 
   for (const p of PROTECTED) {
@@ -907,6 +952,45 @@ describe("Indexed pages — protected signals unchanged", () => {
       const { body } = await get(p.path);
       const canon = body.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
       expect(canon, `${p.path} canonical changed — indexed URL must stay stable`).toBe(p.canonical);
+    });
+  }
+});
+
+// ─── v1.E — sitewide guide links + per-surface calculator copy ───────────────
+
+describe("v1.E — footer guides column is on every page", () => {
+  const GUIDE_HREFS = [
+    "/pressure-washing-pricing-guide", "/pressure-washing-price-per-square-foot",
+    "/commercial-pressure-washing-pricing", "/driveway-pressure-washing-cost",
+    "/house-washing-cost", "/roof-cleaning-cost", "/deck-pressure-washing-cost",
+    "/pressure-washing-estimate-calculator", "/pressure-washing-quote-template",
+    "/pressure-washing-estimate-template",
+  ];
+  for (const path of ["/", "/calculators/driveway", "/about", "/quote-tool"]) {
+    it(`${path} footer links every guide and template`, async () => {
+      const { body } = await get(path);
+      const footer = body.slice(body.indexOf('class="wc-footer"'));
+      for (const href of GUIDE_HREFS) {
+        expect(footer, `${path} footer missing ${href}`).toContain(`href="${href}"`);
+      }
+    });
+  }
+});
+
+describe("v1.E — calculator pages explain their own numbers", () => {
+  const CASES = [
+    ["/calculator", "How this pressure washing price is calculated"],
+    ["/calculators/driveway", "How this driveway price is calculated"],
+    ["/calculators/roof", "How this roof price is calculated"],
+    ["/calculators/house-washing", "How this house wash price is calculated"],
+    ["/calculators/deck", "How this deck price is calculated"],
+  ];
+  for (const [path, heading] of CASES) {
+    it(`${path} renders a per-surface worked example`, async () => {
+      const { body } = await get(path);
+      expect(body).toContain(heading);
+      expect(body).not.toContain("Factors that affect job price");
+      expect(body).toMatch(/set by the (rate card|cost floor|minimum charge)/);
     });
   }
 });

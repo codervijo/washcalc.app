@@ -276,6 +276,109 @@ Every non-indexed URL is already linked from all three indexed pages
 - OSHA 29 CFR 1926.500(b) — low-slope ≤ 4 in 12, steep > 4 in 12.
   https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.500
 
+## v1.E — Search growth (Week 1)
+
+Status: **built** 2026-11-11 — placed by the operator the same day. Technical audit found no blocking issues (all 15 URLs 200 with one H1; single canonical = og:url; one-hop 301/308s; real 404; valid JSON-LD); the one content fix was an unsourced commercial $/sq ft claim in the pricing guide. The goal is 10×
+Google Search impressions in 90 days. Leading indicators: indexed commercial
+pages and growth in non-branded queries. It absorbs the content-quality items
+from the 2026-11-11 page audit. The P2 waitlist batch (waitlist form, Pro
+backend, soft-wash mix page) is **not** part of v1.E and is still unplaced.
+
+### Goal
+
+- Baseline: 1,829 impressions / 7 clicks over the 28 days 2026-10-12..11-08,
+  and 4,371 / 42 over the 90 days 2026-08-11..11-08 (GSC API,
+  `sc-domain:washcalc.app`, pulled 2026-11-11).
+- Target: about 18,300 impressions per 28 days by 2027-02-09 (10× the 28-day
+  baseline). This is the operator's stated goal, not a forecast.
+
+### Demand data
+
+US search volume (monthly) and keyword difficulty (KD, 0–100) are from
+SE Ranking via treg, pulled 2026-11-11. SE Ranking's history shows step jumps
+(e.g. 10 → 590) on several terms, so read volumes as rough estimates.
+Live top-10 SERPs were pulled the same day (treg `google.serp.organic`,
+unpersonalized US).
+
+| Keyword | Vol | KD | Live SERP note | Owner page |
+|---|---|---|---|---|
+| pressure washing estimate calculator | 480 | 10 | washcalc.app **#1** (`/`) | `/` |
+| pressure washing quote | 480 | 17 | washcalc.app **#2** (`/`) | `/` |
+| pressure washing calculator | 260 | 8 | all tool pages; we're absent | `/` |
+| pressure washing price calculator | 140 | 8 | washcalc.app #4 | `/calculator` |
+| pressure washing pricing calculator | 140 | 11 | tool pages | `/calculator` |
+| how much to charge for pressure washing | 480 | 5 | Angi, forums, video, HomeGuide | `/pressure-washing-pricing-guide` |
+| how to price pressure washing | 320 | 13 | video, Reddit, Jobber | `/pressure-washing-pricing-guide` |
+| how to price pressure washing jobs | 170 | 11 | TaskRabbit, forums, Housecall Pro | `/pressure-washing-pricing-guide` |
+| pressure washing cost per square foot | 590 | 21 | Facebook, Fixr, Nextdoor | `/pressure-washing-price-per-square-foot` (new) |
+| pressure washing price per square foot | 260 | 24 | Homewyse, Reddit, TaskRabbit | `/pressure-washing-price-per-square-foot` (new) |
+| commercial pressure washing pricing / prices / cost / rates | 260 each | 7–17 | local companies, forums, HomeGuide #9 | `/commercial-pressure-washing-pricing` (new) |
+| cost to power wash deck | 390 | 12 | Homewyse, Reddit, Angi | `/deck-pressure-washing-cost` (new) |
+| deck pressure washing cost | 260 | 12 | Homewyse, Reddit, Angi | `/deck-pressure-washing-cost` (new) |
+| how much to charge to pressure wash a driveway | 320 | 8 | Facebook, Angi, Quora | `/driveway-pressure-washing-cost` |
+| driveway pressure washing cost | 260 | 16 | Housecall Pro, video, Facebook | `/driveway-pressure-washing-cost` |
+| soft wash roof cleaning cost | 210 | 16 | local roofers, Reddit | `/roof-cleaning-cost` |
+| roof cleaning cost calculator | 170 | 13 | mixed, weak | `/calculators/roof` |
+| soft wash house cost | 170 | 13 | Reddit, local companies | `/house-washing-cost` |
+| house washing cost | 170 | 25 | local companies, Facebook | `/house-washing-cost` |
+| pressure washing estimate(s) / estimating | 170 each | 5–21 | `/` #8 for "estimate" | `/` |
+| pressure washing quote template | 90 | 6 | doc-template sites, Pinterest | `/pressure-washing-quote-template` |
+| pressure washing estimate template | 90 | 6 | doc-template sites, Pinterest | `/pressure-washing-estimate-template` |
+| pressure washing hourly rate | 110 | 26 | TaskRabbit, Reddit, Thumbtack | pricing guide (section) |
+| pressure washing price list | 110 | 29 | powerwash.com survey | pricing guide (section) |
+
+Not pursued in v1.E: "gutter cleaning cost" (3,600, KD 58: off-core and
+too hard); "pressure washing business plan" (590: not a pricing intent);
+"bleach dilution calculator" (320: mostly disinfection intent; a soft-wash
+mix page belongs with the P2 batch); "pressure washing invoice template"
+(50: low volume).
+
+### Decisions
+
+- **Homepage title kept** ("Pressure Washing Calculator App: Free Estimate &
+  Quote Tool"). The uncommitted revert was dropped: `/` ranks #1 and #2 live
+  for "estimate calculator" and "quote", and GSC shows those positions
+  improving after the title went live on 2026-10-02 (pos ~60 → 23 and
+  ~90 → 27).
+- `/calculator` takes "price / pricing calculator", so it stops competing
+  with `/` for "calculator". `/pressure-washing-pricing-guide` takes "how
+  much to charge / how to price". The new per-square-foot page takes the
+  rate-reference queries, and the new commercial page takes the commercial
+  impressions the guide was drawing at positions 70–90.
+- Titles on the indexed calculator pages (driveway, house-washing, deck) are
+  unchanged, to limit churn.
+- Footer gets a sitewide "Guides & templates" column. This lifts the
+  2026-08-21 deferral; the 2026-10-23 hold has expired.
+- The calculator pages' shared "how this price is calculated / factors"
+  block becomes per-surface: a worked example computed by the engine from
+  the page's defaults, plus surface-specific factors.
+
+### Deliverables
+
+- [x] Technical audit: canonicals, og:url, sitemap, redirects, 404, robots,
+      JSON-LD parse, internal links
+- [x] New `/commercial-pressure-washing-pricing`
+- [x] New `/deck-pressure-washing-cost`
+- [x] New `/pressure-washing-price-per-square-foot`
+- [x] Retitle `/calculator`, `/calculators/roof`, `/roof-cleaning-cost`,
+      `/driveway-pressure-washing-cost`, `/pressure-washing-pricing-guide`
+- [x] Direct-answer leads on the cost guides and the pricing guide
+- [x] Per-surface worked example + factors on the 5 calculator pages
+- [x] Footer "Guides & templates" column; homepage guides section
+- [x] Sitemap lastmod bumped for every changed route; crawl tests extended
+- [ ] Deploy and verify in production (Googlebot UA curl)
+- [ ] Operator (manual, GSC): Request indexing for the 3 new URLs plus
+      `/calculator`, `/calculators/roof`, `/quote-tool` and both templates
+
+### Sources
+
+- HomeGuide, *How much are commercial pressure washing prices?* (written
+  2025-10-09), https://homeguide.com/costs/commercial-pressure-washing-prices
+- HomeGuide, *Pressure washing prices* (2024-04-19),
+  https://homeguide.com/costs/pressure-washing-prices
+- Housecall Pro, *How to price pressure washing jobs* (last posted October
+  2026), https://www.housecallpro.com/resources/how-to-price-pressure-washing-jobs/
+
 ## Open items (unphased)
 
 Logged 2026-10-14 for later sessions. Not a phase: tick or delete as they
@@ -283,8 +386,9 @@ close. Anything that becomes build work gets its own phase row here once
 the operator places it.
 
 **Operator, manual (GSC)**
-- [ ] Request indexing (still uncrawled per URL inspection 2026-11-11):
-      `/calculator`, `/calculators/roof`, `/quote-tool`,
+- [ ] Request indexing (uncrawled per URL inspection 2026-11-11, plus the v1.E
+      pages): `/commercial-pressure-washing-pricing`, `/deck-pressure-washing-cost`,
+      `/pressure-washing-price-per-square-foot`, `/calculator`, `/calculators/roof`, `/quote-tool`,
       `/pressure-washing-quote-template`, `/pressure-washing-estimate-template`.
       Deck and driveway are indexed now, so they're dropped from this list.
       Inspect:
@@ -305,8 +409,7 @@ the operator places it.
 **Needs operator decision**
 - [ ] "Calculator App" titles: revert, keep or retitle (the title-CTR test
       failed; see `docs/growth.md` 2026-09-25).
-- [ ] Homepage/footer links to the v1.C pages: the 2026-10-23 hold is over
-      (see `docs/CLAUDE.md` Deferred decisions).
+- [x] Homepage/footer links to the v1.C pages: shipped in v1.E (2026-11-11).
 - [ ] De-duplicate the copy `CalculatorPage` shares across the 5 calculator
       routes (~119 words: "How this price is calculated", "Factors that
       affect job price", the "WashCalc Pro coming soon" banner). The

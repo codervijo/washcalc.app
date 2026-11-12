@@ -13,11 +13,11 @@ const TOC = [
 ];
 
 const LINKS = [
-  { to: "/calculator", label: "All-surface calculator", note: "price a single surface when a customer asks about one item." },
+  { to: "/calculator", label: "Pressure washing price calculator", note: "price a single surface when a customer asks about one item." },
   { to: "/pressure-washing-estimate-template", label: "Estimate template", note: "drop these numbers into a ranged document you can send." },
   { to: "/pressure-washing-quote-template", label: "Quote template", note: "once you have measured, convert the estimate into a firm quote." },
   { to: "/quote-tool", label: "Power washing quote tool", note: "the itemizing and terms side of building an estimate." },
-  { to: "/pressure-washing-pricing-guide", label: "Pressure washing pricing guide", note: "the full 2026 pricing method this calculator implements." },
+  { to: "/pressure-washing-pricing-guide", label: "How much to charge for pressure washing", note: "the full 2026 pricing method this calculator implements." },
   { to: "/calculators/deck", label: "Deck cleaning calculator", note: "material selector and stain coverage for the deck line." },
 ];
 
